@@ -1,0 +1,57 @@
+CL\Chill\PersonBundle\Entity\Person:
+    type: entity
+    table: null
+    repositoryClass: CL\Chill\PersonBundle\Entity\PersonRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: 255
+        surname:
+            type: string
+            length: 255
+        dateOfBirth:
+            type: date
+            column: date_of_birth
+            nullable: true
+        placeOfBirth:
+            type: string
+            length: 255
+            column: place_of_birth
+            default: ''
+        genre:
+            type: string
+            length: 3
+        civil_union:
+            type: string
+            length: 30
+            nullable: true
+        nbOfChild:
+            type: smallint
+            nullable: true
+        belgian_national_number:
+            type: string
+            length: 16
+            nullable: true
+        memo:
+            type: text
+            default: ''
+        address:
+            type: text
+        email:
+            type: string
+            length: 255   
+    manyToOne:
+        countryOfBirth:
+            targetEntity: CL\Chill\MainBundle\Entity\Country
+            inversedBy: birthsIn
+            nullable: true
+        nationality:
+            targetEntity: CL\Chill\MainBundle\Entity\Country
+            inversedBy: nationals
+            nullable: true
+    lifecycleCallbacks: {  }

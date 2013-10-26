@@ -1,0 +1,3 @@
+cl_chill_person_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: CLChillPersonBundle:Default:index }

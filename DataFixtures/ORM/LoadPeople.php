@@ -101,7 +101,7 @@ class LoadPeople extends AbstractFixture {
                         call_user_func(array($p, 'set'.$key), $value);
                 }
             }
-            var_dump($p);
+
             $manager->persist($p);
         } while ($i <= 100);
         

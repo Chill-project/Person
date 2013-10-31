@@ -3,6 +3,10 @@
 chill_person_view:
     pattern: /view/{id}
     defaults: { _controller: CLChillPersonBundle:Person:view }
+    options:
+        menu: person
+        order: 50
+        label: menu.person.general_view
     
     
 chill_person_search:

@@ -25,10 +25,15 @@ This view should receive those arguments:
     <p class="nationality detail without_nationality">{% trans %}views.Person.view.without_nationality{% endtrans %}</p>
 {% endif %}    
     
-    
-    {{ include("::menu.html.twig", {'person': person, 'menu_composer' : menu_composer }) }}
+   <section class="tabs vertical"> 
+    {{ include("CLChillPersonBundle::menu.html.twig", 
+{'person': person, 'menu_composer' : menu_composer, 'route_active': 'chill_person_view' }) }}
+       
+       <div class="tab-content active columns height">
+    <p>My tab is active so I'll show up first! Inb4 tab 3!</p>
+        </div>
 
-
+   </section>
 
 
 {% endblock %}

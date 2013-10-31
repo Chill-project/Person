@@ -1,0 +1,34 @@
+{% extends "CLChillMainBundle::layout.html.twig" %}
+
+
+{#
+
+This view should receive those arguments:
+- person
+
+
+#}
+
+{% block title %}CLChillPersonBundle:Person:see{% endblock %}
+
+{% block content %}
+<h1>
+    <span class="surname">{{  person.surname }}</span> 
+    <span class="personName">{{ person.name }}</span>
+</h1>
+
+<p class="date detail">{% transchoice person.genreNumeric
+       with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}views.Person.view.born{% endtranschoice %}</p>
+{% if person.nationality is not null %}
+    <p class="nationality detail">{{ person.nationality.label }}</p>
+{% else %}
+    <p class="nationality detail without_nationality">{% trans %}views.Person.view.without_nationality{% endtrans %}</p>
+{% endif %}    
+    
+    
+    {{ include("::menu.html.twig", {'person': person, 'menu_composer' : menu_composer }) }}
+
+
+
+
+{% endblock %}

@@ -1,0 +1,16 @@
+person:
+    name: Nom
+    surname: Prénom
+    dateOfBirth: Date de naissance
+    nationality: Nationalité
+search:
+    q_is_empty: Votre requête est vide. Veuillez introduire un terme de recherche
+    no_results: La requête <span class="research">%q%</span> ne renvoie aucun résultat.
+views:
+    Person:
+        view:
+            born: '{0} Né le %date% | {1} Née le %date%'
+            without_nationality: Nationalité inconnue
+        list:
+            without_nationality: Nationalité inconnue
+        

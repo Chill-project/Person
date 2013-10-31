@@ -1,1 +1,18 @@
 
+
+chill_person_view:
+    pattern: /view/{id}
+    defaults: { _controller: CLChillPersonBundle:Person:view }
+    
+    
+chill_person_search:
+    pattern: /search
+    defaults: { _controller: CLChillPersonBundle:Person:search }
+    
+chill_person_view_history:
+    pattern: /view/{id}/history
+    defaults: {_controller: CLChillPersonBundle:Person:history }
+    options:
+        menu: person
+        order: 100
+        label: menu.person.history

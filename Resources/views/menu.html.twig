@@ -1,0 +1,9 @@
+<div>
+    <ul>
+    {% for menu in menu_composer.getRoutesFor('person') %}
+        <li>{{ path(menu, {'id': person.id}) }}</li>
+
+    {% endfor %}
+    </ul>
+
+</div>

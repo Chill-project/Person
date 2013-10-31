@@ -221,6 +221,18 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     {
         return $this->genre;
     }
+    
+    /**
+     * return gender as a Numeric form.
+     * Useful for translation :-)
+     * @return int
+     */
+    public function getGenreNumeric() {
+        if ($this->getGenre() == self::GENRE_WOMAN)
+            return 1;
+        else 
+            return 0;
+    }
 
     /**
      * Set civil_union
@@ -404,5 +416,13 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     public function getNationality()
     {
         return $this->nationality;
+    }
+    
+    public function getLabel() {
+        return $this->getSurname()." ".$this->getName();
+    }
+    
+    public function __toString() {
+        return $this->getLabel();
     }
 }

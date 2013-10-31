@@ -1,0 +1,46 @@
+{% extends "CLChillMainBundle::layout.html.twig" %}
+ {% block title %}Recherche {{ pattern }}{% endblock %}
+ 
+ 
+ 
+ {% block content %}
+ 
+ <table class="striped rounded">
+     <thead>
+         <tr>
+             <th>{% trans %}person.name{% endtrans %}</th>
+             <th>{% trans %}person.dateOfBirth{% endtrans %}</th>
+             <th>{% trans %}person.nationality{% endtrans %}</th>
+         </tr>
+         
+     </thead>
+     <tbody>
+         {% for person in persons %}
+         <tr>
+             <td>
+                 <a href="{{ path('chill_person_view', {id : person.id}) }}">
+                    <span class="personSurname">{{person.surname}}</span>
+                    <span class="personName">{{person.name}}</span>
+                 </a>
+             </td>
+             <td><span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)}}</span></td>
+             <td>
+                 {% if person.nationality is not null %}
+                 <span class="personNationality">{{person.nationality.label}}</span>
+                 {% else %}
+                 {{ 'views.Person.list.without_nationality'|trans }}
+                 {% endif %}
+             </td>
+         </tr>
+             
+         
+         {% endfor %}
+         
+         
+     </tbody>
+     
+     
+ </table>
+ 
+ 
+ {% endblock %}

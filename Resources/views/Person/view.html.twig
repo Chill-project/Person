@@ -1,4 +1,4 @@
-{% extends "CLChillMainBundle::layout.html.twig" %}
+{% extends "CLChillPersonBundle::layout.html.twig" %}
 
 
 {#
@@ -11,29 +11,81 @@ This view should receive those arguments:
 
 {% block title %}CLChillPersonBundle:Person:see{% endblock %}
 
-{% block content %}
-<h1>
-    <span class="surname">{{  person.surname }}</span> 
-    <span class="personName">{{ person.name }}</span>
-</h1>
+{% block personcontent %}
 
-<p class="date detail">{% transchoice person.genreNumeric
-       with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}views.Person.view.born{% endtranschoice %}</p>
-{% if person.nationality is not null %}
-    <p class="nationality detail">{{ person.nationality.label }}</p>
-{% else %}
-    <p class="nationality detail without_nationality">{% trans %}views.Person.view.without_nationality{% endtrans %}</p>
-{% endif %}    
-    
-   <section class="tabs vertical"> 
-    {{ include("CLChillPersonBundle::menu.html.twig", 
-{'person': person, 'menu_composer' : menu_composer, 'route_active': 'chill_person_view' }) }}
-       
-       <div class="tab-content active columns height">
-    <p>My tab is active so I'll show up first! Inb4 tab 3!</p>
-        </div>
+<figure>
+    <h2>{{ 'views.Person.view.birth'|trans }}</h2>
 
-   </section>
+    <dl>
+            <dt class="inline">{{ 'views.Person.view.dateOfBirth'|trans }}</dt>
+            <dd>{{ person.dateOfBirth.format(date_format) }}</dd>
 
+            
+            <dt class="inline">{{ 'views.Person.view.placeOfBirth'|trans }}</dt>
+            <dd>{{ person.placeOfBirth }}</dd>
+            <dd>{% spaceless %}  
+                
+                {% if person.countryOfBirth is not null %}
+                    {{ person.countryOfBirth.label }}
+                {% else %}
+                    {{ 'views.Person.view.country_of_birth_unknow'|trans }}
+                {% endif %}
+
+{% endspaceless %}</dd>
+            
+        
+    </dl>
+</figure>
+
+<figure>
+    <h2>{{ 'views.Person.view.family'|trans }}</h2>
+
+    <dl>
+            <dt class="inline">{{ 'views.Person.view.civil_union'|trans }}</dt>
+            <dd>{{ ('person.civil_union.' ~  person.civilUnion)|trans }}</dd>
+            
+            <dt class="inline">{{ 'views.Person.view.nb_of_childs'|trans }}</dt>
+            <dd>{% transchoice person.nbOfChild with { '%nb%': person.nbOfChild } %}views.Person.view.nb_of_childs_count{% endtranschoice %}</dd>
+            
+        
+    </dl>
+</figure>
+
+<figure>
+    <h2>{{ 'views.Person.view.administrative'|trans }}</h2>
+
+    <dl>
+          <dt class="inline">{{ 'views.Person.view.nationality'|trans }}</dt>
+            <dd>
+                {% if person.nationality is not null %}
+                    {{ person.nationality.label }}
+                {% else %}
+                    {{ 'views.Person.view.without_nationality'|trans }}
+                {% endif %}
+            
+            </dd>  
+        
+        <dt class="inline">{{ 'views.Person.view.national_number'|trans }}</dt>
+            <dd>{{ person.belgianNationalNumber }}</dd>
+            
+            
+        
+    </dl>
+</figure>
+
+<figure>
+    <h2>{{ 'views.Person.view.contact'|trans }}</h2>
+
+    <dl>
+            <dt class="inline">{{ 'views.Person.view.address'|trans }}</dt>
+            <dd><pre>{{ person.address}}&nbsp;</pre></dd>
+            
+            <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
+            <dd><pre>{{ person.email}}&nbsp;</pre></dd>
+            
+            
+        
+    </dl>
+</figure>
 
 {% endblock %}

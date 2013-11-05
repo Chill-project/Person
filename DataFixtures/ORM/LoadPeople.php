@@ -59,6 +59,8 @@ class LoadPeople extends AbstractFixture {
             echo "add a person...";
             $i++;
             
+            $sex = $this->genres[array_rand($this->genres)];
+            
             if ($choose_name_or_tri[array_rand($choose_name_or_tri)] === 'tri' ) {
                 $length = rand(2, 3);
                 $name = '';
@@ -71,14 +73,21 @@ class LoadPeople extends AbstractFixture {
                 $name = $this->names[array_rand($this->names)];
             }
             
+            if ($sex === Person::GENRE_MAN) {
+                $surname = $this->surnames_male[array_rand($this->surnames_male)];
+            } else {
+                $surname = $this->surnames_female[array_rand($this->surnames_female)];
+            }
+            
+            
             $person = array(
                 'Name' => $name,
-                'Surname' => $this->surnames[array_rand($this->surnames)],
+                'Surname' => $surname,
                 'DateOfBirth' => "1960-10-12",
                 'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
-                'Genre' => Person::GENRE_MAN,
-                'CivilUnion' => Person::CIVIL_DIVORCED,
-                'NbOfChild' => 0,
+                'Genre' => $sex,
+                'CivilUnion' => $this->CivilUnions[array_rand($this->CivilUnions)],
+                'NbOfChild' => $this->NbOfChild[array_rand($this->NbOfChild)],
                 'BelgianNationalNumber' => '12-10-16-269-24',
                 'Email' => "Email d'un ami: roger@tt.com",
                 'CountryOfBirth' => 'France',
@@ -109,16 +118,20 @@ class LoadPeople extends AbstractFixture {
     }
     
     
-    private $surnames = array("Jean", "Mohamed", "Alfred", "Robert", "Svedana", "Sevlatina",
-        "Irène", "Marcelle", "Compère", "Jean-de-Dieu", "Corentine", "Alfonsine",
-        "Caroline", "Charles", "Pierre", "Luc", "Mathieu", "Alain", "Etienne", "Eric",
-        "Solange", "Corentin", "Gaston", "Spirou", "Fantasio", "Mahmadou", "Mohamidou",
-        "Vursuv", "Gostine");
+    private $surnames_male = array("Jean", "Mohamed", "Alfred", "Robert", 
+         "Compère", "Jean-de-Dieu", 
+         "Charles", "Pierre", "Luc", "Mathieu", "Alain", "Etienne", "Eric",
+         "Corentin", "Gaston", "Spirou", "Fantasio", "Mahmadou", "Mohamidou",
+        "Vursuv" );
+    private $surnames_female = array("Svedana", "Sevlatina","Irène", "Marcelle",
+        "Corentine", "Alfonsine","Caroline","Solange","Gostine", "Fatoumata",
+        "Groseille", "Chana", "Oxana", "Ivana");
     
     private $names = array("Diallo", "Bah", "Gaillot");
     private $names_trigrams = array("fas", "tré", "hu", 'blart', 'van', 'der', 'lin', 'den',
         'ta', 'mi', 'gna', 'bol', 'sac', 'ré', 'jo', 'du', 'pont', 'cas', 'tor', 'rob', 'al',
-        'ma', 'gone', 'car');
+        'ma', 'gone', 'car',"fu", "ka", "lot", "no", "va", "du", "bu", "su",
+        "lo", 'to', "cho", "car", 'mo','zu', 'qi', 'mu');
     
     private $genres = array(Person::GENRE_MAN, Person::GENRE_WOMAN);
     

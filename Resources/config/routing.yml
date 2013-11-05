@@ -20,3 +20,60 @@ chill_person_view_history:
         menu: person
         order: 100
         label: menu.person.history
+        
+#sample
+chill_appointment_list:
+    pattern: /view/{id}/appointment/list
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 200
+        label: "Rendez-vous"
+        
+chill_prof_status_view:
+    pattern: /view/{id}/prof/list
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 300
+        label: "Statut Professionnel"
+        
+chill_admin_view:
+    pattern: /view/{id}/administrative
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 400
+        label: "Statut administratif"
+        
+chill_language:
+    pattern: /view/{id}/language/list
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 500
+        label: "Langues"    
+        
+chill_studies:
+    pattern: /view/{id}/studies
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 600
+        label: "Études"
+        
+chill_notes:
+    pattern: /view/{id}/notes
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 700
+        label: "Informations"
+        
+chill_docs:
+    pattern: /view/{id}/docs
+    defaults: {_controller: CLChillPersonBundle:Person:view}
+    options:
+        menu: person
+        order: 800
+        label: "Documents"

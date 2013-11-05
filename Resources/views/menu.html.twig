@@ -1,12 +1,12 @@
-<div>
-    <ul class="tab-nav follow-href-path columns four">
+<div class="columns four">
+    <ul class="tab-nav follow-href-path">
     {% for menu in menu_composer.getRoutesFor('person') %}
         <li class="{% spaceless  %}
                     {% if menu.route == route_active %}
                         active
                     {% endif %}
                {% endspaceless %} ">
-            <a href="{{ path(menu.route, {'id': person.id}) }}" >{{ menu.label }}</a>
+            <a href="{{ path(menu.route, {'id': person.id}) }}" >{{ menu.label|trans }}</a>
         </li>
 
     {% endfor %}

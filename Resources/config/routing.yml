@@ -7,6 +7,11 @@ chill_person_view:
         menu: person
         order: 50
         label: menu.person.general_view
+        
+chill_person_general_edit:
+    pattern: /view/{id}/edit
+    defaults: {_controller: CLChillPersonBundle:Person:edit }
+    
     
     
 chill_person_search:

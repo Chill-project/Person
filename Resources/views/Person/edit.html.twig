@@ -1,0 +1,14 @@
+{% extends "CLChillPersonBundle::layout.html.twig"  %}
+
+{% set activeRouteKey = '' %}
+
+{% block title %}CLChillPersonBundle:Person:see{% endblock %}
+
+{% block personcontent %}
+
+{% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
+
+{{ form(form) }}
+
+
+{% endblock personcontent %}

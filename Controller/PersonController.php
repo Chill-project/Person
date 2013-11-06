@@ -21,6 +21,20 @@ class PersonController extends Controller {
         
     }
     
+    public function editAction($id) {
+        $person = $this->_getPerson($id);
+        
+        if ($person === null) {
+            $this->createNotFoundException();
+        }
+        
+        $form = $this->createForm(new \CL\Chill\PersonBundle\Form\PersonType(), $person);
+        
+        return $this->render('CLChillPersonBundle:Person:edit.html.twig', 
+                array('person' => $person, 
+                    'form' => $form->createView()));
+    }
+    
     public function searchAction() {
         $q = $this->getRequest()->query->getAlnum('q', '');
         $q = trim($q);

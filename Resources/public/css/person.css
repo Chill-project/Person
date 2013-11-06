@@ -1,0 +1,6 @@
+div#person_wrapper div#person_details { margin-top: 50px; }
+div#person_wrapper div#person_details .tab-content { border-top: 1px solid #e5e5e5; width: 640px; }
+div#person_wrapper div#person_details dl { padding: 0.5em; }
+div#person_wrapper div#person_details dt { float: left; clear: left; width: 190px; text-align: right; font-weight: bold; color: green; }
+div#person_wrapper div#person_details dt:after { content: " :"; }
+div#person_wrapper div#person_details dd { margin: 0 0 0 199px; padding: 0 0 0.5em 0; }

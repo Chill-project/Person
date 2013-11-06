@@ -1,0 +1,50 @@
+{% extends "CLChillMainBundle::layout.html.twig" %}
+
+{% block css %}
+
+    {% stylesheets  output="css/all.css" filter="cssrewrite"
+          "bundles/clchillperson/css/person.css"
+     %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+
+
+{% endblock %}
+
+{% block content %}
+
+<div id="person_wrapper">
+    <div id="general">
+    <h1>
+        <span class="surname">{{  person.surname }}</span> 
+        <span class="personName">{{ person.name }}</span>
+    </h1>
+
+    <p class="date detail">{% transchoice person.genreNumeric
+           with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}views.layout.born{% endtranschoice %}</p>
+    {% if person.nationality is not null %}
+        <p class="nationality detail">{{ person.nationality.label }}</p>
+    {% else %}
+        <p class="nationality detail without_nationality">{% trans %}views.layout.without_nationality{% endtrans %}</p>
+    {% endif %} 
+    </div>
+    <div id="person_details">
+        
+        
+        <section class="tabs vertical"> 
+            
+        {{ include("CLChillPersonBundle::menu.html.twig", 
+    {'person': person, 'menu_composer' : menu_composer, 'route_active': 'chill_person_view' }) }}
+                          
+        <div class="tab-content active columns height">
+        
+        {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
+        
+        </div>
+        </section>
+    </div>
+
+</div>
+
+
+ {% endblock %}

@@ -1,0 +1,41 @@
+div#person_wrapper {
+    
+    div#general {
+        
+    }
+    
+    div#person_details {
+        margin-top: 50px;
+        
+        
+        .tab-content {
+            border-top: 1px solid #e5e5e5;
+            
+            width: 640px;
+        }
+        
+         dl { 
+             padding: 0.5em; 
+         } 
+         
+         dt { 
+             float: left; 
+             clear: left; 
+             width: 190px; 
+             text-align: right; 
+             font-weight: bold; 
+             color: green; 
+         } 
+         
+         dt:after { 
+             content: " :"; 
+         } 
+         
+         dd { 
+             margin: 0 0 0 199px; 
+             padding: 0 0 0.5em 0; 
+         }
+    }
+    
+}
+

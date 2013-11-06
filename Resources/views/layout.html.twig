@@ -32,9 +32,13 @@
         
         
         <section class="tabs vertical"> 
-            
-        {{ include("CLChillPersonBundle::menu.html.twig", 
-    {'person': person, 'menu_composer' : menu_composer, 'route_active': 'chill_person_view' }) }}
+     {# Note: activeRouteKey should be defined in Controller or child layout #}       
+        {{ render(controller("CLChillMainBundle:Menu:writeMenu", {
+             'menu' : 'person',
+             'layout': 'CLChillPersonBundle::menu.html.twig',
+             'args' : {'id': person.id },
+             'activeRouteKey': activeRouteKey
+        })) }}
                           
         <div class="tab-content active columns height">
         

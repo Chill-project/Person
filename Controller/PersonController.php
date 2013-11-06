@@ -16,7 +16,7 @@ class PersonController extends Controller {
         }
         
         return $this->render('CLChillPersonBundle:Person:view.html.twig',
-                array("person" => $person, 'menu_composer' => $this->get('menu_composer'))
+                array("person" => $person)
                 );
         
     }

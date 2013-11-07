@@ -5,6 +5,9 @@ namespace CL\Chill\PersonBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use CL\Chill\PersonBundle\Form\Type\CivilType;
+use CL\Chill\PersonBundle\Form\Type\GenderType;
+use CL\BelgianNationalNumberBundle\Form\BelgianNationalNumberType;
 
 class PersonType extends AbstractType
 {
@@ -17,17 +20,28 @@ class PersonType extends AbstractType
         $builder
             ->add('name')
             ->add('surname')
-            ->add('dateOfBirth')
-            ->add('placeOfBirth')
-            ->add('genre')
-            ->add('civil_union')
-            ->add('nbOfChild')
-            ->add('belgian_national_number')
-            ->add('memo')
-            ->add('address')
-            ->add('email')
-            ->add('countryOfBirth')
-            ->add('nationality')
+            ->add('dateOfBirth', 'date', array('required' => false))
+            ->add('placeOfBirth', 'text', array('required' => false))
+            ->add('genre', new GenderType(), array(
+                'required' => false
+            ))
+            ->add('civil_union', new CivilType(), array(
+                'required' => false
+            ))
+            ->add('nbOfChild', 'integer', array('required' => false))
+            ->add('belgian_national_number', new BelgianNationalNumberType(), 
+                    array('required' => false))
+            ->add('memo', 'text', array('required' => false))
+            ->add('address', 'text',  array('required' => false))
+            ->add('email', 'text', array('required' => false))
+            ->add('countryOfBirth', 'entity', array(
+                'required' => false,
+                'class' => 'CL\Chill\MainBundle\Entity\Country'
+                ))
+            ->add('nationality', 'entity', array(
+                'required' => false,
+                'class' => 'CL\Chill\MainBundle\Entity\Country'
+                ))
         ;
     }
     

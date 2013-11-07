@@ -4,6 +4,8 @@ namespace CL\Chill\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use CL\Chill\PersonBundle\Entity\Person;
+use CL\Chill\PersonBundle\Form\PersonType;
+use Symfony\Component\HttpFoundation\Request;
 
 class PersonController extends Controller {
     
@@ -12,7 +14,7 @@ class PersonController extends Controller {
         $person = $this->_getPerson($id);
         
         if ($person === null) {
-            $this->createNotFoundException("Person with id $id not found on this server");
+            return $this->createNotFoundException("Person with id $id not found on this server");
         }
         
         return $this->render('CLChillPersonBundle:Person:view.html.twig',
@@ -25,14 +27,61 @@ class PersonController extends Controller {
         $person = $this->_getPerson($id);
         
         if ($person === null) {
-            $this->createNotFoundException();
+            return $this->createNotFoundException();
         }
         
-        $form = $this->createForm(new \CL\Chill\PersonBundle\Form\PersonType(), $person);
+        $form = $this->createForm(new PersonType(), $person, array(
+            'action' => $this->generateUrl('chill_person_general_update', array(
+                'id' => $id
+            ))
+        ));
+                
+        
         
         return $this->render('CLChillPersonBundle:Person:edit.html.twig', 
                 array('person' => $person, 
                     'form' => $form->createView()));
+    }
+    
+    public function updateAction($id, Request $request) {
+        $person = $this->_getPerson($id);
+        
+        if ($person === null) {
+            return $this->createNotFoundException();
+        }
+        
+        $form = $this->createForm(new PersonType(), $person);
+        
+        if ($request->getMethod() === 'POST') {
+            $form->handleRequest($request);
+            
+            if ( ! $form->isValid() ) {
+                
+                $errors = $form->getErrorsAsString();
+                
+                $this->get('session')
+                        ->getFlashBag()->add('danger', 'error' . $errors);
+                
+                return $this->render('CLChillPersonBundle:Person:edit.html.twig', 
+                        array('person' => $person, 
+                            'form' => $form->createView()));
+            }
+            
+            $this->get('session')->getFlashBag()
+                    ->add('success', 
+                            $this->get('translator')
+                            ->trans('validation.Person.form.person.success')
+                            );
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            
+            $url = $this->generateUrl('chill_person_view', array( 
+                'id' => $person->getId()
+            ));
+            
+            return $this->redirect($url);
+        }
     }
     
     public function searchAction() {
@@ -76,8 +125,7 @@ class PersonController extends Controller {
         return $this->render('CLChillPersonBundle:Person:list.html.twig', 
                 array( 
                     'persons' => $persons,
-                    'pattern' => $q,
-                    'menu_composer' => $this->get('menu_composer')
+                    'pattern' => $q
                 ));
     }
     

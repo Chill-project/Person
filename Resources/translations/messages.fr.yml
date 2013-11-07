@@ -10,12 +10,22 @@ person:
         unknow: Inconnu
         cohab: Cohabitation légale
         single: Célibataire
+    gender:
+        MAN: Homme
+        WOM: Femme
+        undefined: Non renseigné
     
     
 search:
     q_is_empty: Votre requête est vide. Veuillez introduire un terme de recherche
     no_results: La requête <span class="research">%q%</span> ne renvoie aucun résultat.
-    
+  
+validation:
+    Person: 
+        form: 
+            person:
+                success: Bravo ! Les données ont été mises à jour.
+                error: '{1} Le champs %field% est incorrect. Veuillez le mettre à jour | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
     
 views:
     layout:
@@ -23,9 +33,11 @@ views:
         without_nationality: Nationalité inconnue    
     Person:
         view:
+            general: Généralités
             birth: Naissance
             dateOfBirth: Date de naissance
-            placeOfBirth: Lieu de Naissance
+            placeOfBirth: Lieu de naissance
+            contry_of_birth: Pays de naissance
             country_of_birth_unknow: Pays inconnu
             without_nationality: Nationalité inconnue
             family: Famille
@@ -38,6 +50,10 @@ views:
             email: Courrer électronique
             address: Adresse
             administrative: Administratif
+            surname: Prénom
+            name: Nom
+            gender: Genre
+            memo: Mémo
         list:
             without_nationality: Nationalité inconnue
 

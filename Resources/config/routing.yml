@@ -12,6 +12,9 @@ chill_person_general_edit:
     pattern: /view/{id}/edit
     defaults: {_controller: CLChillPersonBundle:Person:edit }
     
+chill_person_general_update:
+    pattern: /view/{id}/update
+    defaults: {_controller: CLChillPersonBundle:Person:update }
     
     
 chill_person_search:

@@ -311,6 +311,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setMemo($memo)
     {
+        if ($memo === null) {
+            $memo = '';
+        }
+        
         $this->memo = $memo;
     
         return $this;
@@ -334,6 +338,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setAddress($address)
     {
+        if ($address === null) {
+            $address = '';
+        }
+        
         $this->address = $address;
     
         return $this;

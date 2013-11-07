@@ -88,7 +88,7 @@ class LoadPeople extends AbstractFixture {
                 'Genre' => $sex,
                 'CivilUnion' => $this->CivilUnions[array_rand($this->CivilUnions)],
                 'NbOfChild' => $this->NbOfChild[array_rand($this->NbOfChild)],
-                'BelgianNationalNumber' => '12-10-16-269-24',
+                'BelgianNationalNumber' => '811016-269-24',
                 'Email' => "Email d'un ami: roger@tt.com",
                 'CountryOfBirth' => 'France',
                 'Nationality' => 'Russie'

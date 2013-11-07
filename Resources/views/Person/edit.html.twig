@@ -8,7 +8,49 @@
 
 {% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
 
-{{ form(form) }}
+{{ form_start(form) }}
+
+<button type="submit">{{ 'views.Person.edit.submit'|trans }}</button>
+
+<fieldset>
+    <legend><h2>{{ 'views.Person.view.general'|trans }}</h2></legend>
+    {{ form_row(form.surname, {'label' : 'views.Person.view.surname'}) }}
+    {{ form_row(form.name, {'label' : 'views.Person.view.name'}) }}
+    {{ form_row(form.genre, {'label' : 'views.Person.view.gender'}) }}
+</fieldset>
+
+<fieldset>
+    <legend><h2>{{ 'views.Person.view.birth'|trans }}</h2></legend>
+    {{ form_row(form.dateOfBirth, {'label': 'views.Person.view.dateOfBirth'} ) }}
+    {{ form_row(form.placeOfBirth, { 'label' : 'views.Person.view.placeOfBirth'} ) }}
+    {{ form_row(form.countryOfBirth, { 'label' : 'views.Person.view.contry_of_birth' } ) }}
+</fieldset>
+
+<fieldset>
+    <legend><h2>{{ 'views.Person.view.family'|trans }}</h2></legend>
+    {{ form_row(form.civil_union, {'label' : 'views.Person.view.civil_union'}) }}
+    {{ form_row(form.nbOfChild, {'label' : 'views.Person.view.nb_of_childs'}) }}
+    
+</fieldset>
+
+<fieldset>
+    <legend><h2>{{ 'views.Person.view.administrative'|trans }}</h2></legend>
+    {{ form_row(form.nationality, { 'label' : 'views.Person.view.nationality'|trans} ) }}
+    {{ form_row(form.belgian_national_number, { 'label' : 'views.Person.view.national_number'}) }}
+</fieldset>
+
+<fieldset>
+    <legend><h2>{{ 'views.Person.view.contact'|trans }}</h2></legend>
+    {{ form_row(form.address, {'label' : 'views.Person.view.address'}) }}
+    {{ form_row(form.email, {'label': 'views.Person.view.email'}) }}
+    
+</fieldset>
+
+{{ form_row(form.memo, {'label' : 'views.Person.view.memo'} ) }}
+
+
+{{ form_rest(form) }}
+{{ form_end(form) }}
 
 
 {% endblock personcontent %}

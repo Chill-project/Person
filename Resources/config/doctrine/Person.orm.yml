@@ -43,8 +43,7 @@ CL\Chill\PersonBundle\Entity\Person:
         address:
             type: text
         email:
-            type: string
-            length: 255   
+            type: text  
     manyToOne:
         countryOfBirth:
             targetEntity: CL\Chill\MainBundle\Entity\Country

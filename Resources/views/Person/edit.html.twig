@@ -9,8 +9,10 @@
 {% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
 
 {{ form_start(form) }}
-
-<button type="submit">{{ 'views.Person.edit.submit'|trans }}</button>
+{% set include_temp = 'CLChillPersonBundle:Form:form_control.html.twig' %}
+{% set include_args = {'return_key': 'chill_person_view', 
+       'return_args' : { 'id' : person.id} } %}
+{{ include(include_temp, include_args) }} 
 
 <fieldset>
     <legend><h2>{{ 'views.Person.view.general'|trans }}</h2></legend>
@@ -19,12 +21,16 @@
     {{ form_row(form.genre, {'label' : 'views.Person.view.gender'}) }}
 </fieldset>
 
+{{ include(include_temp, include_args) }} 
+
 <fieldset>
     <legend><h2>{{ 'views.Person.view.birth'|trans }}</h2></legend>
     {{ form_row(form.dateOfBirth, {'label': 'views.Person.view.dateOfBirth'} ) }}
     {{ form_row(form.placeOfBirth, { 'label' : 'views.Person.view.placeOfBirth'} ) }}
     {{ form_row(form.countryOfBirth, { 'label' : 'views.Person.view.contry_of_birth' } ) }}
 </fieldset>
+
+{{ include(include_temp, include_args) }} 
 
 <fieldset>
     <legend><h2>{{ 'views.Person.view.family'|trans }}</h2></legend>
@@ -33,11 +39,15 @@
     
 </fieldset>
 
+{{ include(include_temp, include_args) }} 
+
 <fieldset>
     <legend><h2>{{ 'views.Person.view.administrative'|trans }}</h2></legend>
     {{ form_row(form.nationality, { 'label' : 'views.Person.view.nationality'|trans} ) }}
     {{ form_row(form.belgian_national_number, { 'label' : 'views.Person.view.national_number'}) }}
 </fieldset>
+
+{{ include(include_temp, include_args) }} 
 
 <fieldset>
     <legend><h2>{{ 'views.Person.view.contact'|trans }}</h2></legend>
@@ -48,6 +58,7 @@
 
 {{ form_row(form.memo, {'label' : 'views.Person.view.memo'} ) }}
 
+{{ include(include_temp, include_args) }} 
 
 {{ form_rest(form) }}
 {{ form_end(form) }}

@@ -35,6 +35,25 @@ div#person_wrapper {
              margin: 0 0 0 199px; 
              padding: 0 0 0.5em 0; 
          }
+         
+         label {
+             color: green;
+         }
+         
+         label:not(.radio) {
+             min-width: 190px;
+             font-weight: bold;
+         }
+         
+         label.radio{
+             margin-left: 0.2em;
+         }
+         
+         div.form_control {
+             .controls {
+                 float: right;
+             }
+         }
     }
     
 }

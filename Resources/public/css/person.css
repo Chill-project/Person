@@ -4,3 +4,7 @@ div#person_wrapper div#person_details dl { padding: 0.5em; }
 div#person_wrapper div#person_details dt { float: left; clear: left; width: 190px; text-align: right; font-weight: bold; color: green; }
 div#person_wrapper div#person_details dt:after { content: " :"; }
 div#person_wrapper div#person_details dd { margin: 0 0 0 199px; padding: 0 0 0.5em 0; }
+div#person_wrapper div#person_details label { color: green; }
+div#person_wrapper div#person_details label:not(.radio) { min-width: 190px; font-weight: bold; }
+div#person_wrapper div#person_details label.radio { margin-left: 0.2em; }
+div#person_wrapper div#person_details div.form_control .controls { float: right; }

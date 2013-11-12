@@ -31,6 +31,8 @@ views:
     layout:
         born: '{0} Né le %date% | {1} Née le %date%'
         without_nationality: Nationalité inconnue    
+    common:
+        edit: Modifier
     Person:
         view:
             general: Généralités
@@ -54,6 +56,10 @@ views:
             name: Nom
             gender: Genre
             memo: Mémo
+        edit:
+            cancel: Retour
+            reset: Remise à zéro
+            submit: Envoi
         list:
             without_nationality: Nationalité inconnue
 

@@ -31,9 +31,9 @@ class PersonType extends AbstractType
             ->add('nbOfChild', 'integer', array('required' => false))
             ->add('belgian_national_number', new BelgianNationalNumberType(), 
                     array('required' => false))
-            ->add('memo', 'text', array('required' => false))
-            ->add('address', 'text',  array('required' => false))
-            ->add('email', 'text', array('required' => false))
+            ->add('memo', 'textarea', array('required' => false))
+            ->add('address', 'textarea',  array('required' => false))
+            ->add('email', 'textarea', array('required' => false))
             ->add('countryOfBirth', 'entity', array(
                 'required' => false,
                 'class' => 'CL\Chill\MainBundle\Entity\Country'

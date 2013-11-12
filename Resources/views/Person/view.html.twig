@@ -12,7 +12,33 @@ This view should receive those arguments:
 
 {% block title %}CLChillPersonBundle:Person:see{% endblock %}
 
+{% set edit_tmp_name = 'CLChillPersonBundle:Form:go_to_form.html.twig'  %}
+{% set edit_tmp_args = { 'form_path_args' : { 'id': person.id }, 
+      'form_path_key' : 'chill_person_general_edit' } %}
+
+
 {% block personcontent %}
+
+
+{{ include(edit_tmp_name, edit_tmp_args) }}
+
+<figure>
+    <h2>{{ 'views.Person.view.general'|trans }}</h2>
+    
+    <dl>
+        <dt class="inline">{{ 'views.Person.view.surname'|trans }}</dt>
+        <dd>{{ person.surname }}</dd>
+        
+        <dt class="inline">{{ 'views.Person.view.name'|trans }}</dt>
+        <dd>{{ person.surname }}</dd>
+        
+        <dt class="inline">{{ 'views.Person.view.gender'|trans }}</dt>
+        <dd>{{ ( 'person.gender.' ~ person.genre|default('undefined'))|trans }}</dd>
+        
+    </dl>
+    
+    
+</figure>
 
 <figure>
     <h2>{{ 'views.Person.view.birth'|trans }}</h2>
@@ -38,6 +64,8 @@ This view should receive those arguments:
     </dl>
 </figure>
 
+{{ include(edit_tmp_name, edit_tmp_args) }}
+
 <figure>
     <h2>{{ 'views.Person.view.family'|trans }}</h2>
 
@@ -51,6 +79,8 @@ This view should receive those arguments:
         
     </dl>
 </figure>
+
+{{ include(edit_tmp_name, edit_tmp_args) }}
 
 <figure>
     <h2>{{ 'views.Person.view.administrative'|trans }}</h2>
@@ -73,6 +103,8 @@ This view should receive those arguments:
         
     </dl>
 </figure>
+
+{{ include(edit_tmp_name, edit_tmp_args) }}
 
 <figure>
     <h2>{{ 'views.Person.view.contact'|trans }}</h2>

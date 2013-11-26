@@ -20,9 +20,7 @@ class PersonType extends AbstractType
         $builder
             ->add('name')
             ->add('surname')
-            ->add('dateOfBirth', 'birthday', array(
-                'required' => false
-                ))
+            ->add('dateOfBirth', 'date', array('required' => false, 'widget' => 'single_text'))
             ->add('placeOfBirth', 'text', array('required' => false))
             ->add('genre', new GenderType(), array(
                 'required' => false

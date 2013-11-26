@@ -49,6 +49,20 @@ div#person_wrapper {
              margin-left: 0.2em;
          }
          
+         .has_error {
+             label {
+                 color: red;
+             }
+             
+             ul.errors li {
+                 color: red;
+             }
+             
+             input {
+                 
+             }
+         }
+         
          div.form_control {
              .controls {
                  float: right;

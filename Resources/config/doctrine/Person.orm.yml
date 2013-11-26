@@ -44,6 +44,9 @@ CL\Chill\PersonBundle\Entity\Person:
             type: text
         email:
             type: text  
+        proxyHistoryOpenState:
+            type: boolean
+            name: proxy_open
     manyToOne:
         countryOfBirth:
             targetEntity: CL\Chill\MainBundle\Entity\Country
@@ -53,4 +56,9 @@ CL\Chill\PersonBundle\Entity\Person:
             targetEntity: CL\Chill\MainBundle\Entity\Country
             inversedBy: nationals
             nullable: true
+    oneToMany:
+        history:
+            targetEntity: PersonHistoryFile
+            mappedBy: person
+            cascade: [persist, remove, merge, detach]
     lifecycleCallbacks: {  }

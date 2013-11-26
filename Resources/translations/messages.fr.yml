@@ -14,6 +14,11 @@ person:
         MAN: Homme
         WOM: Femme
         undefined: Non renseigné
+    history:
+        close:
+            motives:
+                not_come: Plus venu
+                finished: Accompagnement terminé
     
     
 search:
@@ -25,9 +30,22 @@ validation:
         form: 
             person:
                 success: Bravo ! Les données ont été mises à jour.
-                error: '{1} Le champs %field% est incorrect. Veuillez le mettre à jour | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
-    
-views:
+                error: '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
+controller:
+    Person:
+        history:
+            close:
+                done: Bravo ! Le dossier de <em>%name%</em> a été clotûré.
+                error: Une erreur est survenue. Le dossier n'a pu être clos. 
+                error_in_form: Le formulaire n'est pas valide.
+                is_not_open: Le dossier de </em>%name%</em> n'est pas ouvert. Il ne peut donc être fermé.
+            open:
+                done: Bravo ! Le dossier de <em>%name%</em> est maintenant ouvert.
+                error: Une erreur est survenue. Le dossier n'a pu être ouvert.
+                error_in_form: Le formulaire n'est pas valide.
+                is_not_closed: Le dossier de <em>%name%</em> n'est pas fermé. Il ne peut donc être ouvert.
+                
+views:                
     layout:
         born: '{0} Né le %date% | {1} Née le %date%'
         without_nationality: Nationalité inconnue    
@@ -62,6 +80,28 @@ views:
             submit: Envoi
         list:
             without_nationality: Nationalité inconnue
+        #History
+        hlist:
+            title: Historique du dossier - %name%
+            dateOpening_title: Date d'ouverture
+            dateClosing_title: Date de fermeture
+            still_open: Toujours en cours
+            edit: Modifier
+            close: Clôre le dossier
+            open: Ouvrir le dossier
+        close:
+            last_opening_since: Dernière ouverture le %last_opening%.
+            action: Clotûrer
+            select_a_motive: Choisissez un motif
+            date_of_closing: Date de clotûre
+            motive_of_closing: Motif de clôture
+            texto: Mémo
+        open:
+            action: Ouvrir
+            date_of_opening: Date d'ouverture
+            texto: Mémo
+           
+            
 
             
             

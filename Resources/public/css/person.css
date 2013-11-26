@@ -7,4 +7,6 @@ div#person_wrapper div#person_details dd { margin: 0 0 0 199px; padding: 0 0 0.5
 div#person_wrapper div#person_details label { color: green; }
 div#person_wrapper div#person_details label:not(.radio) { min-width: 190px; font-weight: bold; }
 div#person_wrapper div#person_details label.radio { margin-left: 0.2em; }
+div#person_wrapper div#person_details .has_error label { color: red; }
+div#person_wrapper div#person_details .has_error ul.errors li { color: red; }
 div#person_wrapper div#person_details div.form_control .controls { float: right; }

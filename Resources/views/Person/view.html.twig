@@ -30,7 +30,7 @@ This view should receive those arguments:
         <dd>{{ person.surname }}</dd>
         
         <dt class="inline">{{ 'views.Person.view.name'|trans }}</dt>
-        <dd>{{ person.surname }}</dd>
+        <dd>{{ person.name }}</dd>
         
         <dt class="inline">{{ 'views.Person.view.gender'|trans }}</dt>
         <dd>{{ ( 'person.gender.' ~ person.genre|default('undefined'))|trans }}</dd>

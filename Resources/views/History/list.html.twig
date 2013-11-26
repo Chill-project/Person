@@ -1,0 +1,70 @@
+{% extends "CLChillPersonBundle::layout.html.twig"  %}
+
+{% set activeRouteKey = 'chill_person_history_list' %}
+
+{% block title %}{{ 'views.Person.hlist.title'|trans({ '%name%' : person.__toString}) }}{% endblock title %} 
+
+
+{% block personcontent %}
+
+<table class="striped rounded">
+    <thead>
+        <tr>
+            <th>{{ 'views.Person.hlist.dateOpening_title'|trans }}</th>
+            <th>{{ 'views.Person.hlist.dateClosing_title'|trans }}</th>
+            <th>&nbsp;</th>
+        </tr>
+        
+    </thead>
+    <tbody>
+        {% for history in histories %}
+        <tr>
+            <td>{{ history.dateOpening|date(date_format) }}</td>
+            <td>{% spaceless %}
+                {% if history.isOpen %}
+                    {{ 'views.Person.hlist.still_open'|trans }}
+                
+                {% else %}
+                    {{ history.dateClosing|date(date_format) }}
+                {% endif %}
+            
+            {% endspaceless %}</td>
+            <td>
+                <div class="small warning btn icon-right entypo icon-pencil"><a  href="{{ path('chill_person_history_update', {'id' : person.id, 'historyId' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a></div>
+            </td>
+        </tr>
+        
+        {% endfor %}
+        
+    </tbody>
+    
+    
+</table>
+
+
+<div class="form_control">
+    <div class="controls">
+        <div class="btn medium danger icon-right entypo {% spaceless %}
+             {% if person.isOpen == true %}
+                 icon-lock
+             {% else %}
+                 icon-lock-open
+             {% endif %}{% endspaceless %}">
+            {% spaceless %}
+               {% if person.isOpen == true %}
+            <a href="{{ path('chill_person_history_close', {'id' : person.id}) }}">
+                {{'views.Person.hlist.close'|trans }}
+            </a>
+               {% else %}
+            <a href="{{ path('chill_person_history_open', {'id' : person.id} ) }}">
+                {{'views.Person.hlist.open'|trans }}
+            </a>
+                {% endif %}
+{% endspaceless %}   
+        </div>
+        
+    </div>
+    
+</div>
+
+{% endblock personcontent %}

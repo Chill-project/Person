@@ -17,7 +17,11 @@
     <div id="general">
     <h1>
         <span class="surname">{{  person.surname }}</span> 
-        <span class="personName">{{ person.name }}</span>
+        <span class="personName">{{ person.name }}</span> {% spaceless %}
+        {% if person.isOpen == false %}
+        <i class="icon-lock"></i>
+        {% endif %}
+        {% endspaceless %}
     </h1>
 
     <p class="date detail">{% transchoice person.genreNumeric

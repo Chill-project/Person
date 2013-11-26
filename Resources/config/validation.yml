@@ -1,0 +1,57 @@
+CL\Chill\PersonBundle\Entity\Person:
+    properties:
+        belgian_national_number:
+              - NotBlank: 
+                  groups: [general]
+              - CL\BelgianNationalNumberBundle\Validator\Constraint\BelgianNationalNumber: 
+                  groups: [general]
+        name:
+              - NotBlank: 
+                  groups: [general]
+              - Length: 
+                  min: 2
+                  max: 255
+                  minMessage: validation.Person.constraint.name_min
+                  maxMessage: validation.Person.constraint.name_max
+                  groups: [general]
+                  
+        surname:
+              - NotBlank:
+                  groups: [general]
+              - Length: 
+                  min: 2
+                  max: 255
+                  minMessage: validation.Person.constraint.name_min
+                  maxMessage: validation.Person.constraint.name_max
+                  groups: [general]
+        dateOfBirth:
+              - Date: 
+                  groups: [general]
+        nbOfChild:
+              - Range:
+                  min: 0
+                  max: 20
+                  minMessage: validation.Person.constraint.nbOfChild_min
+                  maxMessage: validation.Person.constraint.nbOfChild_max
+                  invalidMessage: validation.Person.constraint.nbOfChild_invalid
+                  groups: [general]
+        history:
+              - Valid:
+                  traverse: true
+    constraints:
+          - Callback:
+              methods: [isHistoryValid]
+              groups: [history_consistent]
+                  
+                  
+
+CL\Chill\PersonBundle\Entity\PersonHistoryFile:
+    properties:
+        date_opening:
+              - Date: ~
+              - NotNull: ~
+        date_closing:
+              - Date: ~
+    constraints:
+          - Callback:
+              methods: [isDateConsistent]

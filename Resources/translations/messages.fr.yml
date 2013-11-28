@@ -36,14 +36,17 @@ controller:
         history:
             close:
                 done: Bravo ! Le dossier de <em>%name%</em> a été clotûré.
-                error: Une erreur est survenue. Le dossier n'a pu être clos. 
+                error: Les informations introduites ne sont pas valides. Le dossier n'a pu être clos. 
                 error_in_form: Le formulaire n'est pas valide.
                 is_not_open: Le dossier de </em>%name%</em> n'est pas ouvert. Il ne peut donc être fermé.
             open:
                 done: Bravo ! Le dossier de <em>%name%</em> est maintenant ouvert.
-                error: Une erreur est survenue. Le dossier n'a pu être ouvert.
-                error_in_form: Le formulaire n'est pas valide.
+                error: Les informations introduites ne sont pas valides. Le dossier n'a pu être ouvert.
+                error_in_fom: Le formulaire n'est pas valide.
                 is_not_closed: Le dossier de <em>%name%</em> n'est pas fermé. Il ne peut donc être ouvert.
+            update:
+                done: Bravo ! La mise à jour de l'historique a réussi !
+                error: Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.
                 
 views:                
     layout:
@@ -100,6 +103,12 @@ views:
             action: Ouvrir
             date_of_opening: Date d'ouverture
             texto: Mémo
+        hupdate:
+            dateOpening: Date d'ouverture
+            dateClosing: Date de fermeture
+            motive_of_closing: Motif de clôture
+            texto: Mémo
+            action: Modifier
            
             
 

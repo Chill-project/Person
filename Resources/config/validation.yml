@@ -52,6 +52,8 @@ CL\Chill\PersonBundle\Entity\PersonHistoryFile:
               - NotNull: ~
         date_closing:
               - Date: ~
+              - NotNull:
+                  groups: [closed]
     constraints:
           - Callback:
               methods: [isDateConsistent]

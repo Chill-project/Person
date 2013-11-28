@@ -1,0 +1,29 @@
+{% extends "CLChillPersonBundle::layout.html.twig"  %}
+
+{% set activeRouteKey = null %}
+
+{% block title %}{% endblock title %}
+
+{% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
+
+{% block personcontent %}
+
+{{ form_start(form) }}
+
+{{ form_row(form.date_opening, { 'label' : 'views.Person.hupdate.dateOpening' })  }}
+
+{{ form_row(form.date_closing, { 'label' : 'views.Person.hupdate.dateClosing' })  }}
+
+{{ form_row(form.motive, { 'label' : 'views.Person.hupdate.motive_of_closing' })  }}
+
+{{ form_row(form.memo, { 'label' : 'views.Person.hupdate.texto' })  }}
+
+{{form_rest(form) }}
+
+<div class="medium btn danger icon-right entypo icon-lock">
+    <button type="submit">{{ 'views.Person.hupdate.action'|trans }}</button>
+</div>
+
+{{ form_end(form) }}
+
+{% endblock personcontent %}

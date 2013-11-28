@@ -30,7 +30,13 @@
             
             {% endspaceless %}</td>
             <td>
-                <div class="small warning btn icon-right entypo icon-pencil"><a  href="{{ path('chill_person_history_update', {'id' : person.id, 'historyId' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a></div>
+                <div class="small warning btn icon-right entypo icon-pencil">
+                    {% if history.isOpen %}
+                    <a  href="{{ path('chill_person_history_open', {'id' : person.id, 'historyId' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a>
+                    {% else %}
+                    <a  href="{{ path('chill_person_history_update', {'id' : person.id, 'historyId' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a>
+                    {% endif %}
+                </div>
             </td>
         </tr>
         

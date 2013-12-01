@@ -21,6 +21,9 @@ class CLChillPersonExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
+        
+        $container->setParameter('cl_chill_person.search.use_double_metaphone', 
+                $config['search']['use_double_metaphone']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

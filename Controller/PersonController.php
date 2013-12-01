@@ -101,14 +101,25 @@ class PersonController extends Controller {
         $offset = $this->getRequest()->query->getInt('offet', 0);
         $limit = $this->getRequest()->query->getInt('limit', 30);
         
-        $persons = $em->createQuery('SELECT p FROM CLChillPersonBundle:Person p'
-                . ' WHERE LOWER(p.name) like LOWER(:q) OR LOWER(p.surname) '
-                . ' like LOWER(:q) ')
-                ->setParameter('q', '%'.$q.'%')
+        $dql = 'SELECT p FROM CLChillPersonBundle:Person p'
+                . ' WHERE'
+                . ' LOWER(p.name) like LOWER(:q)'
+                . ' OR LOWER(p.surname)  like LOWER(:q)';
+        
+        if ($this->container->getParameter('cl_chill_person.search.use_double_metaphone')) {
+            $dql .= ' OR DOUBLEMETAPHONE(p.name) = DOUBLEMETAPHONE(:qabsolute)';
+        }
+
+        
+        $query = $em->createQuery($dql)
+                ->setParameter('q', '%'.$q.'%');
+        if ($this->container->getParameter('cl_chill_person.search.use_double_metaphone')) {
+            $query->setParameter('qabsolute', $q);
+        }
+                
               //  ->setOffset($offset)
               //  ->setLimit($limit)
-                ->getResult()
-                ;
+        $persons = $query->getResult() ;
         
         
         if (count($persons) === 0 ){

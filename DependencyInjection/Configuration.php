@@ -19,6 +19,18 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder();
         $rootNode = $treeBuilder->root('cl_chill_person');
+        
+        $rootNode
+                ->canBeDisabled()
+                ->children()
+                ->arrayNode('search')
+                    ->canBeDisabled()
+                        ->children()
+                        ->booleanNode('use_double_metaphone')
+                            ->defaultFalse()
+                            ->end()
+                        ->booleanNode('use_trigrams')->defaultFalse()->end();
+                
 
         // Here you should define the parameters that are allowed to
         // configure your bundle. See the documentation linked above for

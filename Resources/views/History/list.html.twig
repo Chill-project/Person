@@ -7,7 +7,7 @@
 
 {% block personcontent %}
 
-<table class="striped rounded">
+<table class="rounded">
     <thead>
         <tr>
             <th>{{ 'views.Person.hlist.dateOpening_title'|trans }}</th>
@@ -17,8 +17,9 @@
         
     </thead>
     <tbody>
+        {% set i = 0 %}
         {% for history in histories %}
-        <tr>
+        <tr class="{% if i is not even %}striped{% endif %}">
             <td>{{ history.dateOpening|date(date_format) }}</td>
             <td>{% spaceless %}
                 {% if history.isOpen %}
@@ -39,7 +40,14 @@
                 </div>
             </td>
         </tr>
-        
+        {% if history.memo is not empty %}
+        <tr class="{% if i is not even %}striped{% endif %}">
+            <td colspan="3">
+                <pre>{{ history.memo }}</pre>
+            </td>
+        </tr>
+        {% endif %}
+        {% set i = i+1 %}
         {% endfor %}
         
     </tbody>
@@ -49,6 +57,12 @@
 
 
 <div class="form_control">
+    <div class="btn small warning icon-right entypo icon-plus">
+            <a href="{{ path ('chill_person_history_create', {'personId' : person.id } ) }}">
+                {{ 'views.Person.hlist.create'|trans }}
+            </a>
+        </div>
+    
     <div class="controls">
         <div class="btn medium danger icon-right entypo {% spaceless %}
              {% if person.isOpen == true %}

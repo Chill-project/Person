@@ -28,6 +28,11 @@ chill_person_history_list:
         menu: person
         order: 100
         label: menu.person.history
+        
+chill_person_history_create:
+    pattern: /{personId}/history/create
+    defaults: { _controller: CLChillPersonBundle:History:create }
+    
 
 chill_person_history_update:
     pattern: /{id}/history/{historyId}/update

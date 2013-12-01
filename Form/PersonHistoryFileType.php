@@ -32,7 +32,9 @@ class PersonHistoryFileType extends AbstractType
                 'choices' => $this->motives,
                 'required' => true
             ))
-            ->add('memo', 'textarea')
+            ->add('memo', 'textarea', array(
+                'required' => false
+            ))
         ;
     }
     

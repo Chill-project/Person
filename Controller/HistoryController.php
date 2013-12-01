@@ -22,6 +22,64 @@ class HistoryController extends Controller
                     'person' => $person));
         
     }
+    
+    public function createAction($personId) {
+        $person = $this->_getPerson($personId);
+        
+        if ($person === null) {
+            return $this->createNotFoundException('Person not found');
+        }
+               
+        $history = new PersonHistoryFile(new \DateTime());
+        $history->setPerson($person);
+        
+        $motivesArray = $this->get('service_container')
+                ->getParameter('person.history.close.motives');
+        
+        $form = $this->createForm(new PersonHistoryFileType($motivesArray), 
+                $history);
+        
+        $request = $this->getRequest();
+        
+        if ($request->getMethod() === 'POST') {
+            
+            $form->handleRequest($request);
+            
+            $errors = $this->_validatePerson($person);
+            
+            $flashBag = $this->get('session')->getFlashBag();
+            
+            if ($form->isValid(array('Default', 'closed')) 
+                    && count($errors) === 0) {
+                $em = $this->getDoctrine()->getManager();
+                
+                $em->persist($history);
+                
+                $em->flush();
+                
+                $flashBag->add('success', 
+                        $this->get('translator')->trans(
+                                'controller.Person.history.create.done'));
+                
+                return $this->redirect($this->generateUrl('chill_person_history_list',
+                        array('id' => $person->getId())));
+            } else {
+                
+                $flashBag->add('danger', $this->get('translator')
+                        ->trans('controller.Person.history.create.error'));
+                
+                foreach($errors as $error) {
+                    $flashBag->add('info', $error->getMessage());
+                }
+            }
+        }
+        
+        
+        
+        return $this->render('CLChillPersonBundle:History:update.html.twig', 
+                array('form' => $form->createView(),
+                    'person' => $person ) );
+    }
 
     public function updateAction($id, $historyId){
         $em = $this->getDoctrine()->getManager();

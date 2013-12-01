@@ -626,6 +626,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     const ERROR_OPENING_IS_INSIDE_CLOSING = 1;
     const ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE = 2;
     const ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_HISTORY_LINE = 3;
+    const ERROR_OPENING_IS_BEFORE_OTHER_LINE_AND_CLOSED_IS_AFTER_THIS_LINE = 4; 
     
     public function checkHistoryIsNotCovering() {
         
@@ -651,6 +652,17 @@ ou une valeur vide lorsque la donnée nest pas connue*/
                          // the history date opening is inside another opening line
                          return array(
                             'result' => self::ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_HISTORY_LINE,
+                            'dateOpening' => $against->getDateOpening(), 
+                            'dateClosing' => $against->getDateClosing(),
+                            'date' => $history->getDateOpening()
+                                );
+                     }
+                     
+                     if ($history->getDateOpening() < $against->getDateOpening()
+                             && $history->getDateClosing() > $against->getDateClosing()) {
+                         // the history date opening is inside another opening line
+                         return array(
+                            'result' => self::ERROR_OPENING_IS_BEFORE_OTHER_LINE_AND_CLOSED_IS_AFTER_THIS_LINE,
                             'dateOpening' => $against->getDateOpening(), 
                             'dateClosing' => $against->getDateClosing(),
                             'date' => $history->getDateOpening()

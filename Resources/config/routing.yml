@@ -16,6 +16,18 @@ chill_person_general_update:
     pattern: /view/{id}/update
     defaults: {_controller: CLChillPersonBundle:Person:update }
     
+chill_person_new:
+    pattern: /new
+    defaults: {_controller: CLChillPersonBundle:Person:new }
+    
+chill_person_review:
+    pattern: /review
+    defaults: {_controller: CLChillPersonBundle:Person:review }
+    
+chill_person_create:
+    pattern: /create
+    defaults: {_controller: CLChillPersonBundle:Person:create }
+    
     
 chill_person_search:
     pattern: /search

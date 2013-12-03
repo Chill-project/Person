@@ -2,7 +2,9 @@ person:
     name: Nom
     surname: Prénom
     dateOfBirth: Date de naissance
+    without_date_of_birth: Date de naissance inconnue
     nationality: Nationalité
+    without_nationality: Sans nationalité
     civil_union:
         divorced: Divorcé
         separated: Séparé
@@ -33,6 +35,9 @@ validation:
                 error: '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
 controller:
     Person:
+        review:
+            people_with_similar_name: %nb% personnes ont un nom similaire. Vérifiez qu'il ne s'agit pas de l'une d'elles.
+            problem_with_data: Les données de votre formulaire sont invalides.
         history:
             close:
                 done: Bravo ! Le dossier de <em>%name%</em> a été clotûré.
@@ -113,6 +118,17 @@ views:
             motive_of_closing: Motif de clôture
             texto: Mémo
             action: Modifier
+        creation:
+            add: Ajouter
+            open: Ouverture d'un dossier
+        review:
+            altName: Nom
+            altDateOfBirth: Prénom
+            altNationality: Nationalité
+            confirm_creation: Confirmer la création
+            creation_date: Date d'ouverture
+            you_will_create_this_person: Vous allez créer le dossier suivant
+            
            
             
 

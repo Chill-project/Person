@@ -7,17 +7,17 @@ CL\Chill\PersonBundle\Entity\Person:
                   groups: [general]
         name:
               - NotBlank: 
-                  groups: [general]
+                  groups: [general, creation]
               - Length: 
                   min: 2
                   max: 255
                   minMessage: validation.Person.constraint.name_min
                   maxMessage: validation.Person.constraint.name_max
-                  groups: [general]
+                  groups: [general, creation]
                   
         surname:
               - NotBlank:
-                  groups: [general]
+                  groups: [general, creation]
               - Length: 
                   min: 2
                   max: 255
@@ -26,7 +26,8 @@ CL\Chill\PersonBundle\Entity\Person:
                   groups: [general]
         dateOfBirth:
               - Date: 
-                  groups: [general]
+                  message: validation.Person.constraint.dateOfBirth.not_valid
+                  groups: [general, creation]
         nbOfChild:
               - Range:
                   min: 0
@@ -48,11 +49,15 @@ CL\Chill\PersonBundle\Entity\Person:
 CL\Chill\PersonBundle\Entity\PersonHistoryFile:
     properties:
         date_opening:
-              - Date: ~
-              - NotNull: ~
+              - Date: 
+                  message: validation.history.date_opening.not_valid
+              - NotNull: 
+                  message: validation.history.date_opening.not_null
         date_closing:
-              - Date: ~
+              - Date: 
+                  message: validation.history.date_closing.not_valid
               - NotNull:
+                  message: validation.history.date_closing.not_null
                   groups: [closed]
     constraints:
           - Callback:

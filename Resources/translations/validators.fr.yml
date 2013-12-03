@@ -6,6 +6,8 @@ validation:
             nbOfChild_min: Ce nombre est négatif. Il ne peut y avoir moins de 0 enfants.
             nbOfChild_max: Ce nombre est trop élevé. Il ne peut être supérieur à {{ limit }}.
             nbOfChild_invalid: La valeur introduite n'est pas un nombre.
+            dateOfBirth:
+                not_valid: La date de naissance n'est pas valide.
             history:
                opening_is_before_closing: L'historique des ouvertures et fermetures de dossier n'est pas cohérent. Des historiques d'ouverture et de fermeture se chevauchent. Vérifiez la liste des ouvertures et fermetures.
                open_history_without_closing: Vous tentez d'ouvrir un dossier à une date passée alors qu'il est réouvert plus tard. Veuillez insérer une nouvelle ligne d'ouverture avant de la clotûrer avant la suivante.

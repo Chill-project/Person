@@ -166,38 +166,27 @@ class PersonController extends Controller {
      * @return \CL\Chill\PersonBundle\Entity\Person
      */
     private function _bindCreationForm($form) {
-        $date = new \DateTime($form['creation_date']->getData());
-        $person = new Person($date);
+        $date = new \DateTime();
+        $person = new Person($form['creation_date']->getData());
         
         
-        $date_of_birth = new \DateTime($form['dateOfBirth']->getData());
+        $date_of_birth = new \DateTime();
                 
         $person->setName($form['name']->getData())
                 ->setSurname($form['surname']->getData())
                 ->setGenre($form['genre']->getData())
-                ->setDateOfBirth($date_of_birth)
+                ->setDateOfBirth($form['dateOfBirth']->getData())
                 ;
         
         return $person;
     }
     
-    public function reviewAction() {
-        $request = $this->getRequest();
-        
-        if ($request->getMethod() !== 'POST') {
-            $r = new Response("You must send something to review the creation of a new Person");
-            $r->setStatusCode(400);
-            return $r;
-        }
-        
-        $form = $this->createForm(
-                new CreationPersonType(CreationPersonType::FORM_BEING_REVIEWED),
-                null, array('action' => $this->generateUrl('chill_person_create')));
-        
-            $form->handleRequest($request);
-        
-        $person = $this->_bindCreationForm($form);
-        
+    /**
+     * 
+     * @param \CL\Chill\PersonBundle\Entity\Person $person
+     * @return \Symfony\Component\Validator\ConstraintViolationListInterface
+     */
+    private function _validatePersonAndHistory(Person $person) {
         $errors = $this->get('validator')
                 ->validate($person, array('creation'));
         
@@ -213,6 +202,28 @@ class PersonController extends Controller {
                 $errors->add($error);
             }
         }
+        
+        return $errors;
+    }
+    
+    public function reviewAction() {
+        $request = $this->getRequest();
+        
+        if ($request->getMethod() !== 'POST') {
+            $r = new Response("You must send something to review the creation of a new Person");
+            $r->setStatusCode(400);
+            return $r;
+        }
+        
+        $form = $this->createForm(
+                new CreationPersonType(CreationPersonType::FORM_BEING_REVIEWED),
+                null, array('action' => $this->generateUrl('chill_person_create')));
+        
+        $form->handleRequest($request);
+        
+        $person = $this->_bindCreationForm($form);
+        
+        $errors = $this->_validatePersonAndHistory($person);   
         
         
    
@@ -276,6 +287,42 @@ class PersonController extends Controller {
                     'genre' => $form['genre']->getData(),
                     'creation_date' => $form['creation_date']->getData(),
                     'form' => $form->createView()));
+        
+    }
+    
+    public function createAction() {
+        
+        $request = $this->getRequest();
+        
+        if ($request->getMethod() !== 'POST') {
+            $r = new Response('You must send something to create a person !');
+            $r->setStatusCode(400);
+            return $r;
+        }
+        
+        $form = $this->createForm(new CreationPersonType());
+        
+        $form->handleRequest($request);
+        
+        $person = $this->_bindCreationForm($form);
+        
+        $errors = $this->_validatePersonAndHistory($person);
+        
+        if ($errors->count() ===  0) {
+            $em = $this->getDoctrine()->getManager();
+            
+            $em->persist($person);
+            
+            $em->flush();
+            
+            return $this->redirect($this->generateUrl('chill_person_view', 
+                    array('id' => $person->getId())));
+        } else {
+            $r = new Response('this should not happen if you reviewed your submission');
+            $r->setStatusCode(400);
+            return $r;
+        }
+        
         
     }
     

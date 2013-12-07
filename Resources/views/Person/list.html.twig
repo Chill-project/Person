@@ -21,6 +21,11 @@
                  <a href="{{ path('chill_person_view', {id : person.id}) }}">
                     <span class="personSurname">{{person.surname}}</span>
                     <span class="personName">{{person.name}}</span>
+                    {% spaceless %}
+                    {% if person.isOpen == false %}
+                    <i class="icon-lock"></i>
+                    {% endif %}
+                    {% endspaceless %}
                  </a>
              </td>
              <td><span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)}}</span></td>

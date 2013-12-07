@@ -1,0 +1,51 @@
+{% extends "CLChillMainBundle::layout.html.twig" %}
+
+{% block title %}{{ 'views.Person.creation.title'|trans }}{% endblock title %}
+
+{% block css %}
+
+    {% stylesheets  output="css/all.css" filter="cssrewrite"
+          "bundles/clchillperson/css/person.css"
+     %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+
+
+{% endblock %}
+
+{% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
+  
+    
+{% block content %}
+    <div id="person_wrapper">
+        <div id="person_details">
+{{ form_start(form) }}
+            
+            <h1>{{ 'views.Person.creation.open'|trans }}</h1>
+            
+{{ form_row(form.name, { 'label' : 'views.Person.view.name'|trans }) }}  
+            
+{{ form_row(form.surname, { 'label' : 'views.Person.view.surname'|trans }) }}
+            
+{{ form_row(form.dateOfBirth, { 'label' : 'views.Person.view.dateOfBirth'|trans }) }}
+            
+{{ form_row(form.genre, { 'label' : 'views.Person.view.gender'|trans }) }} 
+            
+{{ form_row(form.creation_date, { 'label' : 'views.Person.review.creation_date'|trans }) }}             
+    
+{{ form_rest(form) }}
+            
+            
+            <div class="form_control">
+                <div class="medium success btn icon-right entypo icon-user-add">
+                    <button type="submit">{{ 'views.Person.creation.add'|trans }}</button>
+                </div>
+            </div>
+    
+{{ form_end(form) }}
+        </div>
+        
+        
+        
+    </div>
+{% endblock content %}

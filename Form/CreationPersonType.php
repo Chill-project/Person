@@ -8,6 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use CL\Chill\PersonBundle\Form\Type\CivilType;
 use CL\Chill\PersonBundle\Form\Type\GenderType;
 use CL\BelgianNationalNumberBundle\Form\BelgianNationalNumberType;
+use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 
 class CreationPersonType extends AbstractType
 {
@@ -31,11 +32,20 @@ class CreationPersonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         if ($this->form_status === self::FORM_BEING_REVIEWED) {
+            
+            $dateToStringTransformer = new DateTimeToStringTransformer(
+                    null, null, 'Y-m-d', true);
+            
+            
             $builder->add('name', 'hidden')
                     ->add('surname', 'hidden')
-                    ->add('dateOfBirth', 'hidden')
+                    ->add( $builder->create('dateOfBirth', 'hidden')
+                            ->addModelTransformer($dateToStringTransformer)
+                          )
                     ->add('genre', 'hidden')
-                    ->add('creation_date', 'hidden')
+                    ->add( $builder->create('creation_date', 'hidden')
+                            ->addModelTransformer($dateToStringTransformer)
+                           )
                     ->add('form_status', 'hidden')
                     ;
         } else {
@@ -44,7 +54,7 @@ class CreationPersonType extends AbstractType
                 ->add('surname')
                 ->add('dateOfBirth', 'date', array('required' => false, 'widget' => 'single_text'))
                 ->add('genre', new GenderType(), array(
-                    'required' => false
+                    'required' => true
                 ))
                 ->add('creation_date', 'date', array('required' => true, 
                     'widget' => 'single_text', 'data' => new \DateTime()))

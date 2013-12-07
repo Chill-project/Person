@@ -1,0 +1,87 @@
+{% extends "CLChillMainBundle::layout.html.twig" %}
+
+{% block title %}{{ 'views.Person.review.title'|trans }}{% endblock title %}
+
+{% block css %}
+
+    {% stylesheets  output="css/all.css" filter="cssrewrite"
+          "bundles/clchillperson/css/person.css"
+     %}
+    <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+
+
+{% endblock %}
+
+{% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
+  
+    
+{% block content %}
+    <div id="person_wrapper">
+        {% if alternatePersons is not empty %}
+        <table class="rounded stripped">
+            <thead>
+                <tr>
+                    <th>{{ 'views.Person.review.altName'|trans }}</th>
+                    <th>{{ 'views.Person.review.altDateOfBirth'|trans }}</th>
+                    <th>{{ 'views.Person.review.altNationality'|trans }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for person in alternatePersons %}
+                <tr>
+                    <td>
+                        <a href="{{ path('chill_person_view', {'id': person.id } ) }}">
+                            {{ person }}{% spaceless %}{% if person.isOpen == false %}<i class="icon-lock"></i>{% endif %}
+{% endspaceless %}
+                        </a>
+                    </td>
+                    <td>{{ person.dateOfBirth|date(date_format) }}</td>
+                    <td>{{ person.nationality|default('person.without_nationality'|trans) }}
+                </tr>
+                
+                {% endfor %}
+                
+            </tbody>
+            
+        </table>
+        {% endif %}
+        
+        
+        <div id="person_details">
+{{ form_start(form) }}
+            <h2>{{ 'views.Person.review.you_will_create_this_person'|trans }}</h2>
+            
+            <dl>
+                <dt>{{ 'views.Person.view.name'|trans }}</dt>
+                <dd>{{ name }}</dd>
+                
+                <dt>{{ 'views.Person.view.surname'|trans }}</dt>
+                <dd>{{ surname }}</dd>
+                
+                <dt>{{ 'views.Person.view.dateOfBirth'|trans }}</dt>
+                <dd>{{ dateOfBirth|date(date_format)|default( 'person.without_date_of_birth'|trans ) }}</dd>
+                
+                <dt>{{ 'views.Person.view.gender'|trans }}</dt>
+                <dd>{{ ('person.gender.' ~ genre)|trans }}</dd>
+                
+                <dt>{{ 'views.Person.review.creation_date'|trans }}</dt>
+                <dd>{{ creation_date|date(date_format) }}</dd>
+            </dl>
+    
+{{ form_rest(form) }}
+            
+            
+            <div class="form_control">
+                <div class="btn medium success entypo icon-right icon-user-add">
+                    <button type="submit">{{ 'views.Person.review.confirm_creation'|trans }}</button>
+                </div>
+            </div>
+    
+{{ form_end(form) }}
+        </div>
+        
+        
+        
+    </div>
+{% endblock content %}

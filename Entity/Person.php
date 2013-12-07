@@ -46,7 +46,7 @@ class Person
     /**
      * @var string
      */
-    private $civil_union;
+    private $civil_union = self::CIVIL_UNKNOW;
      /*Célibataire
 Marié(e)
 Veuf – Veuve
@@ -339,6 +339,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setPlaceOfBirth($placeOfBirth)
     {
+        if ($placeOfBirth === null) {
+            $placeOfBirth = '';
+        }
+        
         $this->placeOfBirth = $placeOfBirth;
     
         return $this;
@@ -443,6 +447,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setBelgianNationalNumber($belgianNationalNumber)
     {
+        if ($belgianNationalNumber === null) {
+            $belgianNationalNumber = '';
+        }
+        
         $this->belgian_national_number = $belgianNationalNumber;
     
         return $this;
@@ -520,6 +528,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setEmail($email)
     {
+        if ($email === null) {
+            $email = '';
+        }
+        
         $this->email = $email;
     
         return $this;

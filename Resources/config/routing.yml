@@ -58,6 +58,25 @@ chill_person_history_open:
     pattern: /{id}/history/open
     defaults: { _controller: CLChillPersonBundle:History:open }
     
+chill_person_admin:
+    pattern: /admin
+    defaults: { _controller: CLChillPersonBundle:Admin:index }
+    options:
+        menu: admin
+        order: 100
+        label: menu.person.admin.index
+        helper: menu.person.admin.helper
+
+#sample admin_person menu:
+chill_person_admin_test_one:
+    pattern: /admin/test_one
+    defaults: { _controller: CLChillPersonBundle:Admin:test }
+    options:
+        menu: admin_person
+        order: 100
+        label: menu.person.admin.test_one
+        helper: menu.person.admin.helper_one
+        
 #sample
 chill_appointment_list:
     pattern: /view/{id}/appointment/list

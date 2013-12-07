@@ -139,6 +139,6 @@ menu:
         history: Historique
         general_view: Informations personnelles
         admin:
-            index: Options du composant "Personnes"
+            index: Personnes
             helper: Pas de sous-menu actuellement.
         

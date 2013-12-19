@@ -45,7 +45,8 @@ This view should receive those arguments:
 
     <dl>
             <dt class="inline">{{ 'views.Person.view.dateOfBirth'|trans }}</dt>
-            <dd>{{ person.dateOfBirth.format(date_format) }}</dd>
+            <dd>{{ person.dateOfBirth.format(date_format)
+                |default( 'person.without_date_of_birth'|trans ) }}</dd>
 
             
             <dt class="inline">{{ 'views.Person.view.placeOfBirth'|trans }}</dt>

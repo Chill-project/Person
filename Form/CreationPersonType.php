@@ -34,7 +34,7 @@ class CreationPersonType extends AbstractType
         if ($this->form_status === self::FORM_BEING_REVIEWED) {
             
             $dateToStringTransformer = new DateTimeToStringTransformer(
-                    null, null, 'Y-m-d', true);
+                    null, null, 'dd-MM-yyyy', true);
             
             
             $builder->add('name', 'hidden')
@@ -52,12 +52,14 @@ class CreationPersonType extends AbstractType
             $builder
                 ->add('name')
                 ->add('surname')
-                ->add('dateOfBirth', 'date', array('required' => false, 'widget' => 'single_text'))
+                ->add('dateOfBirth', 'date', array('required' => false, 
+                    'widget' => 'single_text', 'format' => 'dd-MM-yyyy'))
                 ->add('genre', new GenderType(), array(
-                    'required' => true
+                    'required' => true, 'empty_value' => null
                 ))
                 ->add('creation_date', 'date', array('required' => true, 
-                    'widget' => 'single_text', 'data' => new \DateTime()))
+                    'widget' => 'single_text', 'format' => 'dd-MM-yyyy',
+                    'data' => new \DateTime()))
                 ->add('form_status', 'hidden', array('data' => $this->form_status))
             ;
         }

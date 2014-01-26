@@ -28,7 +28,7 @@
                     {% endspaceless %}
                  </a>
              </td>
-             <td><span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)}}</span></td>
+             <td><span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)|default( 'person.without_date_of_birth'|trans )}}</span></td>
              <td>
                  {% if person.nationality is not null %}
                  <span class="personNationality">{{person.nationality.label}}</span>

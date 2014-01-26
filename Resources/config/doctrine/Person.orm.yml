@@ -47,6 +47,9 @@ CL\Chill\PersonBundle\Entity\Person:
         proxyHistoryOpenState:
             type: boolean
             name: proxy_open
+        historyId:
+            type: string
+            length: 40
     manyToOne:
         countryOfBirth:
             targetEntity: CL\Chill\MainBundle\Entity\Country

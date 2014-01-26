@@ -4,12 +4,12 @@ namespace CL\Chill\PersonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
+use CL\CLHistoryBundle\Entity\IsHistoryContainer;
 
 /**
  * Person
  */
-class Person
-{
+class Person implements IsHistoryContainer {
     /**
      * @var integer
      */
@@ -108,6 +108,16 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      * @var boolean
      */
     private $proxyHistoryOpenState = false;
+    
+    
+    const HISTORY_DOMAIN = 'person';
+    
+    /**
+     *
+     * @var string 
+     */
+    private $historyId = null;
+    
     
     
     public function __construct(\DateTime $opening = null) {
@@ -714,8 +724,17 @@ ou une valeur vide lorsque la donnée nest pas connue*/
          return true;
         
     }
-    
-    
-    
-    
+
+    public function getDomain() {
+        return self::HISTORY_DOMAIN;
+    }
+
+    public function getHistoryId() {
+        return $this->historyId;
+    }
+
+    public function setHistoryId($id) {
+        $this->historyId = $id;
+    }
+
 }

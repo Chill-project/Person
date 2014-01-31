@@ -780,7 +780,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
         if (!isset($this->historyHelper[$helper])) {
             $this->historyHelper[$helper] = new HistoryHelper();
             
-            $this->historyHelper[$helper]->setAction($action);
+            $this->historyHelper[$helper]->setAction($helper);
         }
         
         return $this->historyHelper[$helper];

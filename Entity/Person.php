@@ -5,11 +5,13 @@ namespace CL\Chill\PersonBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use CL\CLHistoryBundle\Entity\IsHistoryContainer;
+use CL\CLHistoryBundle\Entity\HasHistory;
+use CL\CLHistoryBundle\Entity\HistoryHelper;
 
 /**
  * Person
  */
-class Person implements IsHistoryContainer {
+class Person implements IsHistoryContainer, HasHistory {
     /**
      * @var integer
      */
@@ -118,6 +120,9 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     private $historyId = null;
     
+    const ACTION_UPDATE = 'update';
+    const ACTION_CREATE = 'create';
+    
     
     
     public function __construct(\DateTime $opening = null) {
@@ -128,6 +133,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
         }
         
         $this->open($opening);
+        
+        //create an helper with key "update", and set "creation" instead
+        $this->getHistoryHelper(self::ACTION_UPDATE)
+              ->setAction(self::ACTION_CREATE);
     }
     
     /**
@@ -279,8 +288,12 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setName($name)
     {
-        $this->name = $name;
-    
+        if ($name !== $this->name) {
+            $this->getHistoryHelper(self::ACTION_UPDATE)
+                  ->registerChange('name', $this->name, $name);
+            $this->name = $name;
+        }
+        
         return $this;
     }
 
@@ -411,7 +424,11 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setCivilUnion($civilUnion)
     {
-        $this->civil_union = $civilUnion;
+        if ($this->civil_union !== $civilUnion) {
+            $this->getHistoryHelper(self::ACTION_UPDATE)
+                  ->registerChange('civil_union', $this->civil_union, $civilUnion);
+            $this->civil_union = $civilUnion;
+        }
     
         return $this;
     }
@@ -488,7 +505,14 @@ ou une valeur vide lorsque la donnée nest pas connue*/
             $memo = '';
         }
         
-        $this->memo = $memo;
+        if ($this->memo !== $memo) {
+            $this->getHistoryHelper(self::ACTION_UPDATE)
+                  ->registerChange('memo', $this->memo, $memo);
+            $this->memo = $memo;
+            
+        }
+        
+        
     
         return $this;
     }
@@ -565,7 +589,15 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setCountryOfBirth(\CL\Chill\MainBundle\Entity\Country $countryOfBirth = null)
     {
-        $this->countryOfBirth = $countryOfBirth;
+        if ($this->countryOfBirth->getId() !== $countryOfBirth->getId()) {
+            $this->getHistoryHelper(self::ACTION_UPDATE)
+                  ->registerChange('country_of_birth', 
+                        $this->countryOfBirth->getLabel(), 
+                        $countryOfBirth->getLabel());
+            
+            $this->countryOfBirth = $countryOfBirth;
+        }
+        
     
         return $this;
     }
@@ -735,6 +767,45 @@ ou une valeur vide lorsque la donnée nest pas connue*/
 
     public function setHistoryId($id) {
         $this->historyId = $id;
+    }
+    
+    /**
+     *
+     * @var \CL\CLHistoryBundle\Entity\HistoryHelper 
+     */
+    private $historyHelper = array();
+    
+    
+    private function getHistoryHelper($helper) {
+        if (!isset($this->historyHelper[$helper])) {
+            $this->historyHelper[$helper] = new HistoryHelper();
+            
+            $this->historyHelper[$helper]->setAction($action);
+        }
+        
+        return $this->historyHelper[$helper];
+    }
+
+    public function getEntityName() {
+        return 'person';
+    }
+
+    public function getHistory() {
+        $histories = array();
+        
+        foreach ($this->historyHelper as $historyHelper) {
+            $histories = $histories->toArray();
+        }
+        
+        return $histories;
+    }
+
+    public function getParentContainers() {
+        return array($this);
+    }
+
+    public function getVersion() {
+        return 0;
     }
 
 }

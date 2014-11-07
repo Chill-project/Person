@@ -1,0 +1,4 @@
+cl_custom_fields:
+    resource: .
+    type: chill_routes
+

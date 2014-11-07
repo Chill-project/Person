@@ -1,0 +1,61 @@
+imports:
+    - { resource: parameters.yml }
+
+framework:
+    secret:          Not very secret
+    router:          { resource: "%kernel.root_dir%/config/routing.yml" }
+    form:            true
+    csrf_protection: true
+    session:         ~
+    default_locale:  fr
+    translator:      { fallback: fr }
+    profiler:        { only_exceptions: false }
+    templating:
+        engines: ['twig']
+ 
+doctrine:
+    dbal:
+        driver:   pdo_pgsql
+        host:     "%database_host%"
+        port:     "%database_port%"
+        dbname:   "%database_name%"
+        user:     "%database_user%"
+        password: "%database_password%"
+        charset:  UTF8
+    orm:
+        auto_generate_proxy_classes: "%kernel.debug%"
+        auto_mapping: true
+        
+security:
+    providers:
+        users:
+            entity:
+                class: Chill\MainBundle\Entity\User
+                property: username
+
+    encoders:
+        Chill\MainBundle\Entity\User: 
+            algorithm: bcrypt
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+            
+            
+        default:
+            anonymous: ~
+            
+            form_login:
+                csrf_parameter: _csrf_token
+                intention: authenticate
+                csrf_provider: form.csrf_provider
+            
+            logout: ~
+            
+            
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/, roles: ROLE_USER }

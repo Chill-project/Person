@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Entity;
+namespace Chill\PersonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -141,7 +141,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     
     /**
      * 
-     * @param \CL\Chill\PersonBundle\Entity\PersonHistoryFile $history
+     * @param \Chill\PersonBundle\Entity\PersonHistoryFile $history
      * @uses PersonHistoryFile::setPerson
      */
     public function addHistoryFile(PersonHistoryFile $history) {

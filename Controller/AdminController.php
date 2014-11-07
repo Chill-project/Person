@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Controller;
+namespace Chill\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

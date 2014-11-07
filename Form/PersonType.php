@@ -1,12 +1,12 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Form;
+namespace Chill\PersonBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use CL\Chill\PersonBundle\Form\Type\CivilType;
-use CL\Chill\PersonBundle\Form\Type\GenderType;
+use Chill\PersonBundle\Form\Type\CivilType;
+use Chill\PersonBundle\Form\Type\GenderType;
 use CL\BelgianNationalNumberBundle\Form\BelgianNationalNumberType;
 
 class PersonType extends AbstractType
@@ -51,7 +51,7 @@ class PersonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'CL\Chill\PersonBundle\Entity\Person'
+            'data_class' => 'Chill\PersonBundle\Entity\Person'
         ));
     }
 

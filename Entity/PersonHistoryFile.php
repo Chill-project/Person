@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Entity;
+namespace Chill\PersonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
@@ -36,7 +36,7 @@ class PersonHistoryFile
     private $memo = '';
 
     /**
-     * @var \CL\Chill\PersonBundle\Entity\Person
+     * @var \Chill\PersonBundle\Entity\Person
      */
     private $person;
     
@@ -176,11 +176,11 @@ class PersonHistoryFile
      * 
      * For consistency, you should use Person::addHistoryFile instead.
      *
-     * @param \CL\Chill\PersonBundle\Entity\Person $person
+     * @param \Chill\PersonBundle\Entity\Person $person
      * @return PersonHistoryFile
      * @see Person::addHistoryFile
      */
-    public function setPerson(\CL\Chill\PersonBundle\Entity\Person $person = null)
+    public function setPerson(\Chill\PersonBundle\Entity\Person $person = null)
     {
         $this->person = $person;
     
@@ -190,7 +190,7 @@ class PersonHistoryFile
     /**
      * Get person
      *
-     * @return \CL\Chill\PersonBundle\Entity\Person 
+     * @return \Chill\PersonBundle\Entity\Person 
      */
     public function getPerson()
     {

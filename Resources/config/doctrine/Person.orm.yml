@@ -1,7 +1,7 @@
-CL\Chill\PersonBundle\Entity\Person:
+Chill\PersonBundle\Entity\Person:
     type: entity
     table: null
-    repositoryClass: CL\Chill\PersonBundle\Entity\PersonRepository
+    repositoryClass: Chill\PersonBundle\Entity\PersonRepository
     fields:
         id:
             type: integer

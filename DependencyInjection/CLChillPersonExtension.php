@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Chill\PersonBundle\DependencyInjection;
+namespace Chill\PersonBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

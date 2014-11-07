@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Tests\Controller;
+namespace Chill\PersonBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use CL\Chill\PersonBundle\Entity\PersonHistoryFile;
-use CL\Chill\PersonBundle\Entity\Person;
+use Chill\PersonBundle\Entity\PersonHistoryFile;
+use Chill\PersonBundle\Entity\Person;
 
 class HistoryControllerTest extends WebTestCase
 {

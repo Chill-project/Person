@@ -1,10 +1,10 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Form\Type;
+namespace Chill\PersonBundle\Form\Type;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use CL\Chill\PersonBundle\Entity\Person;
+use Chill\PersonBundle\Entity\Person;
 
 /**
  * A type to select the civil union state

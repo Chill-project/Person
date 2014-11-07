@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\Chill\PersonBundle\DataFixtures\ORM;
+namespace Chill\PersonBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use CL\Chill\PersonBundle\Entity\Person;
+use Chill\PersonBundle\Entity\Person;
 
 /**
  * Load people into database

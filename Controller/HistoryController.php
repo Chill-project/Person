@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Controller;
+namespace Chill\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CL\Chill\PersonBundle\Entity\Person;
-use CL\Chill\PersonBundle\Form\PersonHistoryFileType;
-use CL\Chill\PersonBundle\Entity\PersonHistoryFile;
+use Chill\PersonBundle\Entity\Person;
+use Chill\PersonBundle\Form\PersonHistoryFileType;
+use Chill\PersonBundle\Entity\PersonHistoryFile;
 
 class HistoryController extends Controller
 {
@@ -17,7 +17,7 @@ class HistoryController extends Controller
             return $this->createNotFoundException('Person not found');
         }
         
-        return $this->render('CLChillPersonBundle:History:list.html.twig', 
+        return $this->render('ChillPersonBundle:History:list.html.twig', 
                 array('histories' => $person->getHistoriesOrdered(),
                     'person' => $person));
         
@@ -76,7 +76,7 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('CLChillPersonBundle:History:update.html.twig', 
+        return $this->render('ChillPersonBundle:History:update.html.twig', 
                 array('form' => $form->createView(),
                     'person' => $person ) );
     }
@@ -84,7 +84,7 @@ class HistoryController extends Controller
     public function updateAction($id, $historyId){
         $em = $this->getDoctrine()->getManager();
         
-        $history = $em->getRepository('CLChillPersonBundle:PersonHistoryFile')
+        $history = $em->getRepository('ChillPersonBundle:PersonHistoryFile')
                 ->find($historyId);
         
         if ($history === null) {
@@ -147,7 +147,7 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('CLChillPersonBundle:History:update.html.twig', 
+        return $this->render('ChillPersonBundle:History:update.html.twig', 
                 array('form' => $form->createView(),
                     'person' => $person ) );
     }
@@ -250,7 +250,7 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('CLChillPersonBundle:History:close.html.twig',
+        return $this->render('ChillPersonBundle:History:close.html.twig',
                 array(
                     'form' => $form->createView(),
                     'person' => $person,
@@ -260,7 +260,7 @@ class HistoryController extends Controller
     
     /**
      * 
-     * @param CL\Chill\PersonBundle\Entity\Person $person
+     * @param Chill\PersonBundle\Entity\Person $person
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
     private function _validatePerson(Person $person) {
@@ -302,7 +302,7 @@ class HistoryController extends Controller
         
         if ($historyId !== null) {
             $history = $this->getDoctrine()->getEntityManager()
-                    ->getRepository('CLChillPersonBundle:PersonHistoryFile')
+                    ->getRepository('ChillPersonBundle:PersonHistoryFile')
                 ->find($historyId);
             
         } else {
@@ -387,7 +387,7 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('CLChillPersonBundle:History:open.html.twig',
+        return $this->render('ChillPersonBundle:History:open.html.twig',
                 array(
                     'form' => $form->createView(),
                     'person' => $person,
@@ -411,7 +411,7 @@ class HistoryController extends Controller
     
     private function _getPerson($id) {
         return $this->getDoctrine()->getManager()
-                ->getRepository('CLChillPersonBundle:Person')
+                ->getRepository('ChillPersonBundle:Person')
                 ->find($id);
     }
 

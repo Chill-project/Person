@@ -1,4 +1,4 @@
-{% extends "CLChillPersonBundle::layout.html.twig"  %}
+{% extends "ChillPersonBundle::layout.html.twig"  %}
 
 {% set activeRouteKey = 'chill_person_view' %}
 
@@ -10,9 +10,9 @@ This view should receive those arguments:
 
 #}
 
-{% block title %}CLChillPersonBundle:Person:see{% endblock %}
+{% block title %}ChillPersonBundle:Person:see{% endblock %}
 
-{% set edit_tmp_name = 'CLChillPersonBundle:Form:go_to_form.html.twig'  %}
+{% set edit_tmp_name = 'ChillPersonBundle:Form:go_to_form.html.twig'  %}
 {% set edit_tmp_args = { 'form_path_args' : { 'id': person.id }, 
       'form_path_key' : 'chill_person_general_edit' } %}
 

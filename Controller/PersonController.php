@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Controller;
+namespace Chill\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use CL\Chill\PersonBundle\Entity\Person;
-use CL\Chill\PersonBundle\Form\PersonType;
-use CL\Chill\PersonBundle\Form\CreationPersonType;
+use Chill\PersonBundle\Entity\Person;
+use Chill\PersonBundle\Form\PersonType;
+use Chill\PersonBundle\Form\CreationPersonType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -19,7 +19,7 @@ class PersonController extends Controller {
             return $this->createNotFoundException("Person with id $id not found on this server");
         }
         
-        return $this->render('CLChillPersonBundle:Person:view.html.twig',
+        return $this->render('ChillPersonBundle:Person:view.html.twig',
                 array("person" => $person)
                 );
         
@@ -40,7 +40,7 @@ class PersonController extends Controller {
                 
         
         
-        return $this->render('CLChillPersonBundle:Person:edit.html.twig', 
+        return $this->render('ChillPersonBundle:Person:edit.html.twig', 
                 array('person' => $person, 
                     'form' => $form->createView()));
     }
@@ -64,7 +64,7 @@ class PersonController extends Controller {
                 $this->get('session')
                         ->getFlashBag()->add('danger', 'error' . $errors);
                 
-                return $this->render('CLChillPersonBundle:Person:edit.html.twig', 
+                return $this->render('ChillPersonBundle:Person:edit.html.twig', 
                         array('person' => $person, 
                             'form' => $form->createView()));
             }
@@ -103,7 +103,7 @@ class PersonController extends Controller {
         $offset = $this->getRequest()->query->getInt('offet', 0);
         $limit = $this->getRequest()->query->getInt('limit', 30);
         
-        $dql = 'SELECT p FROM CLChillPersonBundle:Person p'
+        $dql = 'SELECT p FROM ChillPersonBundle:Person p'
                 . ' WHERE'
                 . ' LOWER(p.name) like LOWER(:q)'
                 . ' OR LOWER(p.surname)  like LOWER(:q)';
@@ -135,7 +135,7 @@ class PersonController extends Controller {
                             );
         }
         
-        return $this->render('CLChillPersonBundle:Person:list.html.twig', 
+        return $this->render('ChillPersonBundle:Person:list.html.twig', 
                 array( 
                     'persons' => $persons,
                     'pattern' => $q
@@ -154,7 +154,7 @@ class PersonController extends Controller {
     }
     
     private function _renderNewForm($form) {
-        return $this->render('CLChillPersonBundle:Person:create.html.twig', 
+        return $this->render('ChillPersonBundle:Person:create.html.twig', 
                 array(
                     'form' => $form->createView()
                 ));
@@ -163,7 +163,7 @@ class PersonController extends Controller {
     /**
      * 
      * @param type $form
-     * @return \CL\Chill\PersonBundle\Entity\Person
+     * @return \Chill\PersonBundle\Entity\Person
      */
     private function _bindCreationForm($form) {
         $date = new \DateTime();
@@ -183,7 +183,7 @@ class PersonController extends Controller {
     
     /**
      * 
-     * @param \CL\Chill\PersonBundle\Entity\Person $person
+     * @param \Chill\PersonBundle\Entity\Person $person
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
     private function _validatePersonAndHistory(Person $person) {
@@ -253,7 +253,7 @@ class PersonController extends Controller {
         
         $query = $em->createQuery();
                 
-        $dql = 'SELECT p from CLChillPersonBundle:Person p WHERE '
+        $dql = 'SELECT p from ChillPersonBundle:Person p WHERE '
                 . 'LOWER(p.name) LIKE LOWER(:name)'
                 . ' OR LOWER(p.surname) LIKE LOWER(:surname)';
 
@@ -270,7 +270,7 @@ class PersonController extends Controller {
         $alternatePersons = $query->getResult();
 
         if (count($alternatePersons) === 0) {
-            return $this->forward('CLChillPersonBundle:Person:create');
+            return $this->forward('ChillPersonBundle:Person:create');
         }
         
         $this->get('session')->getFlashBag()->add('info', 
@@ -279,7 +279,7 @@ class PersonController extends Controller {
                         array('%nb%' => count($alternatePersons)))
                 );
         
-        return $this->render('CLChillPersonBundle:Person:create_review.html.twig',
+        return $this->render('ChillPersonBundle:Person:create_review.html.twig',
                 array('alternatePersons' => $alternatePersons,
                     'name' => $form['name']->getData(),
                     'surname' => $form['surname']->getData(),
@@ -328,12 +328,12 @@ class PersonController extends Controller {
     
     /**
      * easy getting a person by his id
-     * @return \CL\Chill\PersonBundle\Entity\Person
+     * @return \Chill\PersonBundle\Entity\Person
      */
     private function _getPerson($id) {
         $em = $this->getDoctrine()->getManager();
         
-        $person = $em->getRepository('CLChillPersonBundle:Person')
+        $person = $em->getRepository('ChillPersonBundle:Person')
                 ->find($id);
         
         return $person;

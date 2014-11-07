@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Entity;
+namespace Chill\PersonBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

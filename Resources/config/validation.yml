@@ -1,4 +1,4 @@
-CL\Chill\PersonBundle\Entity\Person:
+Chill\PersonBundle\Entity\Person:
     properties:
         belgian_national_number:
               - NotBlank: 
@@ -46,7 +46,7 @@ CL\Chill\PersonBundle\Entity\Person:
                   
                   
 
-CL\Chill\PersonBundle\Entity\PersonHistoryFile:
+Chill\PersonBundle\Entity\PersonHistoryFile:
     properties:
         date_opening:
               - Date: 

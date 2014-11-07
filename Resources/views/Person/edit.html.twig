@@ -1,15 +1,15 @@
-{% extends "CLChillPersonBundle::layout.html.twig"  %}
+{% extends "ChillPersonBundle::layout.html.twig"  %}
 
 {% set activeRouteKey = '' %}
 
-{% block title %}CLChillPersonBundle:Person:see{% endblock %}
+{% block title %}ChillPersonBundle:Person:see{% endblock %}
 
 {% block personcontent %}
 
 {% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
 
 {{ form_start(form) }}
-{% set include_temp = 'CLChillPersonBundle:Form:form_control.html.twig' %}
+{% set include_temp = 'ChillPersonBundle:Form:form_control.html.twig' %}
 {% set include_args = {'return_key': 'chill_person_view', 
        'return_args' : { 'id' : person.id} } %}
 {{ include(include_temp, include_args) }} 

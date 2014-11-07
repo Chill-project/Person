@@ -47,7 +47,7 @@
      {# Note: activeRouteKey should be defined in Controller or child layout #}       
         {{ render(controller("CLChillMainBundle:Menu:writeMenu", {
              'menu' : 'person',
-             'layout': 'CLChillPersonBundle::menu.html.twig',
+             'layout': 'ChillPersonBundle::menu.html.twig',
              'args' : {'id': person.id },
              'activeRouteKey': activeRouteKey
         })) }}

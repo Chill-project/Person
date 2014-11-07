@@ -1,11 +1,11 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Form\DataTransformer;
+namespace Chill\PersonBundle\Form\DataTransformer;
 
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 use Doctrine\Common\Persistence\ObjectManager;
-use CL\Chill\PersonBundle\Entity\Person;
+use Chill\PersonBundle\Entity\Person;
 
 class PersonToIdTransformer implements DataTransformerInterface
 {
@@ -53,7 +53,7 @@ class PersonToIdTransformer implements DataTransformerInterface
         }
 
         $issue = $this->om
-            ->getRepository('CLChillPersonBundle:Person')
+            ->getRepository('ChillPersonBundle:Person')
             ->findOneBy(array('id' => $id))
         ;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace CL\Chill\PersonBundle\Tests\Controller;
+namespace Chill\PersonBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

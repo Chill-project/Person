@@ -1,4 +1,4 @@
-CL\Chill\PersonBundle\Entity\PersonHistoryFile:
+Chill\PersonBundle\Entity\PersonHistoryFile:
     type: entity
     table: person_history_file
     id:

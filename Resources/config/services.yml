@@ -1,5 +1,5 @@
 parameters:
-#    cl_chill_person.example.class: CL\Chill\PersonBundle\Example
+#    cl_chill_person.example.class: Chill\PersonBundle\Example
 
 services:
 #    cl_chill_person.example:

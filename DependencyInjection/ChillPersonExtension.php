@@ -7,6 +7,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
+use Chill\MainBundle\DependencyInjection\MissingBundleException;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -29,8 +30,24 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
     }
+
+    private function declarePersonAsCustomizable (ContainerBuilder $container)
+    {
+        $bundles = $container->getParameter('kernel.bundles');
+        if (!isset($bundles['ChillCustomFieldsBundle'])) {
+            throw new MissingBundleException('ChillCustomFieldsBundle');
+        }
+
+        $container->prependExtensionConfig('chill_custom_fields',
+            array('customizables_entities' => 
+                array(
+                    array('class' => 'Chill\PersonBundle\Entity\Person', 'name' => 'PersonEntity')
+                )
+            )
+        );
+    }
     
-        public function prepend(ContainerBuilder $container) 
+    public function prepend(ContainerBuilder $container) 
     {
         $bundles = $container->getParameter('kernel.bundles');
         //add ChillMain to assetic-enabled bundles
@@ -42,5 +59,7 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
         $asseticConfig['bundles'][] = 'ChillPersonBundle';
         $container->prependExtensionConfig('assetic', 
                 array('bundles' => array('ChillPersonBundle')));
+
+        $this-> declarePersonAsCustomizable($container);
     }
 }

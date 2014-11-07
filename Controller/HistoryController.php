@@ -9,9 +9,9 @@ use Chill\PersonBundle\Entity\PersonHistoryFile;
 
 class HistoryController extends Controller
 {
-    public function listAction($id){
+    public function listAction($person_id){
         
-        $person = $this->_getPerson($id);
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException('Person not found');
@@ -23,21 +23,21 @@ class HistoryController extends Controller
         
     }
     
-    public function createAction($personId) {
-        $person = $this->_getPerson($personId);
+    public function createAction($person_id) {
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException('Person not found');
         }
                
         $history = new PersonHistoryFile(new \DateTime());
-        $history->setPerson($person);
+        $history->setPerson($person)
+              ->setDateOpening(new \DateTime())
+              ->setDateClosing(new \DateTime());
         
-        $motivesArray = $this->get('service_container')
-                ->getParameter('person.history.close.motives');
         
-        $form = $this->createForm(new PersonHistoryFileType($motivesArray), 
-                $history);
+        $form = $this->createForm(new PersonHistoryFileType(), 
+                $history, array('period_action' => 'update'));
         
         $request = $this->getRequest();
         
@@ -62,7 +62,7 @@ class HistoryController extends Controller
                                 'controller.Person.history.create.done'));
                 
                 return $this->redirect($this->generateUrl('chill_person_history_list',
-                        array('id' => $person->getId())));
+                        array('person_id' => $person->getId())));
             } else {
                 
                 $flashBag->add('danger', $this->get('translator')
@@ -76,43 +76,30 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('ChillPersonBundle:History:update.html.twig', 
-                array('form' => $form->createView(),
-                    'person' => $person ) );
+        return $this->render('ChillPersonBundle:History:form.html.twig',
+                array(
+                   'form' => $form->createView(),
+                   'person' => $person,
+                   'history' => $history
+                   ) 
+              );
     }
 
-    public function updateAction($id, $historyId){
+    public function updateAction($history_id){
         $em = $this->getDoctrine()->getManager();
         
         $history = $em->getRepository('ChillPersonBundle:PersonHistoryFile')
-                ->find($historyId);
+                ->find($history_id);
         
         if ($history === null) {
-            return $this->createNotFoundException("history with id ".$historyId.
+            return $this->createNotFoundException("history with id ".$history_id.
                     " is not found");
-        }
-        
-        if ($history->isOpen()) {
-            $r = new \Symfony\Component\HttpFoundation\Response("You are not allowed "
-                    . "to edit an opened history");
-            $r->setStatusCode(400);
-            return $r;
         }
         
         $person = $history->getPerson();
         
-        if ($person->getId() != $id) {
-            $r = new \Symfony\Component\HttpFoundation\Response("person id does not"
-                    . " match history id");
-            $r->setStatusCode(400);
-            return $r;
-        }
-        
-        $motivesArray = $this->get('service_container')
-                ->getParameter('person.history.close.motives');
-        
-        $form = $this->createForm(new PersonHistoryFileType($motivesArray), 
-                $history);
+        $form = $this->createForm(new PersonHistoryFileType(), 
+                $history, array('period_action' => 'update'));
         
         $request = $this->getRequest();
         
@@ -133,11 +120,11 @@ class HistoryController extends Controller
                                 'controller.Person.history.update.done'));
                 
                 return $this->redirect($this->generateUrl('chill_person_history_list',
-                        array('id' => $person->getId())));
+                        array('person_id' => $person->getId())));
             } else {
                 
                 $flashBag->add('danger', $this->get('translator')
-                        ->trans('controller.Person.history.update.error'));
+                        ->trans('controller.Person.history.edit.error'));
                 
                 foreach($errors as $error) {
                     $flashBag->add('info', $error->getMessage());
@@ -147,13 +134,16 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('ChillPersonBundle:History:update.html.twig', 
-                array('form' => $form->createView(),
-                    'person' => $person ) );
+        return $this->render('ChillPersonBundle:History:form.html.twig', 
+                array(
+                   'form' => $form->createView(),
+                   'person' => $person,
+                   'history' => $history
+              ) );
     }
     
-    public function closeAction($id) {
-        $person = $this->_getPerson($id);
+    public function closeAction($person_id) {
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException('Person not found');
@@ -162,54 +152,29 @@ class HistoryController extends Controller
         if ($person->isOpen() === false) {
             $this->get('session')->getFlashBag()
                     ->add('danger', $this->get('translator')
-                            ->trans('controller.Person.history.close.is_not_open', 
+                            ->trans('controller.Person.history.close.is_closed', 
                                     array('%name%' => $person->__toString())));
             
             return $this->redirect(
                     $this->generateUrl('chill_person_history_list', array(
-                        'id' => $person->getId()
+                        'person_id' => $person->getId()
                 )));
         }
         
         $current = $person->getCurrentHistory();   
         
-        $container = array(
-            'dateClosing' => new \DateTime(),
-            'motive' => null,
-            'texto' => $current->getMemo());
-        
-        
-        
-        $form = $this->createFormBuilder($container)
-                ->add('dateClosing', 'date', array(
-                    'data' => new \DateTime()
-                ))
-                ->add('motive', 'choice', array(
-                    'choices' => $this->_getMotive(),
-                    'empty_value' => 'views.Person.close.select_a_motive'
-                ))
-                ->add('texto', 'textarea', array(
-                    'required' => false
-                ))
-                ->getForm();
-        
+        $form = $this->createForm(new PersonHistoryFileType(), $current, array(
+           'period_action' => 'close'
+        ));
+
         $request = $this->getRequest();
         
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
             
             if ($form->isValid()){
-                
-
-
-                $person->close($form['dateClosing']->getData(), 
-                        $form['motive']->getData(),
-                        $form['texto']->getData());
-                
-                
+                $person->close($current);
                 $errors = $this->_validatePerson($person);
-                
-                
 
                 if (count($errors) === 0) {
                     $this->get('session')->getFlashBag()
@@ -221,7 +186,7 @@ class HistoryController extends Controller
 
                     return $this->redirect(
                             $this->generateUrl('chill_person_history_list', array(
-                                'id' => $person->getId()
+                                'person_id' => $person->getId()
                             ))
                             );
                 } else {
@@ -250,7 +215,7 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('ChillPersonBundle:History:close.html.twig',
+        return $this->render('ChillPersonBundle:History:form.html.twig',
                 array(
                     'form' => $form->createView(),
                     'person' => $person,
@@ -277,8 +242,8 @@ class HistoryController extends Controller
     }
     
     
-    public function openAction($id) {
-        $person = $this->_getPerson($id);
+    public function openAction($person_id) {
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException('Person not found');
@@ -286,7 +251,8 @@ class HistoryController extends Controller
         
         $request = $this->getRequest();
         
-        if ($person->isOpen() === true && ! $request->query->has('historyId')) {
+        //in case the person is already open
+        if ($person->isOpen() === true) {
             $this->get('session')->getFlashBag()
                     ->add('danger', $this->get('translator')
                             ->trans('controller.Person.history.open.is_not_closed', 
@@ -294,60 +260,20 @@ class HistoryController extends Controller
             
             return $this->redirect(
                     $this->generateUrl('chill_person_history_list', array(
-                        'id' => $person->getId()
+                        'person_id' => $person->getId()
                 )));
         }
-        
-        $historyId = $request->query->get('historyId', null);
-        
-        if ($historyId !== null) {
-            $history = $this->getDoctrine()->getEntityManager()
-                    ->getRepository('ChillPersonBundle:PersonHistoryFile')
-                ->find($historyId);
-            
-        } else {
-            $history = new PersonHistoryFile(new \DateTime());
-        }
-        
-        //this may happen if we set an historyId and history is not closed
-        if ($request->query->has('historyId') && ! $history->isOpen()) { 
 
-            $r = new \Symfony\Component\HttpFoundation\Response("You are not allowed "
-                    . "to edit a closed history");
-            $r->setStatusCode(400);
-            return $r;
+        $history = new PersonHistoryFile(new \DateTime());
 
-        }
-        
-
-        
-        
-        
-        $form = $this->createFormBuilder()
-                ->add('dateOpening', 'date', array(
-                    'data' => $history->getDateOpening()
-                ))
-                ->add('texto', 'textarea', array(
-                    'required' => false,
-                    'data' => $history->getMemo()
-                ))
-                ->getForm();
-        
-        
+        $form = $this->createForm(new PersonHistoryFileType(), $history, array(
+           'period_action' => 'open'));
         
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
             
             if ($form->isValid()) {
-                if ($request->query->has('historyId')) {
-                    $history->setDateOpening($form['dateOpening']->getData())
-                            ->setMemo($form['texto']->getData());
-                } else {
-                    $person->open($form['dateOpening']->getData(), 
-                        $form['texto']->getData());
-                }
-                
-                
+                $person->open($history);
                 
                 $errors = $this->_validatePerson($person);
 
@@ -361,7 +287,7 @@ class HistoryController extends Controller
 
                     return $this->redirect(
                             $this->generateUrl('chill_person_history_list', array(
-                                'id' => $person->getId()
+                                'person_id' => $person->getId()
                             ))
                             );
                 } else {
@@ -383,30 +309,12 @@ class HistoryController extends Controller
         
         }
         
-        
-        
-        
-        
-        return $this->render('ChillPersonBundle:History:open.html.twig',
+        return $this->render('ChillPersonBundle:History:form.html.twig',
                 array(
                     'form' => $form->createView(),
                     'person' => $person,
                     'history' => $history
                 ));
-    }
-    
-    private function _getMotive() {
-        $motivesArray = $this->get('service_container')
-                ->getParameter('person.history.close.motives');
-        
-        $a = array();
-        
-        foreach ($motivesArray as $key => $params ) {
-            $a[$key] = $params['label'];
-        }
-        
-        return $a;
-        
     }
     
     private function _getPerson($id) {

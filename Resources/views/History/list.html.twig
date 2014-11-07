@@ -32,11 +32,7 @@
             {% endspaceless %}</td>
             <td>
                 <div class="small warning btn icon-right entypo icon-pencil">
-                    {% if history.isOpen %}
-                    <a  href="{{ path('chill_person_history_open', {'id' : person.id, 'historyId' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a>
-                    {% else %}
-                    <a  href="{{ path('chill_person_history_update', {'id' : person.id, 'historyId' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a>
-                    {% endif %}
+                    <a  href="{{ path('chill_person_history_update', {'person_id' : person.id, 'history_id' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a>
                 </div>
             </td>
         </tr>
@@ -58,7 +54,7 @@
 
 <div class="form_control">
     <div class="btn small warning icon-right entypo icon-plus">
-            <a href="{{ path ('chill_person_history_create', {'personId' : person.id } ) }}">
+            <a href="{{ path ('chill_person_history_create', {'person_id' : person.id } ) }}">
                 {{ 'views.Person.hlist.create'|trans }}
             </a>
         </div>
@@ -72,11 +68,11 @@
              {% endif %}{% endspaceless %}">
             {% spaceless %}
                {% if person.isOpen == true %}
-            <a href="{{ path('chill_person_history_close', {'id' : person.id}) }}">
+            <a href="{{ path('chill_person_history_close', {'person_id' : person.id}) }}">
                 {{'views.Person.hlist.close'|trans }}
             </a>
                {% else %}
-            <a href="{{ path('chill_person_history_open', {'id' : person.id} ) }}">
+            <a href="{{ path('chill_person_history_open', {'person_id' : person.id} ) }}">
                 {{'views.Person.hlist.open'|trans }}
             </a>
                 {% endif %}

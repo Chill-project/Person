@@ -13,9 +13,6 @@ Chill\PersonBundle\Entity\PersonHistoryFile:
             type: date
             default: null
             nullable: true
-        motive:
-            type: string
-            length: 200
         memo:
             type: text
     manyToOne:
@@ -23,3 +20,6 @@ Chill\PersonBundle\Entity\PersonHistoryFile:
             targetEntity: Person
             inversedBy: history
             cascade: [refresh]
+        closingMotive:
+            targetEntity: Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive
+            nullable: true

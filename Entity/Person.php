@@ -110,11 +110,9 @@ class Person {
      * 
      * @param \DateTime $date
      */
-    public function open(\DateTime $date, $memo = '') {
-        $history = new PersonHistoryFile($date);
-        $history->setMemo($memo);
+    public function open(PersonHistoryFile $accompanyingPeriod) {
         $this->proxyHistoryOpenState = true;
-        $this->addHistoryFile($history);
+        $this->addHistoryFile($accompanyingPeriod);
     }
 
     /**
@@ -126,30 +124,12 @@ class Person {
      * 
      * To check if the Person and his history are consistent, use validation.
      * 
-     * @param \DateTime $date
-     * @param string $motive
-     * @param string $memo
+     * @param PersonHistoryFile
      * @throws \Exception if two lines of history are open.
      */
-    public function close(\DateTime $date, $motive, $memo = '') {
-        $histories = $this->history;
-        
-        $found = false;
-        
-        foreach ($histories as $history) {
-            if ($history->isOpen()) {
-                
-                if ($found === true) {
-                    throw new \Exception('two open line in history were found. This should not happen.');
-                }
-                
-                $history->setDateClosing($date);
-                $history->setMotive($motive);
-                $history->setMemo($memo);
-                $this->proxyHistoryOpenState = false;
-                $found = true;
-            }
-        }
+    public function close(PersonHistoryFile $accompanyingPeriod) 
+    {
+        $this->proxyHistoryOpenState = false;
     }
     
     /**

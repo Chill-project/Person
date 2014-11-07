@@ -28,17 +28,18 @@ class PersonHistoryFile
     /**
      * @var string
      */
-    private $motive = '';
-
-    /**
-     * @var string
-     */
     private $memo = '';
 
     /**
      * @var \Chill\PersonBundle\Entity\Person
      */
     private $person;
+    
+    /**
+     *
+     * @var AccompanyingPeriod\ClosingMotive
+     */
+    private $closingMotive = null;
     
     /**
      * 
@@ -122,29 +123,6 @@ class PersonHistoryFile
     }
 
     /**
-     * Set motive
-     *
-     * @param string $motive
-     * @return PersonHistoryFile
-     */
-    public function setMotive($motive)
-    {
-        $this->motive = $motive;
-    
-        return $this;
-    }
-
-    /**
-     * Get motive
-     *
-     * @return string 
-     */
-    public function getMotive()
-    {
-        return $this->motive;
-    }
-
-    /**
      * Set memo
      *
      * @param string $memo
@@ -197,6 +175,18 @@ class PersonHistoryFile
         return $this->person;
     }
     
+    public function getClosingMotive()
+    {
+        return $this->closingMotive;
+    }
+
+    public function setClosingMotive(AccompanyingPeriod\ClosingMotive $closingMotive)
+    {
+        $this->closingMotive = $closingMotive;
+        return $this;
+    }
+
+        
     
     /// VALIDATION function
     

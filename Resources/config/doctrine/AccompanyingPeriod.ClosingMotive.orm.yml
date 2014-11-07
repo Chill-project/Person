@@ -1,0 +1,12 @@
+Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive:
+    type: entity
+    id:
+        id:
+            type: integer
+            id: true
+            generator: { strategy: AUTO }
+    fields:
+        name:
+            type: json_array
+        active:
+            type: boolean

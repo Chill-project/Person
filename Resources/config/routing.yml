@@ -49,7 +49,7 @@ chill_person_history_create:
     
 
 chill_person_history_update:
-    pattern: /person/{person_id}/history/{history_id}/update
+    pattern: /person/history/{history_id}/update
     defaults: { _controller: ChillPersonBundle:History:update }   
     
 chill_person_history_close:

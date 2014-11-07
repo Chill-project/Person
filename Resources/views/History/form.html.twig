@@ -4,7 +4,6 @@
 
 {% block title %}{% endblock title %}
 
-{% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
 
 {% block personcontent %}
 
@@ -12,12 +11,16 @@
 
 {{ 'views.Person.close.last_opening_since'|trans(
       { '%last_opening%' : history.dateOpening|date(date_format) }) }}
+      
+{% if form.dateClosing is defined %}
+    {{ form_row(form.dateClosing, {'label' : 'views.Person.close.date_of_closing'} ) }}
+{% endif %}
 
-{{ form_row(form.dateClosing, {'label' : 'views.Person.close.date_of_closing'} ) }}
-
-{{ form_row(form.motive, {'label' : 'views.Person.close.motive_of_closing'} ) }}
-
-{{ form_row(form.texto, {'label' : 'views.Person.close.texto' } ) }}
+{% if form.closingMotive is defined %}  
+    {{ form_row(form.closingMotive, {'label' : 'views.Person.close.motive_of_closing'} ) }}
+{% endif %}
+    
+{{ form_row(form.memo, {'label' : 'views.Person.close.texto' } ) }}
 
 {{ form_rest(form) }}
 

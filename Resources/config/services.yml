@@ -6,3 +6,11 @@ services:
         class: Chill\PersonBundle\Routing\RoutesLoader
         tags:
             - { name: routing.loader }
+            
+    chill.person.accompanying_period_closing_motive:
+        class: Chill\PersonBundle\Form\Type\ClosingMotiveType
+        scope: request
+        arguments:
+            - "@request"
+        tags:
+            - { name: form.type, alias: closing_motive }

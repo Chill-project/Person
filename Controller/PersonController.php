@@ -316,7 +316,7 @@ class PersonController extends Controller {
             $em->flush();
             
             return $this->redirect($this->generateUrl('chill_person_view', 
-                    array('id' => $person->getId())));
+                    array('person_id' => $person->getId())));
         } else {
             $r = new Response('this should not happen if you reviewed your submission');
             $r->setStatusCode(400);

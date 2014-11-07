@@ -1,10 +1,5 @@
 Chill\PersonBundle\Entity\Person:
     properties:
-        belgian_national_number:
-              - NotBlank: 
-                  groups: [general]
-              - CL\BelgianNationalNumberBundle\Validator\Constraint\BelgianNationalNumber: 
-                  groups: [general]
         name:
               - NotBlank: 
                   groups: [general, creation]
@@ -28,14 +23,6 @@ Chill\PersonBundle\Entity\Person:
               - Date: 
                   message: validation.Person.constraint.dateOfBirth.not_valid
                   groups: [general, creation]
-        nbOfChild:
-              - Range:
-                  min: 0
-                  max: 20
-                  minMessage: validation.Person.constraint.nbOfChild_min
-                  maxMessage: validation.Person.constraint.nbOfChild_max
-                  invalidMessage: validation.Person.constraint.nbOfChild_invalid
-                  groups: [general]
         history:
               - Valid:
                   traverse: true

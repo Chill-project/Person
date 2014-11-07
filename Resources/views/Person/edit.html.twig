@@ -6,12 +6,12 @@
 
 {% block personcontent %}
 
-{% form_theme form 'CLChillMainBundle:Form:fields.html.twig' %}
+{% form_theme form 'ChillMainBundle:Form:fields.html.twig' %}
 
 {{ form_start(form) }}
 {% set include_temp = 'ChillPersonBundle:Form:form_control.html.twig' %}
 {% set include_args = {'return_key': 'chill_person_view', 
-       'return_args' : { 'id' : person.id} } %}
+       'return_args' : { 'person_id' : person.id} } %}
 {{ include(include_temp, include_args) }} 
 
 <fieldset>
@@ -33,25 +33,14 @@
 {{ include(include_temp, include_args) }} 
 
 <fieldset>
-    <legend><h2>{{ 'views.Person.view.family'|trans }}</h2></legend>
-    {{ form_row(form.civil_union, {'label' : 'views.Person.view.civil_union'}) }}
-    {{ form_row(form.nbOfChild, {'label' : 'views.Person.view.nb_of_childs'}) }}
-    
-</fieldset>
-
-{{ include(include_temp, include_args) }} 
-
-<fieldset>
     <legend><h2>{{ 'views.Person.view.administrative'|trans }}</h2></legend>
     {{ form_row(form.nationality, { 'label' : 'views.Person.view.nationality'|trans} ) }}
-    {{ form_row(form.belgian_national_number, { 'label' : 'views.Person.view.national_number'}) }}
 </fieldset>
 
 {{ include(include_temp, include_args) }} 
 
 <fieldset>
     <legend><h2>{{ 'views.Person.view.contact'|trans }}</h2></legend>
-    {{ form_row(form.address, {'label' : 'views.Person.view.address'}) }}
     {{ form_row(form.email, {'label': 'views.Person.view.email'}) }}
     
 </fieldset>

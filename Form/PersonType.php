@@ -25,22 +25,15 @@ class PersonType extends AbstractType
             ->add('genre', new GenderType(), array(
                 'required' => false
             ))
-            ->add('civil_union', new CivilType(), array(
-                'required' => false
-            ))
-            ->add('nbOfChild', 'integer', array('required' => false))
-            ->add('belgian_national_number', new BelgianNationalNumberType(), 
-                    array('required' => false))
             ->add('memo', 'textarea', array('required' => false))
-            ->add('address', 'textarea',  array('required' => false))
             ->add('email', 'textarea', array('required' => false))
             ->add('countryOfBirth', 'entity', array(
                 'required' => false,
-                'class' => 'CL\Chill\MainBundle\Entity\Country'
+                'class' => 'Chill\MainBundle\Entity\Country'
                 ))
             ->add('nationality', 'entity', array(
                 'required' => false,
-                'class' => 'CL\Chill\MainBundle\Entity\Country'
+                'class' => 'Chill\MainBundle\Entity\Country'
                 ))
         ;
     }
@@ -60,6 +53,6 @@ class PersonType extends AbstractType
      */
     public function getName()
     {
-        return 'cl_chill_personbundle_person';
+        return 'chill_personbundle_person';
     }
 }

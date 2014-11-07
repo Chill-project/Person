@@ -1,4 +1,4 @@
-{% extends "CLChillMainBundle::layout.html.twig" %}
+{% extends "ChillMainBundle::layout.html.twig" %}
 
 {% block css %}
 
@@ -45,12 +45,11 @@
         
         <section class="tabs vertical"> 
      {# Note: activeRouteKey should be defined in Controller or child layout #}       
-        {{ render(controller("CLChillMainBundle:Menu:writeMenu", {
-             'menu' : 'person',
+        {{ chill_menu('person', {
              'layout': 'ChillPersonBundle::menu.html.twig',
-             'args' : {'id': person.id },
+             'args' : {'person_id': person.id },
              'activeRouteKey': activeRouteKey
-        })) }}
+        }) }}
                           
         <div class="tab-content active columns height">
         

@@ -11,9 +11,12 @@ This view should receive those arguments:
 #}
 
 {% block title %}ChillPersonBundle:Person:see{% endblock %}
-
+{#
+    we define variables to include an edit form repeated multiple time across
+    the page
+#}
 {% set edit_tmp_name = 'ChillPersonBundle:Form:go_to_form.html.twig'  %}
-{% set edit_tmp_args = { 'form_path_args' : { 'id': person.id }, 
+{% set edit_tmp_args = { 'form_path_args' : { 'person_id': person.id }, 
       'form_path_key' : 'chill_person_general_edit' } %}
 
 
@@ -68,22 +71,6 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 
 <figure>
-    <h2>{{ 'views.Person.view.family'|trans }}</h2>
-
-    <dl>
-            <dt class="inline">{{ 'views.Person.view.civil_union'|trans }}</dt>
-            <dd>{{ ('person.civil_union.' ~  person.civilUnion)|trans }}</dd>
-            
-            <dt class="inline">{{ 'views.Person.view.nb_of_childs'|trans }}</dt>
-            <dd>{% transchoice person.nbOfChild with { '%nb%': person.nbOfChild } %}views.Person.view.nb_of_childs_count{% endtranschoice %}</dd>
-            
-        
-    </dl>
-</figure>
-
-{{ include(edit_tmp_name, edit_tmp_args) }}
-
-<figure>
     <h2>{{ 'views.Person.view.administrative'|trans }}</h2>
 
     <dl>
@@ -95,12 +82,7 @@ This view should receive those arguments:
                     {{ 'views.Person.view.without_nationality'|trans }}
                 {% endif %}
             
-            </dd>  
-        
-        <dt class="inline">{{ 'views.Person.view.national_number'|trans }}</dt>
-            <dd>{{ person.belgianNationalNumber }}</dd>
-            
-            
+            </dd>         
         
     </dl>
 </figure>
@@ -111,8 +93,6 @@ This view should receive those arguments:
     <h2>{{ 'views.Person.view.contact'|trans }}</h2>
 
     <dl>
-            <dt class="inline">{{ 'views.Person.view.address'|trans }}</dt>
-            <dd><pre>{{ person.address}}&nbsp;</pre></dd>
             
             <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
             <dd><pre>{{ person.email}}&nbsp;</pre></dd>

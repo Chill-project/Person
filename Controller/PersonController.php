@@ -11,12 +11,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class PersonController extends Controller {
     
-    public function viewAction($id){
+    public function viewAction($person_id){
         
-        $person = $this->_getPerson($id);
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
-            return $this->createNotFoundException("Person with id $id not found on this server");
+            return $this->createNotFoundException("Person with id $person_id not found on this server");
         }
         
         return $this->render('ChillPersonBundle:Person:view.html.twig',
@@ -25,8 +25,8 @@ class PersonController extends Controller {
         
     }
     
-    public function editAction($id) {
-        $person = $this->_getPerson($id);
+    public function editAction($person_id) {
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException();
@@ -34,7 +34,7 @@ class PersonController extends Controller {
         
         $form = $this->createForm(new PersonType(), $person, array(
             'action' => $this->generateUrl('chill_person_general_update', array(
-                'id' => $id
+                'person_id' => $person_id
             ))
         ));
                 
@@ -45,8 +45,8 @@ class PersonController extends Controller {
                     'form' => $form->createView()));
     }
     
-    public function updateAction($id, Request $request) {
-        $person = $this->_getPerson($id);
+    public function updateAction($person_id, Request $request) {
+        $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException();
@@ -79,7 +79,7 @@ class PersonController extends Controller {
             $em->flush();
             
             $url = $this->generateUrl('chill_person_view', array( 
-                'id' => $person->getId()
+                'person_id' => $person->getId()
             ));
             
             return $this->redirect($url);

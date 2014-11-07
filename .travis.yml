@@ -13,13 +13,13 @@ addons:
 
 install: 
    - composer install --dev
-   - cp Tests/Fixtures/App/config/parameters.travis.yml Tests/Fixtures/App/config/parameters.yml
+   - cp Tests/Fixtures/App/app/config/parameters.travis.yml Tests/Fixtures/App/app/config/parameters.yml
   
 before_script:
   - psql -c 'create database test0;' -U postgres
-  - php Tests/Fixtures/App/console --env=test cache:warmup
-  - php Tests/Fixtures/App/console doctrine:schema:create --env=test --no-interaction
-  - php Tests/Fixtures/App/console doctrine:fixtures:load --env=test --no-interaction
+  - php Tests/Fixtures/App/app/console.php --env=test cache:warmup
+  - php Tests/Fixtures/App/app/console.php doctrine:schema:create --env=test --no-interaction
+  - php Tests/Fixtures/App/app/console.php doctrine:fixtures:load --env=test --no-interaction
 
 script: phpunit --coverage-text
 

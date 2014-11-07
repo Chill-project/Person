@@ -84,7 +84,7 @@ class Person {
             $opening = new \DateTime();
         }
         
-        $this->open($opening);
+        $this->open(new PersonHistoryFile($opening));
         
     }
     

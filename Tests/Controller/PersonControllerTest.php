@@ -6,11 +6,9 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class PersonControllerTest extends WebTestCase
 {
-    public function testSee()
+    public function testFoo()
     {
-        $client = static::createClient();
 
-        $crawler = $client->request('GET', '/see');
     }
 
 }

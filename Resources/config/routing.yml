@@ -1,7 +1,7 @@
 
 
 chill_person_view:
-    pattern: /person/view/{person_id}/general
+    pattern: /person/{person_id}/general
     defaults: { _controller: ChillPersonBundle:Person:view }
     options:
         menus:
@@ -10,11 +10,11 @@ chill_person_view:
                 label: Person View
         
 chill_person_general_edit:
-    pattern: /person/view/{person_id}/edit
+    pattern: /person/{person_id}/general/edit
     defaults: {_controller: ChillPersonBundle:Person:edit }
     
 chill_person_general_update:
-    pattern: /person/view/{person_id}/update
+    pattern: /person/{person_id}/general/update
     defaults: {_controller: ChillPersonBundle:Person:update }
     
 chill_person_new:
@@ -49,7 +49,7 @@ chill_person_history_create:
     
 
 chill_person_history_update:
-    pattern: /person/{person_id}/history/{historyId}/update
+    pattern: /person/{person_id}/history/{history_id}/update
     defaults: { _controller: ChillPersonBundle:History:update }   
     
 chill_person_history_close:
@@ -61,7 +61,7 @@ chill_person_history_open:
     defaults: { _controller: ChillPersonBundle:History:open }
     
 chill_person_admin:
-    pattern: /admin
+    pattern: /admin/person
     defaults: { _controller: ChillPersonBundle:Admin:index }
     options: 
         menus:

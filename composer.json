@@ -27,7 +27,8 @@
         "doctrine/orm": "2.5.*@dev",
         "doctrine/common": "2.4.*@dev",
         "doctrine/doctrine-bundle": "~1.2@dev",
-        "chill-project/main": "*@dev"
+        "chill-project/main": "*@dev",
+        "chill-project/custom-fields": "*@dev"
     },
     "require-dev": {
         "symfony/dom-crawler": "2.5",

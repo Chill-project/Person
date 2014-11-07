@@ -2,16 +2,13 @@
 
 namespace Chill\PersonBundle\Entity;
 
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
-use CL\CLHistoryBundle\Entity\IsHistoryContainer;
-use CL\CLHistoryBundle\Entity\HasHistory;
-use CL\CLHistoryBundle\Entity\HistoryHelper;
+use Chill\MainBundle\Entity\Country;
 
 /**
  * Person
  */
-class Person implements IsHistoryContainer, HasHistory {
+class Person {
     /**
      * @var integer
      */
@@ -42,47 +39,13 @@ class Person implements IsHistoryContainer, HasHistory {
      */
     private $genre;
     
-    const GENRE_MAN = 'MAN';
-    const GENRE_WOMAN = 'WOM';
-
-    /**
-     * @var string
-     */
-    private $civil_union = self::CIVIL_UNKNOW;
-     /*Célibataire
-Marié(e)
-Veuf – Veuve
-Séparé(e)
-Divorcé(e)
-Cohabitant légal
-Indéterminé
-ou une valeur vide lorsque la donnée nest pas connue*/
-    const CIVIL_SINGLE = 'single';
-    const CIVIL_WIDOW = 'widow';
-    const CIVIL_SEPARATED = 'separated';
-    const CIVIL_DIVORCED = 'divorced';
-    const CIVIL_COHAB = 'cohab';
-    const CIVIL_UNKNOW = 'unknow';
-
-    /**
-     * @var integer
-     */
-    private $nbOfChild = 0;
-
-    /**
-     * @var string
-     */
-    private $belgian_national_number;
+    const GENRE_MAN = 'man';
+    const GENRE_WOMAN = 'woman';
 
     /**
      * @var string
      */
     private $memo = '';
-
-    /**
-     * @var string
-     */
-    private $address = '';
 
     /**
      * @var string
@@ -110,18 +73,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      * @var boolean
      */
     private $proxyHistoryOpenState = false;
-    
-    
-    const HISTORY_DOMAIN = 'person';
-    
-    /**
-     *
-     * @var string 
-     */
-    private $historyId = null;
-    
-    const ACTION_UPDATE = 'update';
-    const ACTION_CREATE = 'create';
+
     
     
     
@@ -134,9 +86,6 @@ ou une valeur vide lorsque la donnée nest pas connue*/
         
         $this->open($opening);
         
-        //create an helper with key "update", and set "creation" instead
-        $this->getHistoryHelper(self::ACTION_UPDATE)
-              ->setAction(self::ACTION_CREATE);
     }
     
     /**
@@ -288,11 +237,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
      */
     public function setName($name)
     {
-        if ($name !== $this->name) {
-            $this->getHistoryHelper(self::ACTION_UPDATE)
-                  ->registerChange('name', $this->name, $name);
-            $this->name = $name;
-        }
+        $this->name = $name;
         
         return $this;
     }
@@ -406,7 +351,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     
     /**
      * return gender as a Numeric form.
-     * Useful for translation :-)
+     * This is used for translations
      * @return int
      */
     public function getGenreNumeric() {
@@ -414,83 +359,6 @@ ou une valeur vide lorsque la donnée nest pas connue*/
             return 1;
         else 
             return 0;
-    }
-
-    /**
-     * Set civil_union
-     *
-     * @param string $civilUnion
-     * @return Person
-     */
-    public function setCivilUnion($civilUnion)
-    {
-        if ($this->civil_union !== $civilUnion) {
-            $this->getHistoryHelper(self::ACTION_UPDATE)
-                  ->registerChange('civil_union', $this->civil_union, $civilUnion);
-            $this->civil_union = $civilUnion;
-        }
-    
-        return $this;
-    }
-
-    /**
-     * Get civil_union
-     *
-     * @return string 
-     */
-    public function getCivilUnion()
-    {
-        return $this->civil_union;
-    }
-
-    /**
-     * Set nbOfChild
-     *
-     * @param integer $nbOfChild
-     * @return Person
-     */
-    public function setNbOfChild($nbOfChild)
-    {
-        $this->nbOfChild = $nbOfChild;
-    
-        return $this;
-    }
-
-    /**
-     * Get nbOfChild
-     *
-     * @return integer 
-     */
-    public function getNbOfChild()
-    {
-        return $this->nbOfChild;
-    }
-
-    /**
-     * Set belgian_national_number
-     *
-     * @param string $belgianNationalNumber
-     * @return Person
-     */
-    public function setBelgianNationalNumber($belgianNationalNumber)
-    {
-        if ($belgianNationalNumber === null) {
-            $belgianNationalNumber = '';
-        }
-        
-        $this->belgian_national_number = $belgianNationalNumber;
-    
-        return $this;
-    }
-
-    /**
-     * Get belgian_national_number
-     *
-     * @return string 
-     */
-    public function getBelgianNationalNumber()
-    {
-        return $this->belgian_national_number;
     }
 
     /**
@@ -528,33 +396,6 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     }
 
     /**
-     * Set address
-     *
-     * @param string $address
-     * @return Person
-     */
-    public function setAddress($address)
-    {
-        if ($address === null) {
-            $address = '';
-        }
-        
-        $this->address = $address;
-    
-        return $this;
-    }
-
-    /**
-     * Get address
-     *
-     * @return string 
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
      * Set email
      *
      * @param string $email
@@ -584,28 +425,19 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     /**
      * Set countryOfBirth
      *
-     * @param \CL\Chill\MainBundle\Entity\Country $countryOfBirth
+     * @param Chill\MainBundle\Entity\Country $countryOfBirth
      * @return Person
      */
-    public function setCountryOfBirth(\CL\Chill\MainBundle\Entity\Country $countryOfBirth = null)
-    {
-        if ($this->countryOfBirth->getId() !== $countryOfBirth->getId()) {
-            $this->getHistoryHelper(self::ACTION_UPDATE)
-                  ->registerChange('country_of_birth', 
-                        $this->countryOfBirth->getLabel(), 
-                        $countryOfBirth->getLabel());
-            
-            $this->countryOfBirth = $countryOfBirth;
-        }
-        
-    
+    public function setCountryOfBirth(Country $countryOfBirth = null)
+    {   
+        $this->countryOfBirth = $countryOfBirth;
         return $this;
     }
 
     /**
      * Get countryOfBirth
      *
-     * @return \CL\Chill\MainBundle\Entity\Country 
+     * @return Chill\MainBundle\Entity\Country 
      */
     public function getCountryOfBirth()
     {
@@ -615,10 +447,10 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     /**
      * Set nationality
      *
-     * @param \CL\Chill\MainBundle\Entity\Country $nationality
+     * @param Chill\MainBundle\Entity\Country $nationality
      * @return Person
      */
-    public function setNationality(\CL\Chill\MainBundle\Entity\Country $nationality = null)
+    public function setNationality(Country $nationality = null)
     {
         $this->nationality = $nationality;
     
@@ -628,7 +460,7 @@ ou une valeur vide lorsque la donnée nest pas connue*/
     /**
      * Get nationality
      *
-     * @return \CL\Chill\MainBundle\Entity\Country 
+     * @return Chill\MainBundle\Entity\Country 
      */
     public function getNationality()
     {
@@ -756,56 +588,4 @@ ou une valeur vide lorsque la donnée nest pas connue*/
          return true;
         
     }
-
-    public function getDomain() {
-        return self::HISTORY_DOMAIN;
-    }
-
-    public function getHistoryId() {
-        return $this->historyId;
-    }
-
-    public function setHistoryId($id) {
-        $this->historyId = $id;
-    }
-    
-    /**
-     *
-     * @var \CL\CLHistoryBundle\Entity\HistoryHelper 
-     */
-    private $historyHelper = array();
-    
-    
-    private function getHistoryHelper($helper) {
-        if (!isset($this->historyHelper[$helper])) {
-            $this->historyHelper[$helper] = new HistoryHelper();
-            
-            $this->historyHelper[$helper]->setAction($helper);
-        }
-        
-        return $this->historyHelper[$helper];
-    }
-
-    public function getEntityName() {
-        return 'person';
-    }
-
-    public function getHistory() {
-        $histories = array();
-        
-        foreach ($this->historyHelper as $historyHelper) {
-            $histories = $histories->toArray();
-        }
-        
-        return $histories;
-    }
-
-    public function getParentContainers() {
-        return array($this);
-    }
-
-    public function getVersion() {
-        return 0;
-    }
-
 }

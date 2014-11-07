@@ -25,38 +25,22 @@ Chill\PersonBundle\Entity\Person:
             default: ''
         genre:
             type: string
-            length: 3
-        civil_union:
-            type: string
-            length: 30
-            nullable: true
-        nbOfChild:
-            type: smallint
-            nullable: true
-        belgian_national_number:
-            type: string
-            length: 16
-            nullable: true
+            length: 9
         memo:
             type: text
             default: ''
-        address:
-            type: text
         email:
             type: text  
         proxyHistoryOpenState:
             type: boolean
             name: proxy_open
-        historyId:
-            type: string
-            length: 40
     manyToOne:
         countryOfBirth:
-            targetEntity: CL\Chill\MainBundle\Entity\Country
+            targetEntity: Chill\MainBundle\Entity\Country
             inversedBy: birthsIn
             nullable: true
         nationality:
-            targetEntity: CL\Chill\MainBundle\Entity\Country
+            targetEntity: Chill\MainBundle\Entity\Country
             inversedBy: nationals
             nullable: true
     oneToMany:

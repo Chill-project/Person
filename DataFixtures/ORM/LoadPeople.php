@@ -12,7 +12,7 @@ use Chill\PersonBundle\Entity\Person;
  *
  * @author Julien Fastré <julien arobase fastre point info>
  */
-class LoadPeople extends AbstractFixture {
+class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
     
     public function prepare() {
 
@@ -39,7 +39,7 @@ class LoadPeople extends AbstractFixture {
     }
     
     public function getOrder() {
-        return 1302;
+        return 10000;
     }
     
     
@@ -56,7 +56,7 @@ class LoadPeople extends AbstractFixture {
         
         do {
             
-            echo "add a person...";
+            
             $i++;
             
             $sex = $this->genres[array_rand($this->genres)];
@@ -86,9 +86,6 @@ class LoadPeople extends AbstractFixture {
                 'DateOfBirth' => "1960-10-12",
                 'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
                 'Genre' => $sex,
-                'CivilUnion' => $this->CivilUnions[array_rand($this->CivilUnions)],
-                'NbOfChild' => $this->NbOfChild[array_rand($this->NbOfChild)],
-                'BelgianNationalNumber' => '811016-269-24',
                 'Email' => "Email d'un ami: roger@tt.com",
                 'CountryOfBirth' => 'France',
                 'Nationality' => 'Russie'
@@ -112,6 +109,8 @@ class LoadPeople extends AbstractFixture {
             }
 
             $manager->persist($p);
+            echo "add person'".$p->__toString()."'\n";
+            
         } while ($i <= 100);
         
         $manager->flush();
@@ -135,11 +134,6 @@ class LoadPeople extends AbstractFixture {
     
     private $genres = array(Person::GENRE_MAN, Person::GENRE_WOMAN);
     
-    private $CivilUnions = array(Person::CIVIL_COHAB, Person::CIVIL_DIVORCED, 
-        Person::CIVIL_SEPARATED, Person::CIVIL_SINGLE, Person::CIVIL_UNKNOW,
-            Person::CIVIL_WIDOW);
-    
-    private $NbOfChild = array(0, 0, 1, 1, 1, 1, 1, 2, 2, 3, 4, 5, 6);
     
     private $years = array();
     
@@ -154,9 +148,6 @@ class LoadPeople extends AbstractFixture {
             'DateOfBirth' => "1960-10-12",
             'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
             'Genre' => Person::GENRE_MAN,
-            'CivilUnion' => Person::CIVIL_DIVORCED,
-            'NbOfChild' => 0,
-            'BelgianNationalNumber' => '12-10-16-269-24',
             'Email' => "Email d'un ami: roger@tt.com",
             'CountryOfBirth' => 'France',
             'Nationality' => 'Russie'

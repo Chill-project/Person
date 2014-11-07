@@ -3,7 +3,7 @@
     "license": "AGPL-3.0",
     "type": "symfony-bundle",
     "description": "A bundle to deal with persons",
-    "keywords" : ["chill", "social work, persons"],
+    "keywords" : ["chill", "social work", "persons"],
     "homepage" : "https://github.com/Chill-project/Person",
     "autoload": {
         "psr-4": { "Chill\\PersonBundle\\": "" }

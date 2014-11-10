@@ -1,5 +1,24 @@
 <?php
 
+/*
+ * Chill is a software for social workers
+ *
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Chill\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -9,10 +28,10 @@ use Chill\PersonBundle\Form\CreationPersonType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class PersonController extends Controller {
-    
-    public function viewAction($person_id){
-        
+class PersonController extends Controller
+{    
+    public function viewAction($person_id)
+    {    
         $person = $this->_getPerson($person_id);
         
         if ($person === null) {
@@ -20,32 +39,30 @@ class PersonController extends Controller {
         }
         
         return $this->render('ChillPersonBundle:Person:view.html.twig',
-                array("person" => $person)
-                );
-        
+            array("person" => $person));   
     }
     
-    public function editAction($person_id) {
+    public function editAction($person_id)
+    {
         $person = $this->_getPerson($person_id);
         
         if ($person === null) {
             return $this->createNotFoundException();
         }
         
-        $form = $this->createForm(new PersonType(), $person, array(
-            'action' => $this->generateUrl('chill_person_general_update', array(
-                'person_id' => $person_id
-            ))
-        ));
+        $form = $this->createForm(new PersonType(), $person,
+            array('action' => $this->generateUrl('chill_person_general_update',
+                array('person_id' => $person_id)
+                )
+            )
+        );
                 
-        
-        
         return $this->render('ChillPersonBundle:Person:edit.html.twig', 
-                array('person' => $person, 
-                    'form' => $form->createView()));
+            array('person' => $person, 'form' => $form->createView()));
     }
     
-    public function updateAction($person_id, Request $request) {
+    public function updateAction($person_id, Request $request)
+    {
         $person = $this->_getPerson($person_id);
         
         if ($person === null) {
@@ -86,16 +103,18 @@ class PersonController extends Controller {
         }
     }
     
-    public function searchAction() {
+    public function searchAction()
+    {
         $q = $this->getRequest()->query->getAlnum('q', '');
         $q = trim($q);
         
         if ( $q === '' ) {
             $this->get('session')
-                    ->getFlashBag()
-                    ->add('info', 
-                            $this->get('translator')
-                            ->trans('search.q_is_empty') );
+                ->getFlashBag()
+                ->add('info', 
+                    $this->get('translator')
+                    ->trans('search.q_is_empty')
+                );
         }
         
         $em = $this->getDoctrine()->getManager();
@@ -142,22 +161,21 @@ class PersonController extends Controller {
                 ));
     }
     
-    public function newAction() {
-        
+    public function newAction()
+    {    
         $form = $this->createForm(
                 new CreationPersonType(CreationPersonType::FORM_NOT_REVIEWED), 
                 null, array('action' => $this->generateUrl('chill_person_review')));
         
-        return $this->_renderNewForm($form);
-        
-        
+        return $this->_renderNewForm($form);   
     }
     
-    private function _renderNewForm($form) {
+    private function _renderNewForm($form)
+    {
         return $this->render('ChillPersonBundle:Person:create.html.twig', 
-                array(
-                    'form' => $form->createView()
-                ));
+            array(
+                'form' => $form->createView()
+            ));
     }
     
     /**
@@ -165,7 +183,8 @@ class PersonController extends Controller {
      * @param type $form
      * @return \Chill\PersonBundle\Entity\Person
      */
-    private function _bindCreationForm($form) {
+    private function _bindCreationForm($form)
+    {
         $date = new \DateTime();
         $person = new Person($form['creation_date']->getData());
         
@@ -186,7 +205,8 @@ class PersonController extends Controller {
      * @param \Chill\PersonBundle\Entity\Person $person
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
-    private function _validatePersonAndHistory(Person $person) {
+    private function _validatePersonAndHistory(Person $person)
+    {
         $errors = $this->get('validator')
                 ->validate($person, array('creation'));
         
@@ -206,7 +226,8 @@ class PersonController extends Controller {
         return $errors;
     }
     
-    public function reviewAction() {
+    public function reviewAction()
+    {
         $request = $this->getRequest();
         
         if ($request->getMethod() !== 'POST') {
@@ -224,11 +245,8 @@ class PersonController extends Controller {
         $person = $this->_bindCreationForm($form);
         
         $errors = $this->_validatePersonAndHistory($person);   
-        
-        
    
         if ( count($errors) > 0) {
-            
             $flashBag = $this->get('session')->getFlashBag();
             $translator = $this->get('translator');
             
@@ -246,8 +264,6 @@ class PersonController extends Controller {
             
             return $this->_renderNewForm($form);
         }
-        
- 
         
         $em = $this->getDoctrine()->getManager();
         
@@ -280,18 +296,17 @@ class PersonController extends Controller {
                 );
         
         return $this->render('ChillPersonBundle:Person:create_review.html.twig',
-                array('alternatePersons' => $alternatePersons,
-                    'name' => $form['name']->getData(),
-                    'surname' => $form['surname']->getData(),
-                    'dateOfBirth' => $form['dateOfBirth']->getData(),
-                    'genre' => $form['genre']->getData(),
-                    'creation_date' => $form['creation_date']->getData(),
-                    'form' => $form->createView()));
-        
+            array('alternatePersons' => $alternatePersons,
+                'name' => $form['name']->getData(),
+                'surname' => $form['surname']->getData(),
+                'dateOfBirth' => $form['dateOfBirth']->getData(),
+                'genre' => $form['genre']->getData(),
+                'creation_date' => $form['creation_date']->getData(),
+                'form' => $form->createView()));
     }
     
-    public function createAction() {
-        
+    public function createAction()
+    {    
         $request = $this->getRequest();
         
         if ($request->getMethod() !== 'POST') {
@@ -322,15 +337,14 @@ class PersonController extends Controller {
             $r->setStatusCode(400);
             return $r;
         }
-        
-        
     }
     
     /**
      * easy getting a person by his id
      * @return \Chill\PersonBundle\Entity\Person
      */
-    private function _getPerson($id) {
+    private function _getPerson($id)
+    {
         $em = $this->getDoctrine()->getManager();
         
         $person = $em->getRepository('ChillPersonBundle:Person')
@@ -338,5 +352,4 @@ class PersonController extends Controller {
         
         return $person;
     }
-
 }

@@ -15,8 +15,6 @@ use Chill\PersonBundle\Entity\Person;
 class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
     
     public function prepare() {
-
-        
         //prepare days, month, years
         $y = 1950;
         do {
@@ -42,8 +40,6 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
         return 10000;
     }
     
-    
-    
     public function load(ObjectManager $manager) {
         
         echo "loading people...\n";
@@ -55,8 +51,6 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
         $i = 0;
         
         do {
-            
-            
             $i++;
             
             $sex = $this->genres[array_rand($this->genres)];
@@ -116,7 +110,6 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
         $manager->flush();
     }
     
-    
     private $surnames_male = array("Jean", "Mohamed", "Alfred", "Robert", 
          "Compère", "Jean-de-Dieu", 
          "Charles", "Pierre", "Luc", "Mathieu", "Alain", "Etienne", "Eric",
@@ -132,8 +125,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
         'ma', 'gone', 'car',"fu", "ka", "lot", "no", "va", "du", "bu", "su",
         "lo", 'to', "cho", "car", 'mo','zu', 'qi', 'mu');
     
-    private $genres = array(Person::GENRE_MAN, Person::GENRE_WOMAN);
-    
+    private $genres = array(Person::GENRE_MAN, Person::GENRE_WOMAN);  
     
     private $years = array();
     
@@ -150,11 +142,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
             'Genre' => Person::GENRE_MAN,
             'Email' => "Email d'un ami: roger@tt.com",
             'CountryOfBirth' => 'France',
-            'Nationality' => 'Russie'
-            
-            
+            'Nationality' => 'Russie'      
         )
     );
-
-
 }

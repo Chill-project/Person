@@ -1,15 +1,13 @@
-<div class="columns four">
+<div class="grid-12">
     <ul class="tab-nav follow-href-path">
-    {% for route in routes %}
-        <li class="{% spaceless  %}
-                    {% if route.key == activeRouteKey %}
-                        active
-                    {% endif %}
-               {% endspaceless %} ">
-            <a href="{{ path(route.key, args ) }}" >{{ route.label|trans }}</a>
-        </li>
-
-    {% endfor %}
+        {% for route in routes %}
+            <li class="{% spaceless  %}
+                        {% if route.key == activeRouteKey %}
+                            active
+                        {% endif %}
+                   {% endspaceless %} ">
+                <a href="{{ path(route.key, args ) }}" >{{ route.label|trans }}</a>
+            </li>
+        {% endfor %}
     </ul>
-
 </div>

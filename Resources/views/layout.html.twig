@@ -1,65 +1,55 @@
 {% extends "ChillMainBundle::layout.html.twig" %}
 
 {% block css %}
-
     {% stylesheets  output="css/all.css" filter="cssrewrite"
-          "bundles/clchillperson/css/person.css"
+          "bundles/chillperson/css/person.css"
      %}
     <link rel="stylesheet" href="{{ asset_url }}"/>
     {% endstylesheets %}
-
-
 {% endblock %}
 
 {% block content %}
-
 <div id="person_wrapper">
     <div id="general">
-    <h1>
-        <span class="surname">{{  person.surname }}</span> 
-        <span class="personName">{{ person.name }}</span> {% spaceless %}
-        {% if person.isOpen == false %}
-        <i class="icon-lock"></i>
-        {% endif %}
-        {% endspaceless %}
-    </h1>
+        <h1>
+            <span class="surname">{{  person.surname }}</span> 
+            <span class="personName">{{ person.name }}</span> {% spaceless %}
+            {% if person.isOpen == false %}
+            <i class="icon-lock"></i>
+            {% endif %}
+            {% endspaceless %}
+        </h1>
 
-    <p class="date detail">{% spaceless %}
-        {% if person.dateOfBirth == null %}
-              {{ 'person.without_date_of_birth'|trans }}, {{ ('person.gender.' ~
-                person.genre)|trans }}
+        <p class="date detail">{% spaceless %}
+            {% if person.dateOfBirth == null %}
+                  {{ 'person.without_date_of_birth'|trans }}, {{ ('person.gender.' ~
+                    person.genre)|trans }}
+            {% else %}
+                {% transchoice person.genreNumeric
+                           with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}views.layout.born{% endtranschoice %}
+        
+            {% endif %}
+            {% endspaceless %}</p>
+        {% if person.nationality is not null %}
+            <p class="nationality detail">{{ person.nationality.label }}</p>
         {% else %}
-            {% transchoice person.genreNumeric
-                       with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}views.layout.born{% endtranschoice %}
-    
-        {% endif %}
-        {% endspaceless %}</p>
-    {% if person.nationality is not null %}
-        <p class="nationality detail">{{ person.nationality.label }}</p>
-    {% else %}
-        <p class="nationality detail without_nationality">{% trans %}views.layout.without_nationality{% endtrans %}</p>
-    {% endif %} 
+            <p class="nationality detail without_nationality">{% trans %}views.layout.without_nationality{% endtrans %}</p>
+        {% endif %} 
     </div>
+
     <div id="person_details">
-        
-        
-        <section class="tabs vertical"> 
-     {# Note: activeRouteKey should be defined in Controller or child layout #}       
-        {{ chill_menu('person', {
-             'layout': 'ChillPersonBundle::menu.html.twig',
-             'args' : {'person_id': person.id },
-             'activeRouteKey': activeRouteKey
-        }) }}
+        <section class="container"> 
+            {# Note: activeRouteKey should be defined in Controller or child layout #}       
+            {{ chill_menu('person', {
+                 'layout': 'ChillPersonBundle::menu.html.twig',
+                 'args' : {'person_id': person.id },
+                 'activeRouteKey': activeRouteKey
+            }) }}
                           
-        <div class="tab-content active columns height">
-        
-        {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
-        
-        </div>
+            <div class="grid-8">
+            {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
+            </div>
         </section>
     </div>
-
 </div>
-
-
- {% endblock %}
+{% endblock %}

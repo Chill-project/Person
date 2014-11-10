@@ -5,7 +5,6 @@
 {% block title %}{{ 'views.Person.hlist.title'|trans({ '%name%' : person.__toString}) }}{% endblock title %}
 
 {% block personcontent %}
-
 <table class="rounded">
     <thead>
         <tr>
@@ -44,19 +43,16 @@
         {% endif %}
         {% set i = i+1 %}
         {% endfor %}
-        
     </tbody>
-    
-    
 </table>
 
 
 <div class="form_control">
     <div class="btn small warning icon-right entypo icon-plus">
-            <a href="{{ path ('chill_person_history_create', {'person_id' : person.id } ) }}">
-                {{ 'views.Person.hlist.create'|trans }}
-            </a>
-        </div>
+        <a href="{{ path ('chill_person_history_create', {'person_id' : person.id } ) }}">
+            {{ 'views.Person.hlist.create'|trans }}
+        </a>
+    </div>
     
     <div class="controls">
         <div class="btn medium danger icon-right entypo {% spaceless %}
@@ -66,20 +62,18 @@
                  icon-lock-open
              {% endif %}{% endspaceless %}">
             {% spaceless %}
-               {% if person.isOpen == true %}
-            <a href="{{ path('chill_person_history_close', {'person_id' : person.id}) }}">
-                {{'views.Person.hlist.close'|trans }}
-            </a>
-               {% else %}
-            <a href="{{ path('chill_person_history_open', {'person_id' : person.id} ) }}">
-                {{'views.Person.hlist.open'|trans }}
-            </a>
+                {% if person.isOpen == true %}
+                    <a href="{{ path('chill_person_history_close', {'person_id' : person.id}) }}">
+                        {{'views.Person.hlist.close'|trans }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('chill_person_history_open', {'person_id' : person.id} ) }}">
+                        {{'views.Person.hlist.open'|trans }}
+                    </a>
                 {% endif %}
-{% endspaceless %}   
+            {% endspaceless %}   
         </div>
-        
     </div>
-    
 </div>
 
 {% endblock personcontent %}

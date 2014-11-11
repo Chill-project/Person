@@ -8,7 +8,7 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block content %}
+{% block layout_content %}
 <div id="person_wrapper">
     <div id="general">
         <h1>
@@ -38,6 +38,33 @@
     </div>
 
     <div id="person_details">
+            {# Flash messages ! #}
+            <div class="container">
+                {% for flashMessage in app.session.flashbag.get('success') %}
+                    <div class="grid-8 centered success">
+                        <span>
+                            {{ flashMessage|raw }}
+                        </span>
+                    </div>
+                {% endfor %}
+                    
+                {% for flashMessage in app.session.flashbag.get('danger') %}
+                    <div class="grid-8 centered error">
+                        <span>
+                            {{ flashMessage|raw }}
+                        </span>
+                    </div>
+                {% endfor %}
+                    
+                {% for flashMessage in app.session.flashbag.get('info') %}
+                    <div class="grid-8 centered notice">
+                        <span>
+                            {{ flashMessage|raw }}
+                        </span>
+                    </div>
+                {% endfor %}    
+            </div>
+
         <section class="container"> 
             {# Note: activeRouteKey should be defined in Controller or child layout #}       
             {{ chill_menu('person', {

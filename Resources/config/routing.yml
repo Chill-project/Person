@@ -1,5 +1,5 @@
 chill_person_view:
-    pattern: /person/{person_id}/general
+    pattern: /{_locale}/person/{person_id}/general
     defaults: { _controller: ChillPersonBundle:Person:view }
     options:
         menus:
@@ -8,15 +8,15 @@ chill_person_view:
                 label: Person View
 
 chill_person_general_edit:
-    pattern: /person/{person_id}/general/edit
+    pattern: /{_locale}/person/{person_id}/general/edit
     defaults: {_controller: ChillPersonBundle:Person:edit }
 
 chill_person_general_update:
-    pattern: /person/{person_id}/general/update
+    pattern: /{_locale}/person/{person_id}/general/update
     defaults: {_controller: ChillPersonBundle:Person:update }
 
 chill_person_new:
-    pattern: /person/new
+    pattern: /{_locale}/person/new
     defaults: {_controller: ChillPersonBundle:Person:new }
     options:
         menus:
@@ -25,15 +25,15 @@ chill_person_new:
                 label: Add a person
 
 chill_person_review:
-    pattern: /person/review
+    pattern: /{_locale}/person/review
     defaults: {_controller: ChillPersonBundle:Person:review }
 
 chill_person_create:
-    pattern: /person/create
+    pattern: /{_locale}/person/create
     defaults: {_controller: ChillPersonBundle:Person:create }
 
 chill_person_search:
-    pattern: /search
+    pattern: /{_locale}/search
     defaults: { _controller: ChillPersonBundle:Person:search }
     options:
         menus:
@@ -42,7 +42,7 @@ chill_person_search:
                 label: Chercher une personne
 
 chill_person_history_list:
-    pattern: /person/{person_id}/history
+    pattern: /{_locale}/person/{person_id}/history
     defaults: { _controller: ChillPersonBundle:History:list }
     options:
         menus:
@@ -51,23 +51,23 @@ chill_person_history_list:
                 label: menu.person.history
 
 chill_person_history_create:
-    pattern: /person/{person_id}/history/create
+    pattern: /{_locale}/person/{person_id}/history/create
     defaults: { _controller: ChillPersonBundle:History:create }
 
 chill_person_history_update:
-    pattern: /person/history/{history_id}/update
+    pattern: /{_locale}/person/history/{history_id}/update
     defaults: { _controller: ChillPersonBundle:History:update }
 
 chill_person_history_close:
-    pattern: /person/{person_id}/history/close
+    pattern: /{_locale}/person/{person_id}/history/close
     defaults: { _controller: ChillPersonBundle:History:close }
 
 chill_person_history_open:
-    pattern: /person/{person_id}/history/open
+    pattern: /{_locale}/person/{person_id}/history/open
     defaults: { _controller: ChillPersonBundle:History:open }
 
 chill_person_admin:
-    pattern: /admin/person
+    pattern: /{_locale}/admin/person
     defaults: { _controller: ChillPersonBundle:Admin:index }
     options: 
         menus:

@@ -39,33 +39,6 @@
         </div>
 
         <div id="person_details" class="content">
-                {# Flash messages ! #}
-                <div class="container">
-                    {% for flashMessage in app.session.flashbag.get('success') %}
-                        <div class="grid-8 centered success">
-                            <span>
-                                {{ flashMessage|raw }}
-                            </span>
-                        </div>
-                    {% endfor %}
-                        
-                    {% for flashMessage in app.session.flashbag.get('danger') %}
-                        <div class="grid-8 centered error">
-                            <span>
-                                {{ flashMessage|raw }}
-                            </span>
-                        </div>
-                    {% endfor %}
-                        
-                    {% for flashMessage in app.session.flashbag.get('info') %}
-                        <div class="grid-8 centered notice">
-                            <span>
-                                {{ flashMessage|raw }}
-                            </span>
-                        </div>
-                    {% endfor %}    
-                </div>
-
             <section class="container"> 
                 {# Note: activeRouteKey should be defined in Controller or child layout #}       
                 {{ chill_menu('person', {
@@ -75,7 +48,34 @@
                 }) }}
                               
                 <div class="grid-8">
-                {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
+                    {# Flash messages ! #}
+                    <div class="container">
+                        {% for flashMessage in app.session.flashbag.get('success') %}
+                            <div class="grid-8 centered success">
+                                <span>
+                                    {{ flashMessage|raw }}
+                                </span>
+                            </div>
+                        {% endfor %}
+                            
+                        {% for flashMessage in app.session.flashbag.get('danger') %}
+                            <div class="grid-8 centered error">
+                                <span>
+                                    {{ flashMessage|raw }}
+                                </span>
+                            </div>
+                        {% endfor %}
+                            
+                        {% for flashMessage in app.session.flashbag.get('info') %}
+                            <div class="grid-8 centered notice">
+                                <span>
+                                    {{ flashMessage|raw }}
+                                </span>
+                            </div>
+                        {% endfor %}    
+                    </div>
+
+                    {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
                 </div>
             </section>
         </div>

@@ -1,5 +1,3 @@
-
-
 chill_person_view:
     pattern: /person/{person_id}/general
     defaults: { _controller: ChillPersonBundle:Person:view }
@@ -20,6 +18,11 @@ chill_person_general_update:
 chill_person_new:
     pattern: /person/new
     defaults: {_controller: ChillPersonBundle:Person:new }
+    options:
+        menus:
+            homepage:
+                order: 10
+                label: Add a person
 
 chill_person_review:
     pattern: /person/review

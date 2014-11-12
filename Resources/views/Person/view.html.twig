@@ -37,10 +37,7 @@ This view should receive those arguments:
         
         <dt class="inline">{{ 'views.Person.view.gender'|trans }}</dt>
         <dd>{{ ( 'person.gender.' ~ person.genre|default('undefined'))|trans }}</dd>
-        
     </dl>
-    
-    
 </figure>
 
 <figure>
@@ -74,16 +71,14 @@ This view should receive those arguments:
     <h2>{{ 'views.Person.view.administrative'|trans }}</h2>
 
     <dl>
-          <dt class="inline">{{ 'views.Person.view.nationality'|trans }}</dt>
-            <dd>
-                {% if person.nationality is not null %}
-                    {{ person.nationality.label }}
-                {% else %}
-                    {{ 'views.Person.view.without_nationality'|trans }}
-                {% endif %}
-            
-            </dd>         
-        
+      <dt class="inline">{{ 'views.Person.view.nationality'|trans }}</dt>
+        <dd>
+            {% if person.nationality is not null %}
+                {{ person.nationality.label }}
+            {% else %}
+                {{ 'views.Person.view.without_nationality'|trans }}
+            {% endif %}
+        </dd> 
     </dl>
 </figure>
 
@@ -93,12 +88,8 @@ This view should receive those arguments:
     <h2>{{ 'views.Person.view.contact'|trans }}</h2>
 
     <dl>
-            
             <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
             <dd><pre>{{ person.email}}&nbsp;</pre></dd>
-            
-            
-        
     </dl>
 </figure>
 

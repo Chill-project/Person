@@ -23,6 +23,10 @@ chill_person_new:
             homepage:
                 order: 10
                 label: Add a person
+            section:
+                order: 10
+                label: Add a person
+                icon: user
 
 chill_person_review:
     pattern: /{_locale}/person/review

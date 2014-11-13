@@ -11,14 +11,12 @@
     {% endstylesheets %}
 
 
-{% endblock %}
-
-  
+{% endblock %}  
     
 {% block content %}
-    <div id="person_wrapper">
+    <div id="person_wrapper" class="container">
         {% if alternatePersons is not empty %}
-        <table class="rounded stripped">
+        <table class="rounded stripped" style="width=100%">
             <thead>
                 <tr>
                     <th>{{ 'views.Person.review.altName'|trans }}</th>
@@ -42,7 +40,6 @@
                 {% endfor %}
                 
             </tbody>
-            
         </table>
         {% endif %}
         
@@ -69,18 +66,11 @@
             </dl>
     
 {{ form_rest(form) }}
-            
-            
-            <div class="form_control">
-                <div class="btn medium success entypo icon-right icon-user-add">
-                    <button type="submit">{{ 'views.Person.review.confirm_creation'|trans }}</button>
-                </div>
-            </div>
+
+            <button class="sc-button green" type="submit"><i class="fa fa-check"></i> {{ 'views.Person.review.confirm_creation'|trans }}</button>
     
 {{ form_end(form) }}
         </div>
-        
-        
         
     </div>
 {% endblock content %}

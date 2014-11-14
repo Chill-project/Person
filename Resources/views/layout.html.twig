@@ -11,31 +11,35 @@
 {% block layout_content %}
 <div class="container">
     <div id="person_wrapper">
-        <div id="general">
-            <h1>
-                <span class="surname">{{  person.surname }}</span> 
-                <span class="personName">{{ person.name }}</span> {% spaceless %}
-                {% if person.isOpen == false %}
-                <i class="icon-lock"></i>
-                {% endif %}
-                {% endspaceless %}
-            </h1>
-
-            <p class="date detail">{% spaceless %}
-                {% if person.dateOfBirth == null %}
-                      {{ 'person.without_date_of_birth'|trans }}, {{ ('person.gender.' ~
-                        person.genre)|trans }}
-                {% else %}
-                    {% transchoice person.genreNumeric
-                               with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}views.layout.born{% endtranschoice %}
-            
-                {% endif %}
+        <div id="general" class="parent">
+            <div class="grid-8">
+                <h1>
+                    <i class="fa fa-male"></i> {{  person.surname }} {{ person.name }} {% spaceless %}
+                        {% if not person.isOpen %}
+                            <i class="fa fa-lock"></i>      
+                        {% endif %}
+                    {% endspaceless %}
+                </h1>
+            </div>
+            <div class="grid-4">
+                <p><i class="fa fa-birthday-cake"></i>  {% spaceless %}
+                    {% if person.dateOfBirth == null %}
+                        {{ 'person.without_date_of_birth'|trans }}, {{ ('person.gender.' ~
+                            person.genre)|trans }}
+                    {% else %}
+                        {% transchoice person.genreNumeric
+                            with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}
+                            views.layout.born
+                        {% endtranschoice %}
+                    {% endif %}
                 {% endspaceless %}</p>
-            {% if person.nationality is not null %}
-                <p class="nationality detail">{{ person.nationality.label }}</p>
-            {% else %}
-                <p class="nationality detail without_nationality">{% trans %}views.layout.without_nationality{% endtrans %}</p>
-            {% endif %} 
+
+                {% if person.nationality is not null %}
+                    <p><i class="fa fa-flag"></i> {{ person.nationality.label }}</p>
+                {% else %}
+                    <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}views.layout.without_nationality{% endtrans %}</p>
+                {% endif %} 
+            </div>
         </div>
 
         <div id="person_details" class="content">

@@ -27,13 +27,11 @@ class PersonType extends AbstractType
             ))
             ->add('memo', 'textarea', array('required' => false))
             ->add('email', 'textarea', array('required' => false))
-            ->add('countryOfBirth', 'entity', array(
-                'required' => false,
-                'class' => 'Chill\MainBundle\Entity\Country'
+            ->add('countryOfBirth', 'select2_chill_country', array(
+                'required' => false
                 ))
-            ->add('nationality', 'entity', array(
-                'required' => false,
-                'class' => 'Chill\MainBundle\Entity\Country'
+            ->add('nationality', 'select2_chill_country', array(
+                'required' => false
                 ))
         ;
     }

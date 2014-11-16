@@ -330,7 +330,7 @@ class PersonController extends Controller
             
             $em->flush();
             
-            return $this->redirect($this->generateUrl('chill_person_view', 
+            return $this->redirect($this->generateUrl('chill_person_general_edit', 
                     array('person_id' => $person->getId())));
         } else {
             $r = new Response('this should not happen if you reviewed your submission');

@@ -35,7 +35,7 @@
                 {% endspaceless %}</p>
 
                 {% if person.nationality is not null %}
-                    <p><i class="fa fa-flag"></i> {{ person.nationality.label }}</p>
+                    <p><i class="fa fa-flag"></i> {{ person.nationality.name|localize_translatable_string }}</p>
                 {% else %}
                     <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}views.layout.without_nationality{% endtrans %}</p>
                 {% endif %} 

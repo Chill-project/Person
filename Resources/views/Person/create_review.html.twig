@@ -34,7 +34,7 @@
                         </a>
                     </td>
                     <td>{{ person.dateOfBirth|date(date_format) }}</td>
-                    <td>{{ person.nationality|default('person.without_nationality'|trans) }}
+                    <td>{% if person.nationality is not null %}{{ person.nationality.name|localize_translatable_string }}{%  else  %}{{ 'views.Person.view.without_nationality'|trans }}{% endif %}
                 </tr>
                 
                 {% endfor %}

@@ -29,7 +29,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class PersonController extends Controller
-{    
+{
+    public function getCFGroup()
+    {
+        $cFGroup = null;
+
+        $em  = $this->getDoctrine()->getManager();
+        $cFDefaultGroup  = $em->getRepository("ChillCustomFieldsBundle:CustomFieldsDefaultGroup")
+            ->findOneByEntity("Chill\PersonBundle\Entity\Person");
+
+        if($cFDefaultGroup) {
+            $cFGroup = $cFDefaultGroup->getCustomFieldsGroup();
+        }
+
+        return $cFGroup;
+    }
+
     public function viewAction($person_id)
     {    
         $person = $this->_getPerson($person_id);
@@ -39,7 +54,8 @@ class PersonController extends Controller
         }
         
         return $this->render('ChillPersonBundle:Person:view.html.twig',
-            array("person" => $person));   
+            array("person" => $person,
+                "cFGroup" => $this->getCFGroup()));
     }
     
     public function editAction($person_id)
@@ -51,9 +67,10 @@ class PersonController extends Controller
         }
         
         $form = $this->createForm(new PersonType(), $person,
-            array('action' => $this->generateUrl('chill_person_general_update',
-                array('person_id' => $person_id)
-                )
+            array(
+                "action" => $this->generateUrl('chill_person_general_update',
+                    array("person_id" => $person_id)),
+                "cFGroup" => $this->getCFGroup()
             )
         );
                 
@@ -69,7 +86,8 @@ class PersonController extends Controller
             return $this->createNotFoundException();
         }
         
-        $form = $this->createForm(new PersonType(), $person);
+        $form = $this->createForm(new PersonType(), $person,
+            array("cFGroup" => $this->getCFGroup()));
         
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);

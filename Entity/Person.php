@@ -2,6 +2,25 @@
 
 namespace Chill\PersonBundle\Entity;
 
+/*
+ * Chill is a software for social workers
+ *
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Chill\MainBundle\Entity\Country;
 
@@ -74,8 +93,12 @@ class Person {
      */
     private $proxyHistoryOpenState = false;
 
-    
-    
+
+    /**
+     * The array where customfields data is stored
+     * @var array
+     */
+    private $cFData;
     
     public function __construct(\DateTime $opening = null) {
         $this->history = new \Doctrine\Common\Collections\ArrayCollection();
@@ -450,6 +473,32 @@ class Person {
     public function getLabel() {
         return $this->getSurname()." ".$this->getName();
     }
+
+
+    /**
+     * Set cFData
+     *
+     * @param array $cFData
+     *
+     * @return Report
+     */
+    public function setCFData($cFData)
+    {
+        $this->cFData = $cFData;
+
+        return $this;
+    }
+
+    /**
+     * Get cFData
+     *
+     * @return array
+     */
+    public function getCFData()
+    {
+        return $this->cFData;
+    }
+
     
     public function __toString() {
         return $this->getLabel();

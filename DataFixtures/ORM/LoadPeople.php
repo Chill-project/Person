@@ -82,7 +82,8 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
                 'Genre' => $sex,
                 'Email' => "Email d'un ami: roger@tt.com",
                 'CountryOfBirth' => 'France',
-                'Nationality' => 'Russie'
+                'Nationality' => 'Russie',
+                'CFData' => array()
             );
             
             $p = new Person();

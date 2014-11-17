@@ -88,9 +88,27 @@ This view should receive those arguments:
     <h2>{{ 'views.Person.view.contact'|trans }}</h2>
 
     <dl>
-            <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
-            <dd><pre>{{ person.email}}&nbsp;</pre></dd>
+        <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
+        <dd><pre>{{ person.email}}&nbsp;</pre></dd>
     </dl>
 </figure>
+
+{{ include(edit_tmp_name, edit_tmp_args) }}
+
+{% if cFGroup  %}
+    <figure>
+        {% for customField in cFGroup.customFields %}
+            {% if customField.type == 'title' %}
+                {{ chill_custom_field_widget(person.cFData , customField) }}
+            {% else %}
+                <dt>{{ chill_custom_field_label(customField) }}</dt>
+                <dd>{{ chill_custom_field_widget(person.cFData , customField) }}</dd> 
+            {% endif %}
+        {% endfor %}
+    </figure>
+
+    {{ include(edit_tmp_name, edit_tmp_args) }}
+    
+{% endif %}
 
 {% endblock %}

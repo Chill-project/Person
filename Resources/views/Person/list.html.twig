@@ -44,7 +44,7 @@
                     </td>
                     <td>
                         {% if person.nationality is not null %}
-                            <span class="personNationality">{{person.nationality.label}}</span>
+                            <span class="personNationality">{{person.nationality.name | localize_translatable_string }}</span>
                         {% else %}
                             {{ 'views.Person.list.without_nationality'|trans }}
                         {% endif %}

@@ -42,11 +42,11 @@ This view should receive those arguments:
     <h2>{{ 'views.Person.view.general'|trans }}</h2>
     
     <dl>
-        <dt class="inline">{{ 'views.Person.view.surname'|trans }}</dt>
-        <dd>{{ person.surname }}</dd>
+        <dt class="inline">{{ 'First name'|trans }}</dt>
+        <dd>{{ person.firstName }}</dd>
         
-        <dt class="inline">{{ 'views.Person.view.name'|trans }}</dt>
-        <dd>{{ person.name }}</dd>
+        <dt class="inline">{{ 'Last name'|trans }}</dt>
+        <dd>{{ person.lastName }}</dd>
         
         <dt class="inline">{{ 'views.Person.view.gender'|trans }}</dt>
         <dd>{{ ( 'person.gender.' ~ person.genre|default('undefined'))|trans }}</dd>

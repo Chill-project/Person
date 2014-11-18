@@ -8,10 +8,10 @@ Chill\PersonBundle\Entity\Person:
             id: true
             generator:
                 strategy: AUTO
-        name:
+        firstName:
             type: string
             length: 255
-        surname:
+        lastName:
             type: string
             length: 255
         dateOfBirth:

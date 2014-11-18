@@ -1,5 +1,24 @@
 <?php
 
+/*
+ * Chill is a software for social workers
+ *
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Chill\PersonBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
@@ -15,7 +34,7 @@ class CreationPersonType extends AbstractType
     
     private $form_status;
     
-    const NAME = 'cl_chill_personbundle_person_creation';
+    const NAME = 'chill_personbundle_person_creation';
     
     const FORM_NOT_REVIEWED = 'not_reviewed';
     const FORM_REVIEWED = 'reviewed' ;
@@ -37,8 +56,8 @@ class CreationPersonType extends AbstractType
                     null, null, 'dd-MM-yyyy', true);
             
             
-            $builder->add('name', 'hidden')
-                    ->add('surname', 'hidden')
+            $builder->add('firstName', 'hidden')
+                    ->add('lastName', 'hidden')
                     ->add( $builder->create('dateOfBirth', 'hidden')
                             ->addModelTransformer($dateToStringTransformer)
                           )
@@ -50,8 +69,8 @@ class CreationPersonType extends AbstractType
                     ;
         } else {
             $builder
-                ->add('name')
-                ->add('surname')
+                ->add('firstName')
+                ->add('lastName')
                 ->add('dateOfBirth', 'date', array('required' => false, 
                     'widget' => 'single_text', 'format' => 'dd-MM-yyyy'))
                 ->add('genre', new GenderType(), array(

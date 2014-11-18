@@ -1,5 +1,24 @@
 <?php
 
+/*
+ * Chill is a software for social workers
+ *
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Chill\PersonBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -11,17 +30,18 @@ use Chill\PersonBundle\Entity\Person;
  * Load people into database
  *
  * @author Julien Fastré <julien arobase fastre point info>
+ * @author Marc Ducobu <marc@champs-libres.coop>
  */
-class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
-    
-    public function prepare() {
+class LoadPeople extends AbstractFixture implements OrderedFixtureInterface
+{    
+    public function prepare()
+    {
         //prepare days, month, years
         $y = 1950;
         do {
             $this->years[] = $y;
             $y = $y +1;
         } while ($y >= 1990);
-        
         
         $m = 1;
         do {
@@ -36,17 +56,18 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
         } while ($d <= 28);
     }
     
-    public function getOrder() {
+    public function getOrder()
+    {
         return 10000;
     }
     
-    public function load(ObjectManager $manager) {
-        
+    public function load(ObjectManager $manager)
+    {
         echo "loading people...\n";
         
         $this->prepare();
         
-        $choose_name_or_tri = array('tri', 'tri', 'name', 'tri');
+        $chooseLastNameOrTri = array('tri', 'tri', 'name', 'tri');
         
         $i = 0;
         
@@ -55,28 +76,26 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
             
             $sex = $this->genres[array_rand($this->genres)];
             
-            if ($choose_name_or_tri[array_rand($choose_name_or_tri)] === 'tri' ) {
+            if ($chooseLastNameOrTri[array_rand($chooseLastNameOrTri)] === 'tri' ) {
                 $length = rand(2, 3);
-                $name = '';
+                $lastName = '';
                 for ($j = 0; $j <= $length; $j++) {
-                    $name .= $this->names_trigrams[array_rand($this->names_trigrams)];
+                    $lastName .= $this->lastNamesTrigrams[array_rand($this->lastNamesTrigrams)];
                 }
-                $name = ucfirst($name);
-                
+                $lastName = ucfirst($lastName);
             } else {
-                $name = $this->names[array_rand($this->names)];
+                $lastName = $this->lastNames[array_rand($this->lastNames)];
             }
             
             if ($sex === Person::GENRE_MAN) {
-                $surname = $this->surnames_male[array_rand($this->surnames_male)];
+                $firstName = $this->firstNamesMale[array_rand($this->firstNamesMale)];
             } else {
-                $surname = $this->surnames_female[array_rand($this->surnames_female)];
+                $firstName = $this->firstNamesFemale[array_rand($this->firstNamesFemale)];
             }
             
-            
             $person = array(
-                'Name' => $name,
-                'Surname' => $surname,
+                'FirstName' => $firstName,
+                'LastName' => $lastName,
                 'DateOfBirth' => "1960-10-12",
                 'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
                 'Genre' => $sex,
@@ -111,17 +130,17 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
         $manager->flush();
     }
     
-    private $surnames_male = array("Jean", "Mohamed", "Alfred", "Robert", 
-         "Compère", "Jean-de-Dieu", 
+    private $firstNamesMale = array("Jean", "Mohamed", "Alfred", "Robert",
+         "Compère", "Jean-de-Dieu",
          "Charles", "Pierre", "Luc", "Mathieu", "Alain", "Etienne", "Eric",
          "Corentin", "Gaston", "Spirou", "Fantasio", "Mahmadou", "Mohamidou",
         "Vursuv" );
-    private $surnames_female = array("Svedana", "Sevlatina","Irène", "Marcelle",
+    private $firstNamesFemale = array("Svedana", "Sevlatina","Irène", "Marcelle",
         "Corentine", "Alfonsine","Caroline","Solange","Gostine", "Fatoumata",
         "Groseille", "Chana", "Oxana", "Ivana");
     
-    private $names = array("Diallo", "Bah", "Gaillot");
-    private $names_trigrams = array("fas", "tré", "hu", 'blart', 'van', 'der', 'lin', 'den',
+    private $lastNames = array("Diallo", "Bah", "Gaillot");
+    private $lastNamesTrigrams = array("fas", "tré", "hu", 'blart', 'van', 'der', 'lin', 'den',
         'ta', 'mi', 'gna', 'bol', 'sac', 'ré', 'jo', 'du', 'pont', 'cas', 'tor', 'rob', 'al',
         'ma', 'gone', 'car',"fu", "ka", "lot", "no", "va", "du", "bu", "su",
         "lo", 'to', "cho", "car", 'mo','zu', 'qi', 'mu');
@@ -136,8 +155,8 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface {
     
     private $peoples = array(
         array(
-            'Name' => "Depardieu",
-            'Surname' => "Jean",
+            'FirstName' => "Depardieu",
+            'LastName' => "Jean",
             'DateOfBirth' => "1960-10-12",
             'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
             'Genre' => Person::GENRE_MAN,

@@ -142,11 +142,11 @@ class PersonController extends Controller
         
         $dql = 'SELECT p FROM ChillPersonBundle:Person p'
                 . ' WHERE'
-                . ' LOWER(p.name) like LOWER(:q)'
-                . ' OR LOWER(p.surname)  like LOWER(:q)';
+                . ' LOWER(p.firstName) like LOWER(:q)'
+                . ' OR LOWER(p.lastName)  like LOWER(:q)';
         
         if ($this->container->getParameter('cl_chill_person.search.use_double_metaphone')) {
-            $dql .= ' OR DOUBLEMETAPHONE(p.name) = DOUBLEMETAPHONE(:qabsolute)';
+            $dql .= ' OR DOUBLEMETAPHONE(p.lastName) = DOUBLEMETAPHONE(:qabsolute)';
         }
 
         
@@ -209,8 +209,8 @@ class PersonController extends Controller
         
         $date_of_birth = new \DateTime();
                 
-        $person->setName($form['name']->getData())
-                ->setSurname($form['surname']->getData())
+        $person->setFirstName($form['firstName']->getData())
+                ->setLastName($form['lastName']->getData())
                 ->setGenre($form['genre']->getData())
                 ->setDateOfBirth($form['dateOfBirth']->getData())
                 ;
@@ -288,15 +288,15 @@ class PersonController extends Controller
         $query = $em->createQuery();
                 
         $dql = 'SELECT p from ChillPersonBundle:Person p WHERE '
-                . 'LOWER(p.name) LIKE LOWER(:name)'
-                . ' OR LOWER(p.surname) LIKE LOWER(:surname)';
+                . 'LOWER(p.firstName) LIKE LOWER(:firstName)'
+                . ' OR LOWER(p.lastName) LIKE LOWER(:lastName)';
 
-        $query->setParameter('name', $form['name']->getData())
-                ->setParameter('surname', $form['surname']->getData());
+        $query->setParameter('firstName', $form['firstName']->getData())
+                ->setParameter('lastName', $form['lastName']->getData());
 
         if ($this->container
                 ->getParameter('cl_chill_person.search.use_double_metaphone')) {
-            $dql .= ' OR DOUBLEMETAPHONE(p.name) LIKE DOUBLEMETAPHONE(:name)';
+            $dql .= ' OR DOUBLEMETAPHONE(p.lastName) LIKE DOUBLEMETAPHONE(:lastName)';
         }
 
         $query->setDql($dql);
@@ -315,8 +315,8 @@ class PersonController extends Controller
         
         return $this->render('ChillPersonBundle:Person:create_review.html.twig',
             array('alternatePersons' => $alternatePersons,
-                'name' => $form['name']->getData(),
-                'surname' => $form['surname']->getData(),
+                'firstName' => $form['firstName']->getData(),
+                'lastName' => $form['lastName']->getData(),
                 'dateOfBirth' => $form['dateOfBirth']->getData(),
                 'genre' => $form['genre']->getData(),
                 'creation_date' => $form['creation_date']->getData(),

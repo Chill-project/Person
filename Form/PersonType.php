@@ -37,8 +37,8 @@ class PersonType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('surname')
+            ->add('firstName')
+            ->add('lastName')
             ->add('dateOfBirth', 'date', array('required' => false, 'widget' => 'single_text', 'format' => 'dd-MM-yyyy'))
             ->add('placeOfBirth', 'text', array('required' => false))
             ->add('genre', new GenderType(), array(

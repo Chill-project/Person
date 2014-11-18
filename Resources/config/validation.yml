@@ -1,6 +1,6 @@
 Chill\PersonBundle\Entity\Person:
     properties:
-        name:
+        firstName:
               - NotBlank: 
                   groups: [general, creation]
               - Length: 
@@ -9,8 +9,7 @@ Chill\PersonBundle\Entity\Person:
                   minMessage: validation.Person.constraint.name_min
                   maxMessage: validation.Person.constraint.name_max
                   groups: [general, creation]
-                  
-        surname:
+        lastName:
               - NotBlank:
                   groups: [general, creation]
               - Length: 
@@ -30,8 +29,6 @@ Chill\PersonBundle\Entity\Person:
           - Callback:
               methods: [isHistoryValid]
               groups: [history_consistent]
-                  
-                  
 
 Chill\PersonBundle\Entity\PersonHistoryFile:
     properties:

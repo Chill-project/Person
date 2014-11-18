@@ -65,11 +65,11 @@
             <h2>{{ 'views.Person.review.you_will_create_this_person'|trans }}</h2>
             
             <dl>
-                <dt>{{ 'views.Person.view.name'|trans }}</dt>
-                <dd>{{ name }}</dd>
+                <dt>{{ 'First name'|trans }}</dt>
+                <dd>{{ firstName }}</dd>
                 
-                <dt>{{ 'views.Person.view.surname'|trans }}</dt>
-                <dd>{{ surname }}</dd>
+                <dt>{{ 'Last name'|trans }}</dt>
+                <dd>{{ lastName }}</dd>
                 
                 <dt>{{ 'views.Person.view.dateOfBirth'|trans }}</dt>
                 <dd>{{ dateOfBirth|date(date_format)|default( 'person.without_date_of_birth'|trans ) }}</dd>

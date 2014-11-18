@@ -25,6 +25,7 @@
 {% endblock %}
 
 {% block layout_content %}
+
 <div class="container">
     <div id="person_wrapper">
         <div id="general" class="parent">
@@ -35,7 +36,7 @@
                     {%  else %}
                         <i class="fa fa-male"></i>
                     {% endif %}
-                    {{  person.surname }} {{ person.name }} {% spaceless %}
+                    {{  person.firstName }} {{ person.lastName }} {% spaceless %}
                         {% if not person.isOpen %}
                             <i class="fa fa-lock"></i>      
                         {% endif %}

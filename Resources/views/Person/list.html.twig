@@ -21,7 +21,7 @@
     <table class="striped rounded">
         <thead>
             <tr>
-                <th>{% trans %}person.name{% endtrans %}</th>
+                <th>{% trans %}Name{% endtrans %}</th>
                 <th>{% trans %}person.dateOfBirth{% endtrans %}</th>
                 <th>{% trans %}person.nationality{% endtrans %}</th>
             </tr>
@@ -31,8 +31,7 @@
                 <tr>
                     <td>
                         <a href="{{ path('chill_person_view', {person_id : person.getId}) }}">
-                            <span class="personSurname">{{person.surname}}</span>
-                            <span class="personName">{{person.name}}</span>
+                            {{person.firstName}} {{person.lastName}}
                             {% spaceless %}
                                 {% if person.isOpen == false %}
                                     <i class="icon-lock"></i>

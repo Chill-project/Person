@@ -36,12 +36,12 @@ class Person {
     /**
      * @var string
      */
-    private $name;
+    private $firstName;
 
     /**
      * @var string
      */
-    private $surname;
+    private $lastName;
 
     /**
      * @var \DateTime
@@ -238,49 +238,49 @@ class Person {
     }
 
     /**
-     * Set name
+     * Set firstName
      *
-     * @param string $name
+     * @param string $firstName
      * @return Person
      */
-    public function setName($name)
+    public function setFirstName($firstName)
     {
-        $this->name = $name;
+        $this->firstName = $firstName;
         
         return $this;
     }
 
     /**
-     * Get name
+     * Get firstName
      *
      * @return string 
      */
-    public function getName()
+    public function getFirstName()
     {
-        return $this->name;
+        return $this->firstName;
     }
 
     /**
-     * Set surname
+     * Set lastName
      *
-     * @param string $surname
+     * @param string $lastName
      * @return Person
      */
-    public function setSurname($surname)
+    public function setLastName($lastName)
     {
-        $this->surname = $surname;
+        $this->lastName = $lastName;
     
         return $this;
     }
 
     /**
-     * Get surname
+     * Get lastName
      *
      * @return string 
      */
-    public function getSurname()
+    public function getLastName()
     {
-        return $this->surname;
+        return $this->lastName;
     }
 
     /**
@@ -476,7 +476,7 @@ class Person {
     }
     
     public function getLabel() {
-        return $this->getSurname()." ".$this->getName();
+        return $this->getFirstName()." ".$this->getLastName();
     }
 
     /**

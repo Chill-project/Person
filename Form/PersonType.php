@@ -30,7 +30,7 @@ use CL\BelgianNationalNumberBundle\Form\BelgianNationalNumberType;
 
 class PersonType extends AbstractType
 {
-        /**
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -45,6 +45,7 @@ class PersonType extends AbstractType
                 'required' => false
             ))
             ->add('memo', 'textarea', array('required' => false))
+            ->add('phonenumber', 'textarea', array('required' => false))
             ->add('email', 'textarea', array('required' => false))
             ->add('countryOfBirth', 'select2_chill_country', array(
                 'required' => false

@@ -99,6 +99,11 @@ class Person {
      * @var array
      */
     private $cFData;
+
+    /**
+     * @var string
+     */
+    private $phonenumber = '';
     
     public function __construct(\DateTime $opening = null) {
         $this->history = new \Doctrine\Common\Collections\ArrayCollection();
@@ -474,7 +479,6 @@ class Person {
         return $this->getSurname()." ".$this->getName();
     }
 
-
     /**
      * Set cFData
      *
@@ -499,16 +503,36 @@ class Person {
         return $this->cFData;
     }
 
+    /**
+     * Set phonenumber
+     *
+     * @param string $phonenumber
+     * @return Person
+     */
+    public function setPhonenumber($phonenumber = '')
+    {
+        $this->phonenumber = $phonenumber;
     
-    public function __toString() {
+        return $this;
+    }
+
+    /**
+     * Get phonenumber
+     *
+     * @return string 
+     */
+    public function getPhonenumber()
+    {
+        return $this->phonenumber;
+    }
+    
+    public function __toString()
+    {
         return $this->getLabel();
     }
     
     
-    
     // VALIDATION
-    
-    
     public function isHistoryValid(ExecutionContextInterface $context) {
         $r = $this->checkHistoryIsNotCovering();
         

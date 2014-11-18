@@ -1,13 +1,26 @@
+{#
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
 {% extends "ChillPersonBundle::layout.html.twig"  %}
 
 {% set activeRouteKey = 'chill_person_view' %}
 
 {#
-
 This view should receive those arguments:
 - person
-
-
 #}
 
 {% block title %}ChillPersonBundle:Person:see{% endblock %}
@@ -91,6 +104,11 @@ This view should receive those arguments:
         <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
         <dd><pre>{{ person.email}}&nbsp;</pre></dd>
     </dl>
+    <dl>
+        <dt class="inline">{{ 'views.Person.view.phonenumber'|trans }}</dt>
+        <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
+    </dl>
+
 </figure>
 
 {{ include(edit_tmp_name, edit_tmp_args) }}

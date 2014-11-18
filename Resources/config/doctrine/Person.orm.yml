@@ -36,6 +36,8 @@ Chill\PersonBundle\Entity\Person:
             name: proxy_open
         cFData:
             type: array
+        phonenumber:
+            type:text
     manyToOne:
         countryOfBirth:
             targetEntity: Chill\MainBundle\Entity\Country

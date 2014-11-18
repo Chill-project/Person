@@ -14,7 +14,12 @@
         <div id="general" class="parent">
             <div class="grid-8">
                 <h1>
-                    <i class="fa fa-male"></i> {{  person.surname }} {{ person.name }} {% spaceless %}
+                    {% if person.genre == "woman" %}
+                        <i class="fa fa-female"></i>
+                    {%  else %}
+                        <i class="fa fa-male"></i>
+                    {% endif %}
+                    {{  person.surname }} {{ person.name }} {% spaceless %}
                         {% if not person.isOpen %}
                             <i class="fa fa-lock"></i>      
                         {% endif %}

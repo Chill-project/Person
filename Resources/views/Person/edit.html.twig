@@ -9,10 +9,6 @@
 {% form_theme form 'ChillMainBundle:Form:fields.html.twig' %}
 
 {{ form_start(form) }}
-{% set include_temp = 'ChillPersonBundle:Form:form_control.html.twig' %}
-{% set include_args = {'return_key': 'chill_person_view', 
-       'return_args' : { 'person_id' : person.id} } %}
-{{ include(include_temp, include_args) }} 
 
 <fieldset>
     <legend><h2>{{ 'views.Person.view.general'|trans }}</h2></legend>
@@ -21,8 +17,6 @@
     {{ form_row(form.genre, {'label' : 'views.Person.view.gender'}) }}
 </fieldset>
 
-{{ include(include_temp, include_args) }} 
-
 <fieldset>
     <legend><h2>{{ 'views.Person.view.birth'|trans }}</h2></legend>
     {{ form_row(form.dateOfBirth, {'label': 'views.Person.view.dateOfBirth'} ) }}
@@ -30,14 +24,10 @@
     {{ form_row(form.countryOfBirth, { 'label' : 'views.Person.view.contry_of_birth' } ) }}
 </fieldset>
 
-{{ include(include_temp, include_args) }} 
-
 <fieldset>
     <legend><h2>{{ 'views.Person.view.administrative'|trans }}</h2></legend>
     {{ form_row(form.nationality, { 'label' : 'views.Person.view.nationality'|trans} ) }}
 </fieldset>
-
-{{ include(include_temp, include_args) }} 
 
 <fieldset>
     <legend><h2>{{ 'views.Person.view.contact'|trans }}</h2></legend>
@@ -47,9 +37,17 @@
 
 {{ form_row(form.memo, {'label' : 'views.Person.view.memo'} ) }}
 
-{{ include(include_temp, include_args) }} 
-
 {{ form_rest(form) }}
+
+    <div class="grid-12 centered sticky-form-buttons">
+        <a href="{{ path('chill_person_view',  {'person_id' : person.id}) }}" class="sc-button grey">
+            <i class="fa fa-arrow-left"></i>
+            {{ 'views.Person.edit.cancel'|trans }}
+        </a>
+        <button class="sc-button green" type="submit"><i class="fa fa-save"></i> {{ 'views.Person.edit.submit'|trans }}</button>
+        <button class="sc-button red" type="reset"><i class="fa fa-eraser"></i> {{ 'views.Person.edit.reset'|trans }}</button>
+    </div>
+
 {{ form_end(form) }}
 
 

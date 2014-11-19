@@ -5,7 +5,7 @@ chill_person_view:
         menus:
             person:
                 order: 50
-                label: Person View
+                label: Person details
 
 chill_person_general_edit:
     pattern: /{_locale}/person/{person_id}/general/edit

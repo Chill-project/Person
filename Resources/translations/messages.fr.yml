@@ -98,3 +98,6 @@
 'Error! History %name% is not closed ; it can be open': "Le dossier de <em>%name%</em> n'est pas fermé. Il ne peut donc être ouvert."
 'History %name% opened!': Bravo ! Le dossier de <em>%name</em> a été ouvert
 'History not opened' : "Les informations introduites ne sont pas valides. Le dossier n'a pu être ouvert."
+
+#Menu
+'Person details': Détails de la personne

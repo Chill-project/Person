@@ -59,14 +59,14 @@ class HistoryController extends Controller
                 
                 $flashBag->add('success', 
                         $this->get('translator')->trans(
-                                'controller.Person.history.create.done'));
+                                'History created!'));
                 
                 return $this->redirect($this->generateUrl('chill_person_history_list',
                         array('person_id' => $person->getId())));
             } else {
                 
                 $flashBag->add('danger', $this->get('translator')
-                        ->trans('controller.Person.history.create.error'));
+                        ->trans('Error! History not created!'));
                 
                 foreach($errors as $error) {
                     $flashBag->add('info', $error->getMessage());
@@ -117,14 +117,14 @@ class HistoryController extends Controller
                 
                 $flashBag->add('success', 
                         $this->get('translator')->trans(
-                                'controller.Person.history.update.done'));
+                                'Updating history done'));
                 
                 return $this->redirect($this->generateUrl('chill_person_history_list',
                         array('person_id' => $person->getId())));
             } else {
                 
                 $flashBag->add('danger', $this->get('translator')
-                        ->trans('controller.Person.history.edit.error'));
+                        ->trans('Error when updating history'));
                 
                 foreach($errors as $error) {
                     $flashBag->add('info', $error->getMessage());
@@ -152,7 +152,7 @@ class HistoryController extends Controller
         if ($person->isOpen() === false) {
             $this->get('session')->getFlashBag()
                     ->add('danger', $this->get('translator')
-                            ->trans('controller.Person.history.close.is_closed', 
+                            ->trans('Beware history is closed', 
                                     array('%name%' => $person->__toString())));
             
             return $this->redirect(
@@ -179,7 +179,7 @@ class HistoryController extends Controller
                 if (count($errors) === 0) {
                     $this->get('session')->getFlashBag()
                             ->add('success', $this->get('translator')
-                                    ->trans('controller.Person.history.close.done', 
+                                    ->trans('History closed!', 
                                             array('%name%' => $person->__toString())));
 
                     $this->getDoctrine()->getManager()->flush();
@@ -192,7 +192,7 @@ class HistoryController extends Controller
                 } else {
                     $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('controller.Person.history.close.error'));
+                                    ->trans('Error! History not closed!'));
                     
                     foreach ($errors as $error) {
                         $this->get('session')->getFlashBag()
@@ -207,7 +207,7 @@ class HistoryController extends Controller
             } else { //if form is not valid
                 $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('controller.Person.history.close.error_in_form'));
+                                    ->trans('History closing form is not valide'));
             }
         }
         
@@ -255,7 +255,7 @@ class HistoryController extends Controller
         if ($person->isOpen() === true) {
             $this->get('session')->getFlashBag()
                     ->add('danger', $this->get('translator')
-                            ->trans('controller.Person.history.open.is_not_closed', 
+                            ->trans('Error! History %name% is not closed ; it can be open', 
                                     array('%name%' => $person->__toString())));
             
             return $this->redirect(
@@ -280,7 +280,7 @@ class HistoryController extends Controller
                 if (count($errors) <= 0) {
                     $this->get('session')->getFlashBag()
                             ->add('success', $this->get('translator')
-                                    ->trans('controller.Person.history.open.done', 
+                                    ->trans('History %name% opened!', 
                                             array('%name%' => $person->__toString())));
 
                     $this->getDoctrine()->getManager()->flush();
@@ -293,7 +293,7 @@ class HistoryController extends Controller
                 } else {
                     $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('controller.Person.history.open.error'));
+                                    ->trans('History not opened'));
                     
                     foreach ($errors as $error) {
                         $this->get('session')->getFlashBag()
@@ -304,7 +304,7 @@ class HistoryController extends Controller
             } else { // if errors in forms
                 $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('controller.Person.history.open.error_in_form'));
+                                    ->trans('History not opened : form is invalid'));
             }
         
         }

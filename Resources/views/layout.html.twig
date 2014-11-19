@@ -46,12 +46,12 @@
             <div class="grid-4">
                 <p><i class="fa fa-birthday-cake"></i>  {% spaceless %}
                     {% if person.dateOfBirth == null %}
-                        {{ 'person.without_date_of_birth'|trans }}, {{ ('person.gender.' ~
+                        {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~
                             person.genre)|trans }}
                     {% else %}
                         {% transchoice person.genreNumeric
                             with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}
-                            views.layout.born
+                            {0} Born the %date | {1} Born the %date
                         {% endtranschoice %}
                     {% endif %}
                 {% endspaceless %}</p>
@@ -59,7 +59,7 @@
                 {% if person.nationality is not null %}
                     <p><i class="fa fa-flag"></i> {{ person.nationality.name|localize_translatable_string }}</p>
                 {% else %}
-                    <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}views.layout.without_nationality{% endtrans %}</p>
+                    <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}Without nationality{% endtrans %}</p>
                 {% endif %} 
             </div>
         </div>

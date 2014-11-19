@@ -24,18 +24,16 @@ class GenderType extends AbstractType {
     
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         
-        $rootTranslate = 'person.gender.';
-        
         $a = array(
-            Person::GENRE_MAN => $rootTranslate.Person::GENRE_MAN,
-            Person::GENRE_WOMAN => $rootTranslate.Person::GENRE_WOMAN
+            Person::GENRE_MAN => Person::GENRE_MAN,
+            Person::GENRE_WOMAN => Person::GENRE_WOMAN
         );
         
         $resolver->setDefaults(array( 
             'choices' => $a,
             'expanded' => true,
             'multiple' => false,
-            'empty_value' => $rootTranslate.'undefined'
+            'empty_value' => 'Not given'
         ));
     }
 

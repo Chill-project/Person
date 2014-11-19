@@ -2,14 +2,14 @@
 
 {% set activeRouteKey = 'chill_person_history_list' %}
 
-{% block title %}{{ 'views.Person.hlist.title'|trans({ '%name%' : person.__toString}) }}{% endblock title %}
+{% block title %}{{ 'Person history - %name%'|trans({ '%name%' : person.__toString}) }}{% endblock title %}
 
 {% block personcontent %}
 <table class="rounded">
     <thead>
         <tr>
-            <th>{{ 'views.Person.hlist.dateOpening_title'|trans }}</th>
-            <th>{{ 'views.Person.hlist.dateClosing_title'|trans }}</th>
+            <th>{{ 'Opening date'|trans }}</th>
+            <th>{{ 'Closing date'|trans }}</th>
             <th>&nbsp;</th>
         </tr>
         
@@ -21,7 +21,7 @@
             <td>{{ history.dateOpening|date(date_format) }}</td>
             <td>{% spaceless %}
                 {% if history.isOpen %}
-                    {{ 'views.Person.hlist.still_open'|trans }}
+                    {{ 'Still open'|trans }}
                 
                 {% else %}
                     {{ history.dateClosing|date(date_format) }}
@@ -30,7 +30,7 @@
             {% endspaceless %}</td>
             <td>
                 <div class="small warning btn icon-right entypo icon-pencil">
-                    <a  href="{{ path('chill_person_history_update', {'person_id' : person.id, 'history_id' : history.id } ) }}">{{ 'views.Person.hlist.edit'|trans }}</a>
+                    <a  href="{{ path('chill_person_history_update', {'person_id' : person.id, 'history_id' : history.id } ) }}">{{ 'Edit'|trans }}</a>
                 </div>
             </td>
         </tr>
@@ -50,7 +50,7 @@
 <div class="form_control">
     <div class="btn small warning icon-right entypo icon-plus">
         <a href="{{ path ('chill_person_history_create', {'person_id' : person.id } ) }}">
-            {{ 'views.Person.hlist.create'|trans }}
+            {{ 'Create history'|trans }}
         </a>
     </div>
     
@@ -64,11 +64,11 @@
             {% spaceless %}
                 {% if person.isOpen == true %}
                     <a href="{{ path('chill_person_history_close', {'person_id' : person.id}) }}">
-                        {{'views.Person.hlist.close'|trans }}
+                        {{'Close history'|trans }}
                     </a>
                 {% else %}
                     <a href="{{ path('chill_person_history_open', {'person_id' : person.id} ) }}">
-                        {{'views.Person.hlist.open'|trans }}
+                        {{'Open history'|trans }}
                     </a>
                 {% endif %}
             {% endspaceless %}   

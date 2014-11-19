@@ -39,7 +39,7 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 
 <figure>
-    <h2>{{ 'views.Person.view.general'|trans }}</h2>
+    <h2>{{ 'General information'|trans }}</h2>
     
     <dl>
         <dt class="inline">{{ 'First name'|trans }}</dt>
@@ -48,28 +48,28 @@ This view should receive those arguments:
         <dt class="inline">{{ 'Last name'|trans }}</dt>
         <dd>{{ person.lastName }}</dd>
         
-        <dt class="inline">{{ 'views.Person.view.gender'|trans }}</dt>
-        <dd>{{ ( 'person.gender.' ~ person.genre|default('undefined'))|trans }}</dd>
+        <dt class="inline">{{ 'Gender'|trans }}</dt>
+        <dd>{{ ( person.genre|default('Not given'))|trans }}</dd>
     </dl>
 </figure>
 
 <figure>
-    <h2>{{ 'views.Person.view.birth'|trans }}</h2>
+    <h2>{{ 'Birth information'|trans }}</h2>
 
     <dl>
-            <dt class="inline">{{ 'views.Person.view.dateOfBirth'|trans }}</dt>
+            <dt class="inline">{{ 'Date of birth'|trans }}</dt>
             <dd>{{ person.dateOfBirth.format(date_format)
-                |default( 'person.without_date_of_birth'|trans ) }}</dd>
+                |default( 'Unknown date of birth'|trans ) }}</dd>
 
             
-            <dt class="inline">{{ 'views.Person.view.placeOfBirth'|trans }}</dt>
+            <dt class="inline">{{ 'Place of birth'|trans }}</dt>
             <dd>{{ person.placeOfBirth }}</dd>
             <dd>{% spaceless %}  
                 
                 {% if person.countryOfBirth is not null %}
                     {{ person.countryOfBirth.name|localize_translatable_string }}
                 {% else %}
-                    {{ 'views.Person.view.country_of_birth_unknow'|trans }}
+                    {{ 'Unknown country of birth'|trans }}
                 {% endif %}
 
 {% endspaceless %}</dd>
@@ -81,15 +81,15 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 
 <figure>
-    <h2>{{ 'views.Person.view.administrative'|trans }}</h2>
+    <h2>{{ 'Administrative information'|trans }}</h2>
 
     <dl>
-      <dt class="inline">{{ 'views.Person.view.nationality'|trans }}</dt>
+      <dt class="inline">{{ 'Nationality'|trans }}</dt>
         <dd>
             {% if person.nationality is not null %}
                 {{ person.nationality.name|localize_translatable_string }}
             {% else %}
-                {{ 'views.Person.view.without_nationality'|trans }}
+                {{ 'Without nationality'|trans }}
             {% endif %}
         </dd> 
     </dl>
@@ -98,14 +98,14 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 
 <figure>
-    <h2>{{ 'views.Person.view.contact'|trans }}</h2>
+    <h2>{{ 'Contact information'|trans }}</h2>
 
     <dl>
-        <dt class="inline">{{ 'views.Person.view.email'|trans }}</dt>
+        <dt class="inline">{{ 'Email'|trans }}</dt>
         <dd><pre>{{ person.email}}&nbsp;</pre></dd>
     </dl>
     <dl>
-        <dt class="inline">{{ 'views.Person.view.phonenumber'|trans }}</dt>
+        <dt class="inline">{{ 'Phonenumber'|trans }}</dt>
         <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
     </dl>
 

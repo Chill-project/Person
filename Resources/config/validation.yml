@@ -6,8 +6,8 @@ Chill\PersonBundle\Entity\Person:
               - Length: 
                   min: 2
                   max: 255
-                  minMessage: validation.Person.constraint.name_min
-                  maxMessage: validation.Person.constraint.name_max
+                  minMessage: 'This name is too short. It must containt {{ limit }} chars'
+                  maxMessage: 'This name is too long. It must containt {{ limit }} chars'
                   groups: [general, creation]
         lastName:
               - NotBlank:
@@ -15,12 +15,12 @@ Chill\PersonBundle\Entity\Person:
               - Length: 
                   min: 2
                   max: 255
-                  minMessage: validation.Person.constraint.name_min
-                  maxMessage: validation.Person.constraint.name_max
+                  minMessage: 'This name is too short. It must containt {{ limit }} chars'
+                  maxMessage: 'This name is too long. It must containt {{ limit }} chars'
                   groups: [general]
         dateOfBirth:
               - Date: 
-                  message: validation.Person.constraint.dateOfBirth.not_valid
+                  message: 'Birthdate not valid'
                   groups: [general, creation]
         history:
               - Valid:
@@ -34,14 +34,14 @@ Chill\PersonBundle\Entity\PersonHistoryFile:
     properties:
         date_opening:
               - Date: 
-                  message: validation.history.date_opening.not_valid
+                  message: 'Opening date is not valid'
               - NotNull: 
-                  message: validation.history.date_opening.not_null
+                  message: 'Opening date can not be null'
         date_closing:
               - Date: 
-                  message: validation.history.date_closing.not_valid
+                  message: 'Closing date is not valid'
               - NotNull:
-                  message: validation.history.date_closing.not_null
+                  message: 'Closing date can not be null'
                   groups: [closed]
     constraints:
           - Callback:

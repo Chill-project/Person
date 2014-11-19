@@ -22,8 +22,8 @@
         <thead>
             <tr>
                 <th>{% trans %}Name{% endtrans %}</th>
-                <th>{% trans %}person.dateOfBirth{% endtrans %}</th>
-                <th>{% trans %}person.nationality{% endtrans %}</th>
+                <th>{% trans %}Date of birth{% endtrans %}</th>
+                <th>{% trans %}Nationality{% endtrans %}</th>
             </tr>
         </thead>
         <tbody>
@@ -40,13 +40,13 @@
                         </a>
                     </td>
                     <td>
-                        <span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)|default( 'person.without_date_of_birth'|trans )}}</span>
+                        <span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)|default( 'Unknown date of birth'|trans )}}</span>
                     </td>
                     <td>
                         {% if person.nationality is not null %}
                             <span class="personNationality">{{person.nationality.label}}</span>
                         {% else %}
-                            {{ 'views.Person.list.without_nationality'|trans }}
+                            {{ 'Without nationality'|trans }}
                         {% endif %}
                     </td>
                 </tr>         

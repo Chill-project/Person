@@ -1,137 +1,100 @@
-person:
-    name: Nom
-    surname: Prénom
-    dateOfBirth: Date de naissance
-    without_date_of_birth: Date de naissance inconnue
-    nationality: Nationalité
-    without_nationality: Sans nationalité
-    civil_union:
-        divorced: Divorcé
-        separated: Séparé
-        widow: Veuf
-        unknow: Inconnu
-        cohab: Cohabitation légale
-        single: Célibataire
-    gender:
-        MAN: Homme
-        WOM: Femme
-        undefined: Non renseigné
-    history:
-        close:
-            motives:
-                not_come: Plus venu
-                finished: Accompagnement terminé
+#General
+'Edit': Modifier
+'First name': Prénom
+'Last name': Nom
+'Name': Nom
+'Date of birth': Date de naissance
+'Unknown date of birth': Date de naissance inconnue
+'Nationality': Nationalité
+'Without nationality': Sans nationalité
+'Gender': Genre
+'Creation date': "Date d'ouverture"
+'Not given': Non renseigné
+'Place of birth': Lieu de naissance
+'Country of birth': Pays de naissance
+'Unknown country of birth': Pays inconnu
+'Marital status': État civil
+'Number of children': "Nombre d'enfants"
+'{0} No child|{1} One child | ]1,Inf] %nb% children': '{0} Aucun enfant|{1} Un enfant | ]1,Inf] %nb% enfants'
+'National number': Numéro national
+'Email': Courrier électronique
+'Address': Adresse
+'Memo': Mémo
+'Phonenumber': Numéro de téléphone
+'{0} Born the %date | {1} Born the %date': '{0} Né le %date% | {1} Née le %date%'
 
-search:
-    q_is_empty: Votre requête est vide. Veuillez introduire un terme de recherche
-    no_results: La requête <span class="research">%q%</span> ne renvoie aucun résultat.
+#Gender
+'Male': Homme
+'Female': Femme
+'man': Homme
+'woman': Femme
 
-validation:
-    Person: 
-        form: 
-            person:
-                success: Bravo ! Les données ont été mises à jour.
-                error: '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
-controller:
-    Person:
-        review:
-            people_with_similar_name: %nb% personnes ont un nom similaire. Vérifiez qu'il ne s'agit pas de l'une d'elles.
-            problem_with_data: Les données de votre formulaire sont invalides.
-        history:
-            close:
-                done: Bravo ! Le dossier de <em>%name%</em> a été clotûré.
-                error: Les informations introduites ne sont pas valides. Le dossier n'a pu être clos. 
-                error_in_form: Le formulaire n'est pas valide.
-                is_not_open: Le dossier de </em>%name%</em> n'est pas ouvert. Il ne peut donc être fermé.
-            open:
-                done: Bravo ! Le dossier de <em>%name%</em> est maintenant ouvert.
-                error: Les informations introduites ne sont pas valides. Le dossier n'a pu être ouvert.
-                error_in_form: Le formulaire n'est pas valide.
-                is_not_closed: Le dossier de <em>%name%</em> n'est pas fermé. Il ne peut donc être ouvert.
-            update:
-                done: Bravo ! La mise à jour de l'historique a réussi !
-                error: Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.
-            create:
-                done: Bravo ! L'historique a été modifié.
-                error: Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.
+#Marital Status
+'Divorced': Divorcé(e)
+'Separated': Séparé(e)
+'Widow': Veuf(ve)
+'Unknow marital status': Indéterminé
+'Legal cohabitant': Cohabitant légal
+'Single': Célibataire
+'Married': Marié(e)
 
-views:                
-    layout:
-        born: '{0} Né le %date% | {1} Née le %date%'
-        without_nationality: Nationalité inconnue    
-    common:
-        edit: Modifier
-    Person:
-        view:
-            general: Généralités
-            birth: Naissance
-            dateOfBirth: Date de naissance
-            placeOfBirth: Lieu de naissance
-            contry_of_birth: Pays de naissance
-            country_of_birth_unknow: Pays inconnu
-            without_nationality: Nationalité inconnue
-            family: Famille
-            civil_union: État civil
-            nb_of_childs: Nombre d'enfants
-            nb_of_childs_count: '{0} Aucun enfant|{1} Un enfant | ]1,Inf] %nb% enfants'
-            nationality: Nationalité
-            national_number: Numéro national
-            contact: Informations de contact
-            email: Courrier électronique
-            address: Adresse
-            administrative: Administratif
-            surname: Prénom
-            name: Nom
-            gender: Genre
-            memo: Mémo
-        edit:
-            cancel: Retour
-            reset: Remise à zéro
-            submit: Envoi
-        list:
-            without_nationality: Nationalité inconnue
-        #History
-        hlist:
-            title: Historique du dossier - %name%
-            dateOpening_title: Date d'ouverture
-            dateClosing_title: Date de fermeture
-            still_open: Toujours en cours
-            edit: Modifier
-            close: Clôre le dossier
-            open: Ouvrir le dossier
-            create: Nouvel ouverture-fermeture à une autre date
-        close:
-            last_opening_since: Dernière ouverture le %last_opening%.
-            action: Clotûrer
-            select_a_motive: Choisissez un motif
-            date_of_closing: Date de clotûre
-            motive_of_closing: Motif de clôture
-            texto: Mémo
-        open:
-            action: Ouvrir
-            date_of_opening: Date d'ouverture
-            texto: Mémo
-        hupdate:
-            dateOpening: Date d'ouverture
-            dateClosing: Date de fermeture
-            motive_of_closing: Motif de clôture
-            texto: Mémo
-            action: Modifier
-        creation:
-            add: Ajouter
-            open: Ouverture d'un dossier
-        review:
-            altName: Nom
-            altDateOfBirth: Prénom
-            altNationality: Nationalité
-            confirm_creation: Confirmer la création
-            creation_date: Date d'ouverture
-            you_will_create_this_person: Vous allez créer le dossier suivant
+#Heading
+'General information': Généralités
+'Birth information': Naissance
+'Family information': Famille
+'Contact information': Informations de contact
+'Administrative information': Administratif
 
-menu:
-    person:
-        history: Historique
-        general_view: Informations personnelles
-        admin:
-            index: Personnes
-            helper: Pas de sous-menu actuellement.
+#Title
+'Alreay existing person': Dossiers déjà encodés
+
+#Action
+'Add the person': Ajouter la personne
+'Confirm the creation': Confirmer la création
+'You will create this person': Vous allez créer le dossier suivant
+'Return': Retour
+'Submit': Envoi
+'Reset': Remise à zéro
+
+#Validation
+'The person data has been updated': Bravo ! Les données ont été mises à jour.
+'{1} The person field %field% is incorrect. Please check. | ]1, Inf] Several person fields are incorrect. Please check.': '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
+
+#Creation
+'Add a person': "Ajout d'une personne"
+
+#Navigation
+'Person Menu': "Menu personne"
+
+#Person Controller
+'Your query is empty. Be more explicive': Votre requête est vide. Veuillez introduire un terme de recherche
+'Your query %q% gives no results': La requête <span class="research">%q%</span> ne renvoie aucun résultat.
+'The person data are not valid': Les données de votre formulaire sont invalides.
+'%nb% person with similar name. Please verify that this is a new person': %nb% personnes ont un nom similaire. Vérifiez qu'il ne s'agit pas de l'une d'elles.
+'The person has been created': Le dossier a été créé
+
+#History
+'Last opening since %last_opening%': Dernière ouverture le %last_opening%.
+'Close person history': Clotûrer
+'Person history - %name%': Historique du dossier - %name%
+'Opening date': "Date d'ouverture"
+'Closing date': "Date de fermeture"
+'Still open': Toujours en cours
+'Close history': Clôre le dossier
+'Open history': Ouvrir le dossier
+'Create history': Nouvel ouverture-fermeture à une autre date
+'Closing date': Date de clotûre
+'Closing motive': Motif de clôture
+
+#History Controller
+'History created!': Bravo ! Le dossier est maintenant ouvert.
+'Error! History not created!': "Erreur ! Le dossier n'a pas pu être ouvert."
+'Updating history done': "Bravo ! La mise à jour de l'historique a réussi !"
+'Error when updating history': Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.
+'Beware history is closed': Attention le dossier est déjà fermé
+'History closed!': Bravo ! Le dossier de <em>%name%</em> a été clotûré.
+'Error! History not closed!': "Les informations introduites ne sont pas valides. Le dossier n'a pu être clos."
+'History closing form is not valide': "Le formulaire n'est pas valide."
+'Error! History %name% is not closed ; it can be open': "Le dossier de <em>%name%</em> n'est pas fermé. Il ne peut donc être ouvert."
+'History %name% opened!': Bravo ! Le dossier de <em>%name</em> a été ouvert
+'History not opened' : "Les informations introduites ne sont pas valides. Le dossier n'a pu être ouvert."

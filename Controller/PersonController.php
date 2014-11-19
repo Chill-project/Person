@@ -107,7 +107,7 @@ class PersonController extends Controller
             $this->get('session')->getFlashBag()
                     ->add('success', 
                             $this->get('translator')
-                            ->trans('validation.Person.form.person.success')
+                            ->trans('The person has been created')
                             );
             
             $em = $this->getDoctrine()->getManager();
@@ -131,7 +131,7 @@ class PersonController extends Controller
                 ->getFlashBag()
                 ->add('info', 
                     $this->get('translator')
-                    ->trans('search.q_is_empty')
+                    ->trans('Your query is empty. Be more explicive')
                 );
         }
         
@@ -166,7 +166,7 @@ class PersonController extends Controller
                     ->getFlashBag()
                     ->add('info', 
                             $this->get('translator')
-                            ->trans('search.no_results', array( 
+                            ->trans('Your query %q% gives no results', array( 
                                 '%q%' => $q
                             ))
                             );
@@ -268,7 +268,7 @@ class PersonController extends Controller
             $flashBag = $this->get('session')->getFlashBag();
             $translator = $this->get('translator');
             
-            $flashBag->add('danger', $translator->trans('controller.Person.review.problem_with_data'));
+            $flashBag->add('danger', $translator->trans('The person data are not valid'));
             
             foreach($errors as $error) {
                 $flashBag->add('info', $error->getMessage());
@@ -309,7 +309,7 @@ class PersonController extends Controller
         
         $this->get('session')->getFlashBag()->add('info', 
                 $this->get('translator')->trans(
-                        'controller.Person.review.people_with_similar_name', 
+                        '%nb% person with similar name. Please verify that this is a new person', 
                         array('%nb%' => count($alternatePersons)))
                 );
         

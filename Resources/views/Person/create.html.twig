@@ -16,28 +16,28 @@
 #}
 {% extends "ChillMainBundle::layout.html.twig" %}
 
-{% block title %}{{ 'views.Person.creation.title'|trans }}{% endblock title %}
+{% block title %}{{ 'Add a person'|trans }}{% endblock title %}
     
 {% block content %}
     <div id="person_wrapper">
         <div id="person_details">
             {{ form_start(form) }}
             
-                <h1>{{ 'views.Person.creation.open'|trans }}</h1>
+                <h1>{{ 'Add a person'|trans }}</h1>
             
                 {{ form_row(form.firstName, { 'label' : 'First name'|trans }) }}  
                             
                 {{ form_row(form.lastName, { 'label' : 'Last name'|trans }) }}
                             
-                {{ form_row(form.dateOfBirth, { 'label' : 'views.Person.view.dateOfBirth'|trans }) }}
+                {{ form_row(form.dateOfBirth, { 'label' : 'Date of birth'|trans }) }}
                             
-                {{ form_row(form.genre, { 'label' : 'views.Person.view.gender'|trans }) }} 
+                {{ form_row(form.genre, { 'label' : 'Gender'|trans }) }} 
                             
-                {{ form_row(form.creation_date, { 'label' : 'views.Person.review.creation_date'|trans }) }}             
+                {{ form_row(form.creation_date, { 'label' : 'Creation date'|trans }) }}             
                     
                 {{ form_rest(form) }}
             
-                <button class="sc-button green" type="submit"><i class="fa fa-plus"></i> {{ 'views.Person.creation.add'|trans }}</button>
+                <button class="sc-button green" type="submit"><i class="fa fa-plus"></i> {{ 'Add the person'|trans }}</button>
     
             {{ form_end(form) }}
         </div>

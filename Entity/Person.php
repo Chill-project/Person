@@ -541,13 +541,13 @@ class Person {
             
             if ($r['result'] === self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE) {
                 $context->addViolationAt('history',
-                        'validation.Person.constraint.history.open_history_without_closing',
+                        'History not closed is before the new line',
                         array() );
                 return;
             } 
             
             $context->addViolationAt('history', 
-                   'validation.Person.constraint.history.opening_is_before_closing',
+                   'Periods are collapsing',
                    array(
                        '%dateOpening%' => $r['dateOpening']->format('d-m-Y'),
                        '%dateClosing%' => $r['dateClosing']->format('d-m-Y'),

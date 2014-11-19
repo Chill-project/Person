@@ -37,7 +37,8 @@ Chill\PersonBundle\Entity\Person:
         cFData:
             type: array
         phonenumber:
-            type:text
+            type: text
+            nullable: true
     manyToOne:
         countryOfBirth:
             targetEntity: Chill\MainBundle\Entity\Country

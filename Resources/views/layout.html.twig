@@ -16,14 +16,6 @@
 #}
 {% extends "ChillMainBundle::layout.html.twig" %}
 
-{% block css %}
-    {% stylesheets  output="css/all.css" filter="cssrewrite"
-          "bundles/chillperson/css/person.css"
-     %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
-{% endblock %}
-
 {% block layout_content %}
 
 <div class="container">

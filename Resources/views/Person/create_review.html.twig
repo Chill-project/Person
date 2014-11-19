@@ -17,17 +17,6 @@
 {% extends "ChillMainBundle::layout.html.twig" %}
 
 {% block title %}{{ 'Alreay existing person'|trans }}{% endblock title %}
-
-{% block css %}
-
-    {% stylesheets  output="css/all.css" filter="cssrewrite"
-          "bundles/chillperson/css/person.css"
-     %}
-    <link rel="stylesheet" href="{{ asset_url }}"/>
-    {% endstylesheets %}
-
-
-{% endblock %}  
     
 {% block content %}
     <div id="person_wrapper" class="container">

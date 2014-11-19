@@ -51,7 +51,7 @@
                     {% else %}
                         {% transchoice person.genreNumeric
                             with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}
-                            {0} Born the %date | {1} Born the %date
+                            {0} Born the %date% | {1} Born the %date%
                         {% endtranschoice %}
                     {% endif %}
                 {% endspaceless %}</p>

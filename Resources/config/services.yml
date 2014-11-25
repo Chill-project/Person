@@ -14,3 +14,12 @@ services:
             - "@request"
         tags:
             - { name: form.type, alias: closing_motive }
+            
+    chill.person.search_person:
+        class: Chill\PersonBundle\Search\PersonSearch
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        calls:
+            - ['setContainer', ["@service_container"]]
+        tags:
+            - { name: chill.search, alias: 'person_search' }

@@ -33,7 +33,7 @@ class GenderType extends AbstractType {
             'choices' => $a,
             'expanded' => true,
             'multiple' => false,
-            'empty_value' => 'Not given'
+            'empty_value' => null
         ));
     }
 

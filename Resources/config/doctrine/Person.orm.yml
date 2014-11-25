@@ -1,6 +1,9 @@
 Chill\PersonBundle\Entity\Person:
     type: entity
     table: null
+    indexes:
+        person_names:
+            columns: [firstName, lastName]
     repositoryClass: Chill\PersonBundle\Entity\PersonRepository
     fields:
         id:

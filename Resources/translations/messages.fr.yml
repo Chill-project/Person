@@ -73,6 +73,7 @@
 
 #search
 'Person search results': Recherche de personnes
+'Search within persons': Recherche parmi les personnes
 'No persons matching search %pattern%': Aucune personne ne correpond à votre recherche "%pattern%".
 '%total% persons matching the search %pattern%': %total% personnes correspondent aux termes de recherche "%pattern%".
 

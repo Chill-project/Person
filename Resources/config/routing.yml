@@ -43,7 +43,7 @@ chill_person_search:
         menus:
             main:
                 order: 30
-                label: Chercher une personne
+                label: Search within persons
 
 chill_person_history_list:
     pattern: /{_locale}/person/{person_id}/history

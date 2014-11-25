@@ -58,7 +58,7 @@ class PersonType extends AbstractType
         if($options['cFGroup']) {
             $builder
                 ->add('cFData', 'custom_field',
-                array('attr' => array('class' => 'only-label'), 'group' => $options['cFGroup']))
+                array('attr' => array('class' => 'cf-fields'), 'group' => $options['cFGroup']))
             ;
         }
 

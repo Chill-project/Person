@@ -4,3 +4,4 @@ parameters:
     database_name: test0
     database_user: postgres
     database_password: postgres
+    locale: fr

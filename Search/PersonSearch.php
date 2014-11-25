@@ -99,7 +99,8 @@ class PersonSearch extends AbstractSearch
         $dql = 'SELECT p FROM ChillPersonBundle:Person p'
             . ' WHERE'
                 . ' LOWER(p.firstName) like LOWER(:q)'
-                    . ' OR LOWER(p.lastName)  like LOWER(:q)';
+                    . ' OR LOWER(p.lastName)  like LOWER(:q)'
+              . 'ORDER BY p.lastName, p.firstName';
         
         $query = $this->om->createQuery($dql)
             ->setParameter('q', '%'.trim($pattern).'%')

@@ -67,11 +67,14 @@
 'Person Menu': "Menu personne"
 
 #Person Controller
-'Your query is empty. Be more explicive': Votre requête est vide. Veuillez introduire un terme de recherche
-'Your query %q% gives no results': La requête <span class="research">%q%</span> ne renvoie aucun résultat.
 'The person data are not valid': Les données de votre formulaire sont invalides.
 '%nb% person with similar name. Please verify that this is a new person': %nb% personnes ont un nom similaire. Vérifiez qu'il ne s'agit pas de l'une d'elles.
 'The person has been created': Le dossier a été créé
+
+#search
+'Person search results': Recherche de personnes
+'No persons matching search %pattern%': Aucune personne ne correpond à votre recherche "%pattern%".
+'%total% persons matching the search %pattern%': %total% personnes correspondent aux termes de recherche "%pattern%".
 
 #History
 'Last opening since %last_opening%': Dernière ouverture le %last_opening%.

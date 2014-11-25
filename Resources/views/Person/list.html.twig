@@ -14,10 +14,12 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
-{% extends "ChillMainBundle::layout.html.twig" %}
-{% block title %}Recherche {{ pattern }}{% endblock %}
- 
-{% block content %}
+<h2>{{ 'Person search results'|trans }}</h2>
+{% if persons|length == 0 %}
+<p>{{ 'No persons matching search %pattern%'|trans({'%pattern%' : pattern}) }}</p>
+{%  else %}
+<p>{{ '%total% persons matching the search %pattern%'|trans({'%pattern%': pattern, '%total%' : total}) }}</p>
+
     <table class="striped rounded">
         <thead>
             <tr>
@@ -53,4 +55,4 @@
             {% endfor %}
         </tbody>
     </table>
-{% endblock %}
+{% endif %}

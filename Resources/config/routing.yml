@@ -37,7 +37,7 @@ chill_person_create:
     defaults: {_controller: ChillPersonBundle:Person:create }
 
 chill_person_search:
-    pattern: /{_locale}/search
+    pattern: /{_locale}/person/search
     defaults: { _controller: ChillPersonBundle:Person:search }
     options:
         menus:

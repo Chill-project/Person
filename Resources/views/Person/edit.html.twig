@@ -57,12 +57,12 @@
 {{ form_rest(form) }}
 
     <div class="grid-12 centered sticky-form-buttons">
-        <a href="{{ path('chill_person_view',  {'person_id' : person.id}) }}" class="sc-button grey">
+        <a href="{{ path('chill_person_view',  {'person_id' : person.id}) }}" class="sc-button grey center margin-5">
             <i class="fa fa-arrow-left"></i>
             {{ 'Return'|trans }}
         </a>
-        <button class="sc-button green" type="submit"><i class="fa fa-save"></i> {{ 'Submit'|trans }}</button>
-        <button class="sc-button red" type="reset"><i class="fa fa-eraser"></i> {{ 'Reset'|trans }}</button>
+        <button class="sc-button green center margin-5" type="submit"><i class="fa fa-save"></i> {{ 'Submit'|trans }}</button>
+        <button class="sc-button red center margin-5" type="reset"><i class="fa fa-eraser"></i> {{ 'Reset'|trans }}</button>
     </div>
 
 {{ form_end(form) }}

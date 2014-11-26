@@ -53,6 +53,12 @@
                 {% else %}
                     <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}Without nationality{% endtrans %}</p>
                 {% endif %} 
+
+                <p><i class="fa fa-bullhorn"></i>
+                    {% for lang in person.spokenLanguages %}
+                        {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                </p>
             </div>
         </div>
 

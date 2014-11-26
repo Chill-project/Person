@@ -93,6 +93,14 @@ This view should receive those arguments:
             {% endif %}
         </dd> 
     </dl>
+    <dl>
+        <dt class="inline">{{'Spoken languages'|trans}}</dt>
+        <dd>
+            {% for lang in person.spokenLanguages %}
+                {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        </dd>
+    </dl>
 </figure>
 
 {{ include(edit_tmp_name, edit_tmp_args) }}

@@ -53,6 +53,10 @@ class PersonType extends AbstractType
             ->add('nationality', 'select2_chill_country', array(
                 'required' => false
                 ))
+            ->add('spokenLanguages', 'select2_chill_language', array(
+                'required' => false,
+                'multiple' => true
+                ))
         ;
 
         if($options['cFGroup']) {

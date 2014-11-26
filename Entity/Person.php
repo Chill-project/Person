@@ -23,6 +23,7 @@ namespace Chill\PersonBundle\Entity;
 
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Chill\MainBundle\Entity\Country;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Person
@@ -104,16 +105,22 @@ class Person {
      * @var string
      */
     private $phonenumber = '';
+
+    /**
+     * The spoken languages (ArrayCollection of Languages)
+     * @var \Doctrine\Common\Collections\ArrayCollection
+    */
+    private $spokenLanguages;
     
     public function __construct(\DateTime $opening = null) {
-        $this->history = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->history = new ArrayCollection();
+        $this->spokenLanguages = new ArrayCollection();
         
         if ($opening === null) {
             $opening = new \DateTime();
         }
         
         $this->open(new PersonHistoryFile($opening));
-        
     }
     
     /**
@@ -530,7 +537,29 @@ class Person {
     {
         return $this->getLabel();
     }
-    
+
+    /**
+     * Set spokenLanguages
+     *
+     * @param type $spokenLanguages
+     * @return Person
+     */
+    public function setSpokenLanguages($spokenLanguages)
+    {
+        $this->spokenLanguages = $spokenLanguages;
+
+        return $this;
+    }
+
+    /**
+     * Get spokenLanguages
+     *
+     * @return ArrayCollection
+     */
+    public function getSpokenLanguages()
+    {
+        return $this->spokenLanguages;
+    }
     
     // VALIDATION
     public function isHistoryValid(ExecutionContextInterface $context) {

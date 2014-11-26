@@ -53,4 +53,9 @@ Chill\PersonBundle\Entity\Person:
             targetEntity: PersonHistoryFile
             mappedBy: person
             cascade: [persist, remove, merge, detach]
+    manyToMany:
+        spokenLanguages:
+            targetEntity: Chill\MainBundle\Entity\Language
+            joinTable:
+                name: persons_spoken_languages
     lifecycleCallbacks: {  }

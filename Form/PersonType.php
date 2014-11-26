@@ -42,7 +42,7 @@ class PersonType extends AbstractType
             ->add('dateOfBirth', 'date', array('required' => false, 'widget' => 'single_text', 'format' => 'dd-MM-yyyy'))
             ->add('placeOfBirth', 'text', array('required' => false))
             ->add('genre', new GenderType(), array(
-                'required' => false
+                'required' => true
             ))
             ->add('memo', 'textarea', array('required' => false))
             ->add('phonenumber', 'textarea', array('required' => false))

@@ -1,0 +1,13 @@
+'This name is too short. It must containt {{ limit }} chars': 'De naam is te kort. Er moeten minstens {{ limit }} karakters in voor komen.'
+'This name is too long. It must containt {{ limit }} chars': 'De naam is te lang. Er kunnen maximum {{ limit }} karakters in voor komen.'
+'This number is negative. It must have at least 0 child': 'Fout getal, er moet minstens 0 kinderen ingevuld worden.'
+'This number is too high. It can not be superior of {{ limit }}': 'Getal is fout ingegeven: kan niet hoger zijn dan {{ limit }}.'
+'This is not a number': 'Je moet hier een cijfer invullen.'
+'Birthdate not valid': 'Geboortedatum is foutief ingevuld'
+'Periods are collapsing': 'De periodes van openen en sluiten van het dossier is foutief. Verifieer de data.'
+"History not closed is before the new line": "U probeert een dossier te starten in het verleden, dit is onmogelijk!"
+'Closing date can not be before opening date': 'Dossier kan niet gesloten worden voor datum van openen dossier.'
+'Opening date is not valid': 'Startdatum is ongeldig'
+'Opening date can not be null': 'Startdatum  kan niet  nul zijn'
+'Closing date is not valid': 'De datum van afsluiten is niet correct'
+'Closing date can not be null': 'De datum van afsluiten kan niet nul zijn'

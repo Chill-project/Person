@@ -23,6 +23,7 @@
 'Phonenumber': Telefoonnummer
 '{0} Born the %date% | {1} Born the %date%': '{0} Gebooren te %date% | {1} Gebooren te %date%'
 'Spoken languages': Spreektalen
+'Unkown spoken language': Onbekend spreektalen
 
 #Gender
 'Male': Man
@@ -72,6 +73,11 @@
 'The person data are not valid': De gegevens zijn niet correct
 '%nb% person with similar name. Please verify that this is a new person': %nb% meerdere personen met dezelfde naam. Check of dit echt een nieuw dossier is.
 'The person has been created': Dossier is aangemaakt
+
+#Search
+'Person search results': Personengezocht
+'No persons matching search %pattern%': Geen personen stemmen met het gezocht "%pattern%" overeen.
+'%total% persons matching the search %pattern%': %total% personen stemmen met het gezocht "%pattern%" overeen.
 
 #Menu
 'Person details': Details van de persoon

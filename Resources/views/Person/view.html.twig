@@ -96,9 +96,13 @@ This view should receive those arguments:
     <dl>
         <dt class="inline">{{'Spoken languages'|trans}}</dt>
         <dd>
-            {% for lang in person.spokenLanguages %}
-                {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
-            {% endfor %}
+            {% if person.spokenLanguages|length == 0 %}
+                {{ 'Unknown spoken languages'|trans }}
+            {% else %}
+                {% for lang in person.spokenLanguages %}
+                    {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
+                {% endfor %}
+            {% endif %}
         </dd>
     </dl>
 </figure>

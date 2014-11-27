@@ -55,9 +55,13 @@
                 {% endif %} 
 
                 <p><i class="fa fa-bullhorn"></i>
-                    {% for lang in person.spokenLanguages %}
-                        {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
-                    {% endfor %}
+                    {% if person.spokenLanguages|length == 0 %}
+                        {{ 'Unknown spoken languages'|trans }}
+                    {% else %}
+                        {% for lang in person.spokenLanguages %}
+                            {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    {% endif %}
                 </p>
             </div>
         </div>

@@ -23,6 +23,7 @@
 'Phonenumber': Numéro de téléphone
 '{0} Born the %date% | {1} Born the %date%': '{0} Né le %date% | {1} Née le %date%'
 'Spoken languages': Langues parlées
+'Unknown spoken languages': Langues parlées inconnues
 
 #Gender
 'Male': Homme

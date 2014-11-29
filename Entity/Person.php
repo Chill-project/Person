@@ -389,8 +389,6 @@ class Person {
         }
         
         if ($this->memo !== $memo) {
-            $this->getHistoryHelper(self::ACTION_UPDATE)
-                  ->registerChange('memo', $this->memo, $memo);
             $this->memo = $memo;
             
         }

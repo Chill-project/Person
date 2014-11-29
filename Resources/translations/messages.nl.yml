@@ -20,7 +20,7 @@ Email: Emailadres
 Address: Adres
 Memo: Memo
 Phonenumber: Telefoonnummer
-'{0} Born the %date% | {1} Born the %date%': '{0} Gebooren te %date% | {1} Gebooren te %date%'
+'{0} Born the %date% | {1} Born the %date%': '{0} Gebooren op %date% | {1} Gebooren op %date%'
 'Spoken languages': Spreektalen
 'Unkown spoken language': 'Spreektalen onbekend'
 Male: Man

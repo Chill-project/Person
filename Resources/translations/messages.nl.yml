@@ -1,83 +1,69 @@
-#General
-'Edit': Wijzigen
+Edit: Wijzigen
 'First name': Voornaam
 'Last name': Familienaam
-'Name': Naam
+Name: Naam
 'Date of birth': Geboortedatum
-'Unknown date of birth': Geboortedatum onbekend
-'Nationality': Nationaliteit
-'Without nationality': Zonder nationaliteit
-'Gender': Geslacht
+'Unknown date of birth': 'Geboortedatum onbekend'
+Nationality: Nationaliteit
+'Without nationality': 'Zonder nationaliteit'
+Gender: Geslacht
 'Creation date': Opmaakdatum
-'Not given': Niet gegeven
+'Not given': 'Niet gegeven'
 'Place of birth': Geboorteplaats
 'Country of birth': Geboorteland
-'Unknown country of birth': Geboorteland onbekend
-'Marital status': Burgerlijke staat
-'Number of children': Aantal kinderen
+'Unknown country of birth': 'Geboorteland onbekend'
+'Marital status': 'Burgerlijke staat'
+'Number of children': 'Aantal kinderen'
 '{0} No child|{1} One child | ]1,Inf] %nb% children': '{0} geen kinderen|{1} 1 kind | ]1,Inf] %nb% kinderen'
-'National number': Nationale nummer
-'Email': Emailadres
-'Address': Adres
-'Memo': Memo
-'Phonenumber': Telefoonnummer
+'National number': 'Nationale nummer'
+Email: Emailadres
+Address: Adres
+Memo: Memo
+Phonenumber: Telefoonnummer
 '{0} Born the %date% | {1} Born the %date%': '{0} Gebooren te %date% | {1} Gebooren te %date%'
 'Spoken languages': Spreektalen
-'Unkown spoken language': Onbekend spreektalen
-
-#Gender
-'Male': Man
-'Female': Vrouw
-'man': Man
-'woman': Vrouw
-
-#Marital Status
-'Divorced': Officieel gescheiden
-'Separated': Feitelijk gescheiden
-'Widow': Weduwschap
+'Unkown spoken language': 'Spreektalen onbekend'
+Male: Man
+Female: Vrouw
+man: Man
+woman: Vrouw
+Divorced: 'Officieel gescheiden'
+Separated: 'Feitelijk gescheiden'
+Widow: Weduwschap
 'Unknow marital status': Onbekend
-'Legal cohabitant': Wettige samenwoonst
-'Single': Alleenstaand
-'Married': Gehuwd
-
-#Heading
-'General information': Algemene informatie
+'Legal cohabitant': 'Wettige samenwoonst'
+Single: Alleenstaand
+Married: Gehuwd
+'General information': 'Algemene informatie'
 'Birth information': Geboorte
 'Family information': Familie
 'Contact information': Contactgegevens
-'Administrative information': Administratieve gegevens
-
-#Title
-'Alreay existing person': Geregistreerd dossier
-
-#Action
-'Add the person': Maak nieuw personendossier aan
-'Confirm the creation': Bevestig de aanmaak
-'You will create this person': U hebt volgend dossier aangemaakt
-'Return': Vorige
-'Submit': Opslaan
-'Reset': Delete
-
-#Validation
-'The person data has been updated': De persoongegevens zijn aangepast
-
-#Creation
-'Add a person': "Voeg een person toe"
-
-#Navigation
-'Person Menu': "Personenmenu"
-
-#Person Controller
-'Your query is empty. Be more explicive': Er ontbreekt informatie. Gelieve meer informatie in te vullen.
-
-'The person data are not valid': De gegevens zijn niet correct
-'%nb% person with similar name. Please verify that this is a new person': %nb% meerdere personen met dezelfde naam. Check of dit echt een nieuw dossier is.
-'The person has been created': Dossier is aangemaakt
-
-#Search
+'Administrative information': 'Administratieve gegevens'
+'Alreay existing person': 'Geregistreerd dossier'
+'Add the person': 'Maak nieuw personendossier aan'
+'Confirm the creation': 'Bevestig de aanmaak'
+'You will create this person': 'U hebt volgend dossier aangemaakt'
+Return: Vorige
+Submit: Opslaan
+Reset: Delete
+'The person data has been updated': 'De persoongegevens zijn aangepast'
+'Add a person': 'Voeg een persoon toe'
+'Person Menu': Personenmenu
+'Your query is empty. Be more explicive': 'Er ontbreekt informatie. Gelieve meer informatie in te vullen.'
+'The person data are not valid': 'De gegevens zijn niet correct'
+'%nb% person with similar name. Please verify that this is a new person': '%nb% meerdere personen met dezelfde naam. Check of dit echt een nieuw dossier is.'
+'The person has been created': 'Dossier is aangemaakt'
 'Person search results': Personengezocht
-'No persons matching search %pattern%': Geen personen stemmen met het gezocht "%pattern%" overeen.
-'%total% persons matching the search %pattern%': %total% personen stemmen met het gezocht "%pattern%" overeen.
-
-#Menu
-'Person details': Details van de persoon
+'No persons matching search %pattern%': 'Geen personen stemmen met het gezocht "%pattern%" overeen.'
+'%total% persons matching the search %pattern%': '%total% personen stemmen met het gezocht "%pattern%" overeen.'
+'Person details': 'Details van de persoon'
+'Last opening since %last_opening%': '__Last opening since %last_opening%'
+'Close person history': '__Close person history'
+'Person history - %name%': '__Person history - %name%'
+'Opening date': '__Opening date'
+'Closing date': '__Closing date'
+'Still open': '__Still open'
+'Create history': '__Create history'
+'Close history': '__Close history'
+'Open history': '__Open history'
+'Unknown spoken languages': 'Spreektalen onbekend'

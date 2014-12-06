@@ -12,6 +12,15 @@ framework:
     profiler:        { only_exceptions: false }
     templating:
         engines: ['twig']
+        
+# Assetic Configuration
+assetic:
+    debug:          "%kernel.debug%"
+    use_controller: false
+    bundles:        [ ]
+    #java: /usr/bin/java
+    filters:
+        cssrewrite: ~
  
 doctrine:
     dbal:
@@ -46,7 +55,7 @@ security:
             
         default:
             anonymous: ~
-            
+            http_basic: ~
             form_login:
                 csrf_parameter: _csrf_token
                 intention: authenticate

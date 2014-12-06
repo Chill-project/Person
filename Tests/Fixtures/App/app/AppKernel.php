@@ -39,7 +39,7 @@ class AppKernel extends Kernel
      */
     public function getLogDir()
     {
-        return $this->getRootDir().'/../logs';
+        return sys_get_temp_dir().'/PersonBundle/logs';
     }
 }
 

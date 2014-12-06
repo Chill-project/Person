@@ -18,6 +18,7 @@ install:
 before_script:
   - psql -c 'create database test0;' -U postgres
   - php Tests/Fixtures/App/app/console.php --env=test cache:warmup
+  - php Tests/Fixtures/App/app/console.php assets:install Tests/Fixtures/App/web
   - php Tests/Fixtures/App/app/console.php doctrine:schema:create --env=test --no-interaction
   - php Tests/Fixtures/App/app/console.php doctrine:fixtures:load --env=test --no-interaction
 

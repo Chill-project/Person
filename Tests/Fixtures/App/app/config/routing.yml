@@ -1,4 +1,7 @@
-cl_custom_fields:
+chill_person:
     resource: .
-    type: chill_routes
+    type: chill_routes_person
+    
+chill_main:
+    resource: "@ChillMainBundle/Resources/config/routing.yml"
 

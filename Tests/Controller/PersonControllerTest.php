@@ -142,13 +142,18 @@ class PersonControllerTest extends WebTestCase
               'A message is shown if gender is not set');
     }
     
+    /**
+     * 
+     * @param Form $form
+     * @depends testAddAPersonPage
+     */
     public function testValidForm(Form $form)
     {
         $this->fillAValidCreationForm($form);
         $client = $this->getAuthenticatedClient();
         $client->submit($form);
         
-        $this->assertTrue($client->isRedirection(), 
+        $this->assertTrue($client->getResponse()->isRedirect(), 
               "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
         $client->followRedirect();
         $this->assertRegExpl('^/fr/person/[0-9]*/general/edit', 

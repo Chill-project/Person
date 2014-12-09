@@ -4,6 +4,7 @@ namespace Chill\PersonBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Test creation and deletion for persons
@@ -156,9 +157,21 @@ class PersonControllerTest extends WebTestCase
         $this->assertTrue($client->getResponse()->isRedirect(), 
               "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
         $client->followRedirect();
-        $this->assertRegExpl('^/fr/person/[0-9]*/general/edit', 
-              $client->getResponse()->getHeader('location'), 
+        
+        // visualize regexp here : http://jex.im/regulex/#!embed=false&flags=&re=%2Ffr%2Fperson%2F[1-9][0-9]*%2Fgeneral%2Fedit%24
+        $this->assertRegExp('|/fr/person/[1-9][0-9]*/general/edit$|', 
+              $client->getHistory()->current()->getUri(), 
               "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
+    }
+    
+    public static function tearDownAfterClass()
+    {
+        static::bootKernel();
+        $em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        $jesus = $em->getRepository('ChillPersonBundle:Person')
+              ->findOneBy(array('firstName' => 'God'));
+        $em->remove($jesus);
+        $em->flush();
     }
     
     

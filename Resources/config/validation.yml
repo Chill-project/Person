@@ -17,10 +17,13 @@ Chill\PersonBundle\Entity\Person:
                   max: 255
                   minMessage: 'This name is too short. It must containt {{ limit }} chars'
                   maxMessage: 'This name is too long. It must containt {{ limit }} chars'
-                  groups: [general]
+                  groups: [general, creation]
         dateOfBirth:
               - Date: 
                   message: 'Birthdate not valid'
+                  groups: [general, creation]
+        genre:
+               - NotNull:
                   groups: [general, creation]
         history:
               - Valid:

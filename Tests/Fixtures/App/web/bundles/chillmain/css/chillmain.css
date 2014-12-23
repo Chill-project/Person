@@ -1,0 +1,25 @@
+div#usefulbar { background-color: #fbba3a; z-index: 1000; padding-right: 15px; }
+div#usefulbar form { margin: 0; }
+div#usefulbar i.menu { font-size: 2em; }
+div#usefulbar ul { display: flex; justify-content: flex-end; margin: 0; padding-top: 5px; padding-right: 10px; }
+div#usefulbar li { color: white; margin-left: 10px; }
+div#usefulbar li a { color: white; text-shadow: 0px 0px 1px #555; }
+div#usefulbar li i.icon-user-add:before { vertical-align: -5px; }
+div#usefulbar li#search_element { text-align: right; }
+div#usefulbar li#search_element div#search_form { margin: 0; padding: 0; }
+div#usefulbar li#search_element div#search_form div { margin: 0; }
+div#usefulbar li#search_element div#search_form .field { margin: 0; }
+div#usefulbar li#search_element div#search_form button { color: white; border: none; bottom: -2px; height: 35px; }
+
+div#flashMessages { margin-top: 20px; }
+div#flashMessages .flash-notice { margin-top: 10px; margin-bottom: 10px; }
+
+.personName { font-variant: small-caps; text-transform: capitalize; }
+
+.personName { text-transform: capitalize; }
+
+input.belgian_national_number_inversed_date { width: 7em; margin-right: 1em; }
+
+input.belgian_national_number_daily_counter { width: 4em; margin-right: 1em; }
+
+input.belgian_national_number_control_digit { width: 3em; }

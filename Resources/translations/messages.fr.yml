@@ -1,109 +1,81 @@
-#General
-'Edit': Modifier
+Edit: Modifier
 'First name': Prénom
 'Last name': Nom
-'Name': Nom
-'Date of birth': Date de naissance
-'Unknown date of birth': Date de naissance inconnue
-'Nationality': Nationalité
-'Without nationality': Sans nationalité
-'Gender': Genre
-'Creation date': "Date d'ouverture"
-'Not given': Non renseigné
-'Place of birth': Lieu de naissance
-'Country of birth': Pays de naissance
-'Unknown country of birth': Pays inconnu
-'Marital status': État civil
-'Number of children': "Nombre d'enfants"
+Name: Nom
+'Date of birth': 'Date de naissance'
+'Unknown date of birth': 'Date de naissance inconnue'
+Nationality: Nationalité
+'Without nationality': 'Sans nationalité'
+Gender: Genre
+'Creation date': 'Date d''ouverture'
+'Not given': 'Non renseigné'
+'Place of birth': 'Lieu de naissance'
+'Country of birth': 'Pays de naissance'
+'Unknown country of birth': 'Pays inconnu'
+'Marital status': 'État civil'
+'Number of children': 'Nombre d''enfants'
 '{0} No child|{1} One child | ]1,Inf] %nb% children': '{0} Aucun enfant|{1} Un enfant | ]1,Inf] %nb% enfants'
-'National number': Numéro national
-'Email': Courrier électronique
-'Address': Adresse
-'Memo': Mémo
-'Phonenumber': Numéro de téléphone
+'National number': 'Numéro national'
+Email: 'Courrier électronique'
+Address: Adresse
+Memo: Mémo
+Phonenumber: 'Numéro de téléphone'
 '{0} Born the %date% | {1} Born the %date%': '{0} Né le %date% | {1} Née le %date%'
-'Spoken languages': Langues parlées
-'Unknown spoken languages': Langues parlées inconnues
-
-#Gender
-'Male': Homme
-'Female': Femme
-'man': Homme
-'woman': Femme
-
-#Marital Status
-'Divorced': Divorcé(e)
-'Separated': Séparé(e)
-'Widow': Veuf(ve)
+'Spoken languages': 'Langues parlées'
+'Unknown spoken languages': 'Langues parlées inconnues'
+Male: Homme
+Female: Femme
+man: Homme
+woman: Femme
+Divorced: Divorcé(e)
+Separated: Séparé(e)
+Widow: Veuf(ve)
 'Unknow marital status': Indéterminé
-'Legal cohabitant': Cohabitant légal
-'Single': Célibataire
-'Married': Marié(e)
-
-#Heading
+'Legal cohabitant': 'Cohabitant légal'
+Single: Célibataire
+Married: Marié(e)
 'General information': Généralités
 'Birth information': Naissance
 'Family information': Famille
-'Contact information': Informations de contact
+'Contact information': 'Informations de contact'
 'Administrative information': Administratif
-
-#Title
-'Alreay existing person': Dossiers déjà encodés
-
-#Action
-'Add the person': Ajouter la personne
-'Confirm the creation': Confirmer la création
-'You will create this person': Vous allez créer le dossier suivant
-'Return': Retour
-'Submit': Envoi
-'Reset': Remise à zéro
-
-#Validation
-'The person data has been updated': Bravo ! Les données ont été mises à jour.
+'Alreay existing person': 'Dossiers déjà encodés'
+'Add the person': 'Ajouter la personne'
+'Confirm the creation': 'Confirmer la création'
+'You will create this person': 'Vous allez créer le dossier suivant'
+Return: Retour
+Submit: Envoi
+Reset: 'Remise à zéro'
+'The person data has been updated': 'Bravo ! Les données ont été mises à jour.'
 '{1} The person field %field% is incorrect. Please check. | ]1, Inf] Several person fields are incorrect. Please check.': '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
-
-#Creation
-'Add a person': "Ajout d'une personne"
-
-#Navigation
-'Person Menu': "Menu personne"
-
-#Person Controller
-'The person data are not valid': Les données de votre formulaire sont invalides.
-'%nb% person with similar name. Please verify that this is a new person': %nb% personnes ont un nom similaire. Vérifiez qu'il ne s'agit pas de l'une d'elles.
-'The person has been created': Le dossier a été créé
-
-#search
-'Person search results': Recherche de personnes
-'Search within persons': Recherche parmi les personnes
-'No persons matching search %pattern%': Aucune personne ne correpond à votre recherche "%pattern%".
-'%total% persons matching the search %pattern%': %total% personnes correspondent aux termes de recherche "%pattern%".
-
-#History
-'Last opening since %last_opening%': Dernière ouverture le %last_opening%.
+'Add a person': 'Ajout d''une personne'
+'Person Menu': 'Menu personne'
+'The person data are not valid': 'Les données de votre formulaire sont invalides.'
+'%nb% person with similar name. Please verify that this is a new person': '%nb% personnes ont un nom similaire. Vérifiez qu''il ne s''agit pas de l''une d''elles.'
+'The person has been created': 'Le dossier a été créé'
+'Person search results': 'Recherche de personnes'
+'Search within persons': 'Recherche parmi les personnes'
+'No persons matching search %pattern%': 'Aucune personne ne correpond à votre recherche "%pattern%".'
+'%total% persons matching the search %pattern%': '%total% personnes correspondent aux termes de recherche "%pattern%".'
+'Last opening since %last_opening%': 'Dernière ouverture le %last_opening%.'
 'Close person history': Clotûrer
-'Person history - %name%': Historique du dossier - %name%
-'Opening date': "Date d'ouverture"
-'Closing date': "Date de fermeture"
-'Still open': Toujours en cours
-'Close history': Clôre le dossier
-'Open history': Ouvrir le dossier
-'Create history': Nouvel ouverture-fermeture à une autre date
-'Closing date': Date de clotûre
-'Closing motive': Motif de clôture
-
-#History Controller
-'History created!': Bravo ! Le dossier est maintenant ouvert.
-'Error! History not created!': "Erreur ! Le dossier n'a pas pu être ouvert."
-'Updating history done': "Bravo ! La mise à jour de l'historique a réussi !"
-'Error when updating history': Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.
-'Beware history is closed': Attention le dossier est déjà fermé
-'History closed!': Bravo ! Le dossier de <em>%name%</em> a été clotûré.
-'Error! History not closed!': "Les informations introduites ne sont pas valides. Le dossier n'a pu être clos."
-'History closing form is not valide': "Le formulaire n'est pas valide."
-'Error! History %name% is not closed ; it can be open': "Le dossier de <em>%name%</em> n'est pas fermé. Il ne peut donc être ouvert."
-'History %name% opened!': Bravo ! Le dossier de <em>%name</em> a été ouvert
-'History not opened' : "Les informations introduites ne sont pas valides. Le dossier n'a pu être ouvert."
-
-#Menu
-'Person details': Détails de la personne
+'Person history - %name%': 'Historique du dossier - %name%'
+'Opening date': 'Date d''ouverture'
+'Closing date': 'Date de fermeture'
+'Still open': 'Toujours en cours'
+'Close history': 'Clôre le dossier'
+'Open history': 'Ouvrir le dossier'
+'Create history': 'Nouvel ouverture-fermeture à une autre date'
+'Closing motive': 'Motif de clôture'
+'History created!': 'Bravo ! Le dossier est maintenant ouvert.'
+'Error! History not created!': 'Erreur ! Le dossier n''a pas pu être ouvert.'
+'Updating history done': 'Bravo ! La mise à jour de l''historique a réussi !'
+'Error when updating history': 'Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.'
+'Beware history is closed': 'Attention le dossier est déjà fermé'
+'History closed!': 'Bravo ! Le dossier de <em>%name%</em> a été clotûré.'
+'Error! History not closed!': 'Les informations introduites ne sont pas valides. Le dossier n''a pu être clos.'
+'History closing form is not valide': 'Le formulaire n''est pas valide.'
+'Error! History %name% is not closed ; it can be open': 'Le dossier de <em>%name%</em> n''est pas fermé. Il ne peut donc être ouvert.'
+'History %name% opened!': 'Bravo ! Le dossier de <em>%name</em> a été ouvert'
+'History not opened': 'Les informations introduites ne sont pas valides. Le dossier n''a pu être ouvert.'
+'Person details': 'Détails de la personne'

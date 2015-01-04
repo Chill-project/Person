@@ -139,12 +139,12 @@ class PersonSearch extends AbstractSearch
         $qb->from('ChillPersonBundle:Person', 'p');
         
         if (array_key_exists('firstname', $terms)) {
-            $qb->andWhere($qb->expr()->like('LOWER(p.firstName)', ':firstname'))
+            $qb->andWhere($qb->expr()->like('UNACCENT(LOWER(p.firstName))', ':firstname'))
                   ->setParameter('firstname', '%'.$terms['firstname'].'%');
         }
         
         if (array_key_exists('lastname', $terms)) {
-            $qb->andWhere($qb->expr()->like('LOWER(p.lastName)', ':lastname'))
+            $qb->andWhere($qb->expr()->like('UNACCENT(LOWER(p.lastName))', ':lastname'))
                   ->setParameter('lastname', '%'.$terms['lastname'].'%');
         }
         
@@ -192,7 +192,7 @@ class PersonSearch extends AbstractSearch
             
             foreach($grams as $key => $gram) {
                 $qb->andWhere($qb->expr()
-                      ->like('LOWER(CONCAT(p.firstName, \' \', p.lastName))', ':default_'.$key))
+                      ->like('UNACCENT(LOWER(CONCAT(p.firstName, \' \', p.lastName)))', ':default_'.$key))
                       ->setParameter('default_'.$key, '%'.$gram.'%');
             }
         }

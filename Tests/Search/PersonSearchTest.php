@@ -75,7 +75,6 @@ class PersonSearchTest extends WebTestCase
     
     public function testFirstNameAccentued()
     {
-        $this->markTestSkipped();
         $crawlerSpecial = $this->generateCrawlerForSearch('@person firstname:manço');
         
         $this->assertRegExp('/Manço/', $crawlerSpecial->text());
@@ -109,7 +108,6 @@ class PersonSearchTest extends WebTestCase
     
     public function testSearchByLastNameAccented()
     {
-        $this->markTestSkipped();
         $crawlerSpecial = $this->generateCrawlerForSearch('@person lastname:Gérard');
         
         $this->assertRegExp('/Gérard/', $crawlerSpecial->text());
@@ -174,6 +172,27 @@ class PersonSearchTest extends WebTestCase
     }
     
     
+    
+    public function testDefaultAccented()
+    {
+        $crawlerSpecial = $this->generateCrawlerForSearch('@person manço');
+        
+        $this->assertRegExp('/Manço/', $crawlerSpecial->text());
+        
+        
+        $crawlerNoSpecial = $this->generateCrawlerForSearch('@person manco');
+        
+        $this->assertRegExp('/Manço/', $crawlerNoSpecial->text());
+        
+        $crawlerSpecial = $this->generateCrawlerForSearch('@person Étienne');
+        
+        $this->assertRegExp('/Étienne/', $crawlerSpecial->text());
+        
+        
+        $crawlerNoSpecial = $this->generateCrawlerForSearch('@person etienne');
+        
+        $this->assertRegExp('/Étienne/', $crawlerNoSpecial->text());
+    }
     
     private function generateCrawlerForSearch($pattern)
     {

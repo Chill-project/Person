@@ -45,15 +45,6 @@ class PersonSearch extends AbstractSearch
 
     /*
      * (non-PHPdoc)
-     * @see \Chill\MainBundle\Search\SearchInterface::getLabel()
-     */
-    public function getLabel()
-    {
-        return 'person_default';
-    }
-
-    /*
-     * (non-PHPdoc)
      * @see \Chill\MainBundle\Search\SearchInterface::getOrder()
      */
     public function getOrder()

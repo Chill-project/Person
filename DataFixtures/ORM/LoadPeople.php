@@ -25,6 +25,7 @@ use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Chill\PersonBundle\Entity\Person;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * Load people into database
@@ -32,8 +33,11 @@ use Chill\PersonBundle\Entity\Person;
  * @author Julien Fastré <julien arobase fastre point info>
  * @author Marc Ducobu <marc@champs-libres.coop>
  */
-class LoadPeople extends AbstractFixture implements OrderedFixtureInterface
+class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {    
+    
+    use \Symfony\Component\DependencyInjection\ContainerAwareTrait;
+    
     public function prepare()
     {
         //prepare days, month, years
@@ -63,7 +67,24 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface
     
     public function load(ObjectManager $manager)
     {
-        echo "loading people...\n";
+        $this->loadRandPeople($manager);
+        $this->loadExpectedPeople($manager);
+        
+        $manager->flush();
+    }
+    
+    public function loadExpectedPeople(ObjectManager $manager)
+    {
+        echo "loading expected people...\n";
+        
+        foreach ($this->peoples as $person) {
+            $this->addAPerson($this->fillWithDefault($person), $manager);
+        }
+    }
+    
+    public function loadRandPeople(ObjectManager $manager)
+    {
+        echo "loading rand people...\n";
         
         $this->prepare();
         
@@ -96,38 +117,66 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface
             $person = array(
                 'FirstName' => $firstName,
                 'LastName' => $lastName,
-                'DateOfBirth' => "1960-10-12",
-                'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
                 'Genre' => $sex,
-                'Email' => "Email d'un ami: roger@tt.com",
-                'CountryOfBirth' => 'France',
-                'Nationality' => 'Russie',
-                'CFData' => array()
+                'Nationality' => (rand(0,100) > 50) ? NULL: 'BE'
             );
             
-            $p = new Person();
-            
-            foreach ($person as $key => $value) {
-                switch ($key) {
-                    case 'CountryOfBirth':
-                        break;
-                    case 'Nationality':
-                        break;
-                    case 'DateOfBirth':
-                        $value = new \DateTime($value);
-                    
-                    
-                    default:
-                        call_user_func(array($p, 'set'.$key), $value);
-                }
-            }
-
-            $manager->persist($p);
-            echo "add person'".$p->__toString()."'\n";
+            $this->addAPerson($this->fillWithDefault($person), $manager);
             
         } while ($i <= 100);
-        
-        $manager->flush();
+    }
+    
+    /**
+     * fill a person array with default value
+     * 
+     * @param string[] $specific
+     */
+    private function fillWithDefault(array $specific)
+    {
+        return array_merge(array(
+                'DateOfBirth' => "1960-10-12",
+                'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
+                'Genre' => Person::GENRE_MAN,
+                'Email' => "Email d'un ami: roger@tt.com",
+                'CountryOfBirth' => 'BE',
+                'Nationality' => 'BE',
+                'CFData' => array()
+            ), $specific);
+    }
+    
+    private function addAPerson(array $person, ObjectManager $manager)
+    {
+        $p = new Person();
+            
+        foreach ($person as $key => $value) {
+            switch ($key) {
+                case 'CountryOfBirth':
+                    $p->setCountryOfBirth($this->getCountry($value));
+                    break;
+                case 'Nationality':
+                    $p->setNationality($this->getCountry($value));
+                    break;
+                case 'DateOfBirth':
+                    $value = new \DateTime($value);
+
+
+                default:
+                    call_user_func(array($p, 'set'.$key), $value);
+            }
+        }
+
+        $manager->persist($p);
+        echo "add person'".$p->__toString()."'\n";
+    }
+    
+    private function getCountry($countryCode)
+    {
+        if ($countryCode === NULL) {
+            return NULL;
+        }
+        return $this->container->get('doctrine.orm.entity_manager')
+              ->getRepository('ChillMainBundle:Country')
+              ->findOneByCountryCode($countryCode);
     }
     
     private $firstNamesMale = array("Jean", "Mohamed", "Alfred", "Robert",
@@ -156,13 +205,37 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface
     private $peoples = array(
         array(
             'FirstName' => "Depardieu",
+            'LastName' => "Gérard",
+            'DateOfBirth' => "1948-12-27",
+            'PlaceOfBirth' => "Châteauroux",
+            'Genre' => Person::GENRE_MAN,
+            'CountryOfBirth' => 'FR',
+            'Nationality' => 'RU'      
+        ),
+       array(
+          //to have a person with same firstname as Gérard Depardieu
+            'FirstName' => "Depardieu",
             'LastName' => "Jean",
             'DateOfBirth' => "1960-10-12",
-            'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
-            'Genre' => Person::GENRE_MAN,
-            'Email' => "Email d'un ami: roger@tt.com",
-            'CountryOfBirth' => 'France',
-            'Nationality' => 'Russie'      
-        )
+            'CountryOfBirth' => 'FR',
+            'Nationality' => 'FR'      
+        ),
+       array(
+          //to have a person with same birthdate of Gérard Depardieu
+          'FirstName' => 'Van Snick',
+          'LastName' => 'Bart',
+          'DateOfBirth' => '1948-12-27'
+       ),
+       array(
+          //to have a woman with Depardieu as FirstName
+          'FirstName' => 'Depardieu',
+          'LastName' => 'Charline',
+          'Genre' => Person::GENRE_WOMAN
+       ),
+       array(
+          //to have a special character in lastName
+          'FirstName' => 'Manço',
+          'LastName' => 'Étienne'
+       )
     );
 }

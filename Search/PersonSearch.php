@@ -192,8 +192,8 @@ class PersonSearch extends AbstractSearch
             
             foreach($grams as $key => $gram) {
                 $qb->andWhere($qb->expr()
-                      ->like('LOWER(CONCAT(p.firstName, \' \', p.lastName))', ':default'))
-                      ->setParameter('default', '%'.$gram.'%');
+                      ->like('LOWER(CONCAT(p.firstName, \' \', p.lastName))', ':default_'.$key))
+                      ->setParameter('default_'.$key, '%'.$gram.'%');
             }
         }
         

@@ -76,7 +76,8 @@ class PersonSearch extends AbstractSearch
         return $this->container->get('templating')->render('ChillPersonBundle:Person:list.html.twig', 
                 array( 
                     'persons' => $this->search($terms, $start, $limit, $options),
-                    'pattern' => 'trim($pattern)',
+                    'pattern' => $this->recomposePattern($terms, array('nationality',
+                        'firstname', 'lastname', 'birthdate', 'gender'), $terms['_domain']),
                     'total' => $this->count($terms)
                 ));
     }

@@ -15,10 +15,10 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
 <h2>{{ 'Person search results'|trans }}</h2>
-{% if persons|length == 0 %}
-<p>{{ 'No persons matching search %pattern%'|trans({'%pattern%' : pattern}) }}</p>
-{%  else %}
-<p>{{ '%total% persons matching the search %pattern%'|trans({'%pattern%': pattern, '%total%' : total}) }}</p>
+
+<p>{{ '%total% persons matching the search %pattern%'|transchoice( total, {'%pattern%': pattern, '%total%' : total}) }}</p>
+
+{% if persons|length > 0 %}
 
     <table class="striped rounded">
         <thead>

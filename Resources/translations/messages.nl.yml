@@ -55,7 +55,7 @@ Reset: Delete
 'The person has been created': 'Dossier is aangemaakt'
 'Person search results': Personengezocht
 'No persons matching search %pattern%': 'Geen personen stemmen met het gezocht "%pattern%" overeen.'
-'%total% persons matching the search %pattern%': '%total% personen stemmen met het gezocht "%pattern%" overeen.'
+'%total% persons matching the search %pattern%': '{0} Geen personen stemmen met het gezocht "%pattern%" overeen. | {1} Één persoon stemd met het gezocht "%pattern%" overeen. | ]1,Inf] %total% personen stemmen met het gezocht "%pattern%" overeen.'
 'Person details': 'Details van de persoon'
 'Last opening since %last_opening%': '__Last opening since %last_opening%'
 'Close person history': '__Close person history'

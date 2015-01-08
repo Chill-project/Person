@@ -25,7 +25,7 @@
         "symfony/symfony": "~2.5",
         "doctrine/dbal": "~2.5",
         "doctrine/orm": "2.5.*@dev",
-        "doctrine/common": "2.4.*@dev",
+        "doctrine/common": "~2.4",
         "doctrine/doctrine-bundle": "~1.2@dev",
         "chill-project/main": "*@dev",
         "chill-project/custom-fields": "*@dev",

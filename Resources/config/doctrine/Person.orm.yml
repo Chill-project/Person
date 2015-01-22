@@ -61,4 +61,10 @@ Chill\PersonBundle\Entity\Person:
             targetEntity: Chill\MainBundle\Entity\Language
             joinTable:
                 name: persons_spoken_languages
+                joinColumns:
+                    person_id:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    language_id:
+                        referencedColumnName: id
     lifecycleCallbacks: {  }

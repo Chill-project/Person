@@ -61,5 +61,14 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
                 array('bundles' => array('ChillPersonBundle')));
 
         $this-> declarePersonAsCustomizable($container);
+        
+        //declare routes for person bundle
+         $container->prependExtensionConfig('chill_main', array(
+           'routing' => array(
+              'resources' => array(
+                 '@ChillPersonBundle/Resources/config/routing.yml'
+              )
+           )
+        ));
     }
 }

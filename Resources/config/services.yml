@@ -1,12 +1,7 @@
 parameters:
 #    cl_chill_person.example.class: Chill\PersonBundle\Example
 
-services:
-    chill.person.routing_loader:
-        class: Chill\PersonBundle\Routing\RoutesLoader
-        tags:
-            - { name: routing.loader }
-            
+services:         
     chill.person.accompanying_period_closing_motive:
         class: Chill\PersonBundle\Form\Type\ClosingMotiveType
         scope: request

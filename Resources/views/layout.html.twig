@@ -42,7 +42,7 @@
                             person.genre)|trans }}
                     {% else %}
                         {% transchoice person.genreNumeric
-                            with {'%date%' : person.dateOfBirth.format('d-m-Y')} %}
+                            with {'%date%' : person.dateOfBirth|localizeddate('long', 'none')} %}
                             {0} Born the %date% | {1} Born the %date%
                         {% endtranschoice %}
                     {% endif %}

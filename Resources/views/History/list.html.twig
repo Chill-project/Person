@@ -18,13 +18,13 @@
         {% set i = 0 %}
         {% for history in histories %}
         <tr class="{% if i is not even %}striped{% endif %}">
-            <td>{{ history.dateOpening|date(date_format) }}</td>
+            <td>{{ history.dateOpening|localizeddate('long', 'none', app.request.locale) }}</td>
             <td>{% spaceless %}
                 {% if history.isOpen %}
                     {{ 'Still open'|trans }}
                 
                 {% else %}
-                    {{ history.dateClosing|date(date_format) }}
+                    {{ history.dateClosing|localizeddate('long', 'none', app.request.locale) }}
                 {% endif %}
             
             {% endspaceless %}</td>

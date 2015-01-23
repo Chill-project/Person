@@ -42,7 +42,7 @@
                         </a>
                     </td>
                     <td>
-                        <span class="personDateOfBirth">{{person.dateOfBirth.format(date_format)|default( 'Unknown date of birth'|trans )}}</span>
+                        <span class="personDateOfBirth">{% if person.dateOfBirth is not null %}{{person.dateOfBirth|localizeddate('long', 'none', app.request.locale) }}{% else %}{{  'Unknown date of birth'|trans }}{% endif %}</span>
                     </td>
                     <td>
                         {% if person.nationality is not null %}

@@ -58,8 +58,13 @@ This view should receive those arguments:
 
     <dl>
             <dt class="inline">{{ 'Date of birth'|trans }}</dt>
-            <dd>{{ person.dateOfBirth.format(date_format)
-                |default( 'Unknown date of birth'|trans ) }}</dd>
+            <dd>
+                {%- if person.dateOfBirth is not null -%}
+                {{ person.dateOfBirth|localizeddate('long', 'none') }}
+                {%- else -%}
+                {{ 'Unknown date of birth'|trans }}
+                {%- endif -%}
+            </dd>
 
             
             <dt class="inline">{{ 'Place of birth'|trans }}</dt>

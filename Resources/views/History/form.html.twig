@@ -10,7 +10,7 @@
 {{ form_start(form) }}
 
 {{ 'Last opening since %last_opening%'|trans(
-      { '%last_opening%' : history.dateOpening|date(date_format) }) }}
+      { '%last_opening%' : history.dateOpening|localizeddate('long', 'none', app.request.locale) }) }}
       
 {% if form.dateClosing is defined %}
     {{ form_row(form.dateClosing, {'label' : 'Closing date'} ) }}

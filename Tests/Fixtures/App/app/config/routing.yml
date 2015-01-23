@@ -1,7 +1,4 @@
-chill_person:
+chill_routes:
     resource: .
-    type: chill_routes_person
-    
-chill_main:
-    resource: "@ChillMainBundle/Resources/config/routing.yml"
+    type: chill_routes
 

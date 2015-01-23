@@ -8,6 +8,8 @@ matrix:
   allow_failures:
      - php: hhvm-nightly
 
+sudo: false
+
 addons:
   postgresql: "9.3"
 

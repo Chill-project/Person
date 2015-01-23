@@ -61,13 +61,13 @@
                 <dd>{{ lastName }}</dd>
                 
                 <dt>{{ 'Date of birth'|trans }}</dt>
-                <dd>{{ dateOfBirth|localizeddate('medium', 'none', app.request.locale)|default( 'Unknown date of birth'|trans ) }}</dd>
+                <dd>{{ dateOfBirth|localizeddate('long', 'none', app.request.locale)|default( 'Unknown date of birth'|trans ) }}</dd>
                 
                 <dt>{{ 'Gender'|trans }}</dt>
                 <dd>{{ genre|trans }}</dd>
                 
                 <dt>{{ 'Creation date'|trans }}</dt>
-                <dd>{{ creation_date|localizeddate('medium', 'none', app.request.locale) }}</dd>
+                <dd>{{ creation_date|localizeddate('long', 'none', app.request.locale) }}</dd>
             </dl>
     
 {{ form_rest(form) }}

@@ -1,0 +1,10 @@
+default:
+  extensions:
+    Behat\Symfony2Extension:
+      kernel:
+        bootstrap: Tests/Fixtures/App/app/autoload.php
+        path: Tests/Fixtures/App/app/AppKernel.php
+    Behat\MinkExtension:
+      sessions:
+        default:
+          symfony2: ~

@@ -48,11 +48,11 @@ chill_person_search:
 chill_person_history_list:
     pattern: /{_locale}/person/{person_id}/history
     defaults: { _controller: ChillPersonBundle:History:list }
-#    options:
-#        menus:
-#            person:
-#                order: 100
-#                label: menu.person.history
+    options:
+        menus:
+            person:
+                order: 99999999
+                label: History
 
 chill_person_history_create:
     pattern: /{_locale}/person/{person_id}/history/create

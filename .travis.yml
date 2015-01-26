@@ -27,7 +27,7 @@ before_script:
 
 script: 
   - phpunit --coverage-text
-  - vendor/bin/behat --lang=en
+  - bin/behat --lang=en
 
 notifications:
   email:

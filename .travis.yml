@@ -25,7 +25,9 @@ before_script:
   - php Tests/Fixtures/App/app/console.php doctrine:schema:create --env=test --no-interaction
   - php Tests/Fixtures/App/app/console.php doctrine:fixtures:load --env=test --no-interaction
 
-script: phpunit --coverage-text
+script: 
+  - phpunit --coverage-text
+  - vendor/bin/behat --lang=en
 
 notifications:
   email:

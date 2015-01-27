@@ -15,6 +15,12 @@
             "homepage": "http://www.champs-libres.coop"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/Champs-Libres/Symfony2Extension.git"
+        }
+    ],
     "require": {
         "php": "~5.5",
         "twig/extensions": "~1.0",
@@ -34,7 +40,7 @@
     "require-dev": {
         "symfony/dom-crawler": "2.5",
         "symfony/security": "~2.5",
-        "behat/symfony2-extension": "~2.0",
+        "behat/symfony2-extension": "dev-detectKernelDictionnaryRecursively as 2.0",
         "behat/mink": "~1.5",
         "behat/mink-extension": "~2.0",
         "behat/mink-goutte-driver": "~1.1"

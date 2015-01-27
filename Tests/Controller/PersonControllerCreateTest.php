@@ -148,7 +148,7 @@ class PersonControllerTest extends WebTestCase
      * @param Form $form
      * @depends testAddAPersonPage
      */
-    public function testValidForm(Form $form)
+    public function testValidCreationForm(Form $form)
     {
         $this->fillAValidCreationForm($form);
         $client = $this->getAuthenticatedClient();

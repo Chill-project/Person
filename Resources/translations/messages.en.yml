@@ -44,7 +44,7 @@ Married: Marié(e)
 'Confirm the creation': 'Confirmer la création'
 'You will create this person': 'Vous allez créer le dossier suivant'
 Return: Retour
-Submit: Envoi
+Submit: Submit
 Reset: 'Remise à zéro'
 'The person data has been updated': 'Bravo ! Les données ont été mises à jour.'
 '{1} The person field %field% is incorrect. Please check. | ]1, Inf] Several person fields are incorrect. Please check.': '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'

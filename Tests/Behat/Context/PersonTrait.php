@@ -21,6 +21,8 @@
 namespace Chill\PersonBundle\Tests\Behat\Context;
 
 use Chill\PersonBundle\Entity\Person;
+use Symfony\Component\PropertyAccess\PropertyAccess;
+use Doctrine\ORM\UnitOfWork;
 
 /**
  * This trait helps to select "Person" entities in Features 
@@ -96,5 +98,34 @@ trait PersonTrait
     {
         $this->getSession()->visit(sprintf('/en/person/%s/general', 
                 $this->getSelectedPerson()->getId()));
+    }
+    
+    /**
+     * @Then the selected person value :key should be :value
+     */
+    public function assertPersonValueInDB($key, $value)
+    {
+        $person = $this->getSelectedPerson();
+        
+        //reload person from db
+        $em = $this->getContainer()->get('doctrine.orm.entity_manager');
+        switch ($em->getUnitOfWork()->getEntityState($person))
+        {
+            case UnitOfWork::STATE_MANAGED:
+                $em->refresh($person);
+                break;
+            case UnitOfWork::STATE_DETACHED:
+                $person = $em
+                    ->getRepository('ChillPersonBundle:Person')
+                    ->find($person->getId());
+                break;
+            default:
+                throw new \LogicException('the person is nor managed or detached');
+        }
+        
+        $accessor = PropertyAccess::createPropertyAccessor();
+        
+        return $accessor->getValue($person, $key) == $value;
+        
     }
 }

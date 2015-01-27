@@ -92,7 +92,10 @@ class PersonController extends Controller
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
             
-            if ( ! $form->isValid() ) {
+            $errors = $this->get('validator')
+                ->validate($person, array('general'));
+            
+            if ( count($errors) > 0 ) {
                 
                 $errors = $form->getErrorsAsString();
                 

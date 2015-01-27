@@ -1,0 +1,80 @@
+Edit: Edit
+'First name': First name
+'Last name': Last name
+Name: Name
+'Date of birth': Date of birth
+'Unknown date of birth': 'Date de naissance inconnue'
+Nationality: Nationality
+'Without nationality': 'Sans nationalité'
+Gender: Gender
+'Creation date': 'Date d''ouverture'
+'Not given': 'Non renseigné'
+'Place of birth': 'Place of birth'
+'Country of birth': 'Country of birth'
+'Unknown country of birth': 'Pays inconnu'
+'Marital status': 'État civil'
+'Number of children': 'Nombre d''enfants'
+'{0} No child|{1} One child | ]1,Inf] %nb% children': '{0} Aucun enfant|{1} Un enfant | ]1,Inf] %nb% enfants'
+'National number': 'Numéro national'
+Email: 'Email addresses'
+Address: Adresse
+Memo: Memo
+Phonenumber: 'Phonenumber7'
+'{0} Born the %date% | {1} Born the %date%': '{0} Né le %date% | {1} Née le %date%'
+'Spoken languages': 'Langues parlées'
+'Unknown spoken languages': 'Langues parlées inconnues'
+Male: Homme
+Female: Femme
+man: Homme
+woman: Femme
+Divorced: Divorcé(e)
+Separated: Séparé(e)
+Widow: Veuf(ve)
+'Unknow marital status': Indéterminé
+'Legal cohabitant': 'Cohabitant légal'
+Single: Célibataire
+Married: Marié(e)
+'General information': Généralités
+'Birth information': Naissance
+'Family information': Famille
+'Contact information': 'Informations de contact'
+'Administrative information': Administratif
+'Alreay existing person': 'Dossiers déjà encodés'
+'Add the person': 'Ajouter la personne'
+'Confirm the creation': 'Confirmer la création'
+'You will create this person': 'Vous allez créer le dossier suivant'
+Return: Retour
+Submit: Submit
+Reset: 'Remise à zéro'
+'The person data has been updated': 'Bravo ! Les données ont été mises à jour.'
+'{1} The person field %field% is incorrect. Please check. | ]1, Inf] Several person fields are incorrect. Please check.': '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
+'Add a person': 'Ajout d''une personne'
+'Person Menu': 'Menu personne'
+'The person data are not valid': 'Les données de votre formulaire sont invalides.'
+'%nb% person with similar name. Please verify that this is a new person': '%nb% personnes ont un nom similaire. Vérifiez qu''il ne s''agit pas de l''une d''elles.'
+'The person has been created': 'Le dossier a été créé'
+'Person search results': 'Recherche de personnes'
+'Search within persons': 'Recherche parmi les personnes'
+'%total% persons matching the search %pattern%': '{0} Aucune personne ne correspond aux termes de recherche "%pattern%" | {1} Une personne a été trouvée par la recherche "%pattern%" | ]1,Inf] %total% personnes correspondent aux termes de recherche "%pattern%".'
+'Last opening since %last_opening%': 'Dernière ouverture le %last_opening%.'
+'Close person history': Clotûrer
+'Person history - %name%': 'Historique du dossier - %name%'
+'Opening date': 'Date d''ouverture'
+'Closing date': 'Date de fermeture'
+'Still open': 'Toujours en cours'
+'Close history': 'Clôre le dossier'
+'Open history': 'Ouvrir le dossier'
+'Create history': 'Nouvel ouverture-fermeture à une autre date'
+'Closing motive': 'Motif de clôture'
+'History created!': 'Bravo ! Le dossier est maintenant ouvert.'
+'Error! History not created!': 'Erreur ! Le dossier n''a pas pu être ouvert.'
+'Updating history done': 'Bravo ! La mise à jour de l''historique a réussi !'
+'Error when updating history': 'Les données introduites ne sont pas valides. Veuillez vérifier les informations ci-dessous.'
+'Beware history is closed': 'Attention le dossier est déjà fermé'
+'History closed!': 'Bravo ! Le dossier de <em>%name%</em> a été clotûré.'
+'Error! History not closed!': 'Les informations introduites ne sont pas valides. Le dossier n''a pu être clos.'
+'History closing form is not valide': 'Le formulaire n''est pas valide.'
+'Error! History %name% is not closed ; it can be open': 'Le dossier de <em>%name%</em> n''est pas fermé. Il ne peut donc être ouvert.'
+'History %name% opened!': 'Bravo ! Le dossier de <em>%name</em> a été ouvert'
+'History not opened': 'Les informations introduites ne sont pas valides. Le dossier n''a pu être ouvert.'
+'Person details': 'Détails de la personne'

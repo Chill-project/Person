@@ -1,10 +1,16 @@
 default:
-  extensions:
-    Behat\Symfony2Extension:
-      kernel:
-        bootstrap: Tests/Fixtures/App/app/autoload.php
-        path: Tests/Fixtures/App/app/AppKernel.php
-    Behat\MinkExtension:
-      sessions:
+    suites:
         default:
-          symfony2: ~
+            contexts: [Chill\PersonBundle\Tests\Behat\Context\FeatureContext]
+            paths: 
+                - Tests/features
+    extensions:
+        Behat\Symfony2Extension:
+            kernel:
+                bootstrap: Tests/Fixtures/App/app/autoload.php
+                path: Tests/Fixtures/App/app/AppKernel.php
+        Behat\MinkExtension:
+            goutte:  ~
+            sessions:
+                default:
+                    symfony2: ~

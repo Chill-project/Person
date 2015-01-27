@@ -1,5 +1,7 @@
 <?php
 
+namespace Chill\PersonBundle\Tests\Behat\Context;
+
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use Behat\Gherkin\Node\PyStringNode;
@@ -13,7 +15,7 @@ use Behat\MinkExtension\Context\MinkContext;
  */
 class FeatureContext extends MinkContext implements Context, SnippetAcceptingContext
 {
-    use Behat\Symfony2Extension\Context\KernelDictionary;
+    use \Behat\Symfony2Extension\Context\KernelDictionary;
     
     /**
      * Initializes context.

@@ -35,6 +35,9 @@ doctrine:
         auto_generate_proxy_classes: "%kernel.debug%"
         auto_mapping: true
         
+chill_main:
+    available_languages: [ fr, nl, en ]
+        
 security:
     providers:
         users:

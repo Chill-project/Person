@@ -30,7 +30,9 @@
         "chill-project/main": "*@dev",
         "chill-project/custom-fields": "*@dev",
         "doctrine/doctrine-fixtures-bundle": "~2.2",
-        "champs-libres/composer-bundle-migration": "~1.0"
+        "champs-libres/composer-bundle-migration": "~1.0",
+        "doctrine/doctrine-migrations-bundle": "dev-master@dev",
+        "doctrine/migrations": "~1.0@dev"
     },
     "require-dev": {
         "symfony/dom-crawler": "2.5",

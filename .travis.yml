@@ -14,7 +14,7 @@ addons:
   postgresql: "9.3"
 
 install: 
-   - composer install --dev
+   - composer install --dev --no-interaction
    - cp Tests/Fixtures/App/app/config/parameters.travis.yml Tests/Fixtures/App/app/config/parameters.yml
   
 before_script:
@@ -22,7 +22,7 @@ before_script:
   - psql -d test0 -c 'CREATE EXTENSION unaccent;' -U postgres
   - php Tests/Fixtures/App/app/console.php --env=test cache:warmup
   - php Tests/Fixtures/App/app/console.php assets:install Tests/Fixtures/App/web
-  - php Tests/Fixtures/App/app/console.php doctrine:schema:create --env=test --no-interaction
+  - php Tests/Fixtures/App/app/console.php doctrine:migrations:migrate --no-interaction
   - php Tests/Fixtures/App/app/console.php doctrine:fixtures:load --env=test --no-interaction
 
 script: phpunit --coverage-text

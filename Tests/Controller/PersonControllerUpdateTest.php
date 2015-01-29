@@ -30,7 +30,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
-class PersonUpdateTest extends WebTestCase
+class PersonControllerUpdateTest extends WebTestCase
 {
     /**
      *
@@ -128,8 +128,10 @@ class PersonUpdateTest extends WebTestCase
         $this->client->submit($form);
         $this->em->refresh($this->person);
         
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl));
-        $this->assertEquals($value, $callback($this->person));
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl),
+              'the page is redirected to general view');
+        $this->assertEquals($value, $callback($this->person),
+              'the value '.$field.' is updated in db');
     }
     
     /**
@@ -176,8 +178,10 @@ class PersonUpdateTest extends WebTestCase
         
         $crawler = $this->client->submit($form);
         
-        $this->assertFalse($this->client->getResponse()->isRedirect());
-        $this->assertGreaterThan(0, $crawler->filter('.error')->count());
+        $this->assertFalse($this->client->getResponse()->isRedirect(),
+              'the page is not redirected to /general');
+        $this->assertGreaterThan(0, $crawler->filter('.error')->count(),
+              'a element .error is shown');
     }
     
     public function providesInvalidFieldsValues()
@@ -186,7 +190,8 @@ class PersonUpdateTest extends WebTestCase
             ['firstName', $this->getVeryLongText()],
             ['lastName', $this->getVeryLongText()],
             ['firstName', ''],
-            ['lastName', '']
+            ['lastName', ''],
+            ['dateOfBirth', 'false date']
         );
     }
     

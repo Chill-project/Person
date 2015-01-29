@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 /**
  * Test creation and deletion for persons
  */
-class PersonControllerTest extends WebTestCase
+class PersonControllerCreateTest extends WebTestCase
 {
     
     const FIRSTNAME_INPUT = 'chill_personbundle_person_creation[firstName]';

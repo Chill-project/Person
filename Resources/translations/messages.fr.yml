@@ -47,6 +47,7 @@ Return: Retour
 Submit: Envoi
 Reset: 'Remise à zéro'
 'The person data has been updated': 'Bravo ! Les données ont été mises à jour.'
+'The person data provided are not valid': 'Les données introduites ne sont pas valides'
 '{1} The person field %field% is incorrect. Please check. | ]1, Inf] Several person fields are incorrect. Please check.': '{1} Le champs %field% est incorrect. Veuillez le corriger. | ]1, Inf] Plusieurs champs sont incorrects. Veuillez les vérifier.'
 'Add a person': 'Ajout d''une personne'
 'Person Menu': 'Menu personne'

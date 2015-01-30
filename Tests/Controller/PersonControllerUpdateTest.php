@@ -134,6 +134,30 @@ class PersonControllerUpdateTest extends WebTestCase
               'the value '.$field.' is updated in db');
     }
     
+    public function testEditLanguages()
+    {
+        $crawler = $this->client->request('GET', $this->editUrl);
+        $selectedLanguages = array('en', 'an', 'bbj');
+        
+        $form = $crawler->selectButton('Submit')
+                ->form();
+        $form->get('chill_personbundle_person[spokenLanguages]')
+                ->setValue($selectedLanguages);
+        
+        $this->client->submit($form);
+        $this->em->refresh($this->person);
+        
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl),
+                'the page is redirected to /general view');
+        //retrieve languages codes present in person
+        foreach($this->person->getSpokenLanguages() as $lang){
+            $languagesCodesPresents[] = $lang->getId();
+        }
+        $this->assertEquals(asort($selectedLanguages), asort($languagesCodesPresents),
+                'the person speaks the expected languages');
+        
+    }
+    
     
     /**
      * 

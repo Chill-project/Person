@@ -134,6 +134,30 @@ class PersonControllerUpdateTest extends WebTestCase
               'the value '.$field.' is updated in db');
     }
     
+    
+    /**
+     * 
+     * @dataProvider providesInvalidFieldsValues
+     * @param string $field
+     * @param string $value
+     */
+    public function testInvalidFields($field, $value)
+    {
+        $crawler = $this->client->request('GET', $this->editUrl);
+        
+        $form = $crawler->selectButton('Submit')
+                ->form();
+        $form->get('chill_personbundle_person['.$field.']')
+                ->setValue($value);
+        
+        $crawler = $this->client->submit($form);
+        
+        $this->assertFalse($this->client->getResponse()->isRedirect(),
+              'the page is not redirected to /general');
+        $this->assertGreaterThan(0, $crawler->filter('.error')->count(),
+              'a element .error is shown');
+    }
+    
     /**
      * provide valid values to test, with field name and 
      * a function to find the value back from person entity
@@ -159,29 +183,6 @@ class PersonControllerUpdateTest extends WebTestCase
             ['nationality', NULL, function(Person $person) { return $person->getNationality(); }],
             ['genre', Person::GENRE_WOMAN, function(Person $person) { return $person->getGenre(); }]
         );
-    }
-    
-    /**
-     * 
-     * @dataProvider providesInvalidFieldsValues
-     * @param string $field
-     * @param string $value
-     */
-    public function testInvalidFields($field, $value)
-    {
-        $crawler = $this->client->request('GET', $this->editUrl);
-        
-        $form = $crawler->selectButton('Submit')
-                ->form();
-        $form->get('chill_personbundle_person['.$field.']')
-                ->setValue($value);
-        
-        $crawler = $this->client->submit($form);
-        
-        $this->assertFalse($this->client->getResponse()->isRedirect(),
-              'the page is not redirected to /general');
-        $this->assertGreaterThan(0, $crawler->filter('.error')->count(),
-              'a element .error is shown');
     }
     
     public function providesInvalidFieldsValues()

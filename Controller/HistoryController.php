@@ -208,6 +208,11 @@ class HistoryController extends Controller
                 $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
                                     ->trans('History closing form is not valide'));
+                
+                foreach ($form->getErrors() as $error) {
+                        $this->get('session')->getFlashBag()
+                            ->add('info', $error->getMessage());
+                    }
             }
         }
         

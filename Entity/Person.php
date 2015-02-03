@@ -133,6 +133,10 @@ class Person {
         $this->history->add($history);
     }
     
+    public function removeHistoryFile(PersonHistoryFile $history) {
+        $this->history->remove($history);
+    }
+    
     /**
      * set the Person file as open at the given date.
      * 

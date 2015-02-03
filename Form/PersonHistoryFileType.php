@@ -22,8 +22,11 @@ class PersonHistoryFileType extends AbstractType
         //if the period_action is close, date opening should not be seen
         if ($options['period_action'] !== 'close') {
             $builder
-                ->add('date_opening', 'date', array("required" => true, 
-                    'widget' => 'single_text'));
+                ->add('date_opening', 'date', array(
+                   "required" => true, 
+                   'widget' => 'single_text',
+                   'format' => 'dd-MM-yyyy'
+                   ));
         }
         
         // the closingDate should be seen only if period_action = close 
@@ -41,7 +44,7 @@ class PersonHistoryFileType extends AbstractType
                   ($options['period_action'] === 'update' AND !$accompanyingPeriod->isOpen())
                   ){
                 $form->add('date_closing', 'date', array('required' => true,
-                'widget' => 'single_text'));
+                'widget' => 'single_text', 'format' => 'dd-MM-yyyy'));
                 $form->add('closingMotive', 'closing_motive');
             }
         });

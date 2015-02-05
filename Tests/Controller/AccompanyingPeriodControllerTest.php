@@ -113,8 +113,9 @@ class AccompanyingPeriodControllerTest extends WebTestCase
     
     private function getLastValueOnClosingMotive(\Symfony\Component\DomCrawler\Form $form)
     {
-        return end($form->get(self::CLOSING_MOTIVE_INPUT)
-              ->availableOptionValues());
+        $values = $form->get(self::CLOSING_MOTIVE_INPUT)
+              ->availableOptionValues();
+        return end($values);
     }
     
     private function getRandomClosingMotive()

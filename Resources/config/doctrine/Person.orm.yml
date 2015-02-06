@@ -53,7 +53,7 @@ Chill\PersonBundle\Entity\Person:
             nullable: true
     oneToMany:
         history:
-            targetEntity: PersonHistoryFile
+            targetEntity: AccompanyingPeriod
             mappedBy: person
             cascade: [persist, remove, merge, detach]
     manyToMany:

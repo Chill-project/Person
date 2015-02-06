@@ -134,7 +134,7 @@ class Person {
         $this->history->add($period);
     }
     
-    public function removeHistoryFile(PersonHistoryFile $history) {
+    public function removeHistoryFile(AccompanyingPeriod $history) {
         $this->history->remove($history);
     }
     

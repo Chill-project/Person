@@ -2,7 +2,8 @@
 
 /*
  * Chill is a software for social workers
- * Copyright (C) 2015 Julien Fastré <julien.fastre@champs-libres.coop>
+ * Copyright (C) 2015, Champs Libres Cooperative SCRLFS, 
+ * <http://www.champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +22,7 @@
 namespace Chill\PersonBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Chill\PersonBundle\Entity\PersonHistoryFile as AccompanyingPeriod;
+use Chill\PersonBundle\Entity\AccompanyingPeriod;
 use Chill\PersonBundle\Entity\Person;
 use Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive;
 
@@ -50,9 +51,9 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     private static $em;
     
-    const OPENING_INPUT = 'cl_chill_personbundle_personhistoryfile[date_opening]';
-    const CLOSING_INPUT = 'cl_chill_personbundle_personhistoryfile[date_closing]';
-    const CLOSING_MOTIVE_INPUT = 'cl_chill_personbundle_personhistoryfile[closingMotive]';
+    const OPENING_INPUT = 'chill_personbundle_accompanyingperiod[date_opening]';
+    const CLOSING_INPUT = 'chill_personbundle_accompanyingperiod[date_closing]';
+    const CLOSING_MOTIVE_INPUT = 'chill_personbundle_accompanyingperiod[closingMotive]';
     
     public static function setUpBeforeClass()
     {
@@ -102,7 +103,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
                       ->setClosingMotive($periodDef['closingMotive']);
             }
              
-            $this->person->addHistoryFile($period);
+            $this->person->addAccompanyingPeriod($period);
             
             static::$em->persist($period);
             
@@ -130,7 +131,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      * Test the closing of a periods
      * 
      * Given that a person as an accompanying period opened since 2015-01-05
-     * and we fill the close form (at /en/person/[id]/history/close
+     * and we fill the close form (at /en/person/[id]/accompanying-period/close
      *      with : dateClosing: 2015-02-01
      *      with : the last closing motive in list
      * Then the response should redirect to history view
@@ -139,10 +140,9 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      * @todo
      */
     public function testClosingCurrentPeriod()
-    {
-        
+    {   
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/close');
+              .$this->person->getId().'/accompanying-period/close');
         
         $form = $crawler->selectButton('Submit')->form();
 
@@ -154,8 +154,8 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $cr = $this->client->submit($form);
         
         $this->assertTrue($this->client->getResponse()->isRedirect(
-              '/en/person/'.$this->person->getId().'/history'),
-              'the server redirects to /history page');
+              '/en/person/'.$this->person->getId().'/accompanying-period'),
+              'the server redirects to /accompanying-period page');
         $this->assertGreaterThan(0, $this->client->followRedirect()
                 ->filter('.success')->count(),
               "a 'success' element is shown");
@@ -165,7 +165,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      * Test the closing of a periods
      * 
      * Given that a person as an accompanying period opened since 2015-01-05
-     * and we fill the close form (at /en/person/[id]/history/close
+     * and we fill the close form (at /en/person/[id]/accompanying-period/close
      *      with : dateClosing: 2014-01-01
      *      with : the last closing motive in list
      * Then the response should redirect to history view
@@ -177,7 +177,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
     {
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/close');
+              .$this->person->getId().'/accompanying-period/close');
         
         $form = $crawler->selectButton('Submit')->form();
 
@@ -209,7 +209,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
     {
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)
@@ -222,8 +222,8 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $this->client->submit($form);
         
         $this->assertTrue($this->client->getResponse()->isRedirect(
-              '/en/person/'.$this->person->getId().'/history'),
-              'the server redirects to /history page');
+              '/en/person/'.$this->person->getId().'/accompanying-period'),
+              'the server redirects to /accompanying-period page');
         $this->assertGreaterThan(0, $this->client->followRedirect()
               ->filter('.success')->count(),
               "a 'success' element is shown");
@@ -248,7 +248,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $this->markTestSkipped('this feature is not yet implemented');
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)
@@ -285,7 +285,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $this->markTestSkipped('this feature is not yet implemented');
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)
@@ -327,7 +327,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         ));
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)
@@ -358,7 +358,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
     public function testCreatePeriodWithClosingBeforeOpeningFails()
     {
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)
@@ -400,7 +400,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         ));
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)
@@ -442,7 +442,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         ));
         
         $crawler = $this->client->request('GET', '/en/person/'
-              .$this->person->getId().'/history/create');
+              .$this->person->getId().'/accompanying-period/create');
         
         $form = $crawler->selectButton('Submit')->form();;
         $form->get(self::CLOSING_MOTIVE_INPUT)

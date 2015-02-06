@@ -33,7 +33,7 @@ Chill\PersonBundle\Entity\Person:
               methods: [isAccompanyingPeriodValid]
               groups: [history_consistent]
 
-Chill\PersonBundle\Entity\PersonHistoryFile:
+Chill\PersonBundle\Entity\AccompanyingPeriod:
     properties:
         date_opening:
               - Date: 

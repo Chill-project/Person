@@ -91,13 +91,11 @@ class PersonController extends Controller
         
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
-            
-            if ( ! $form->isValid() ) {
-                
-                $errors = $form->getErrorsAsString();
-                
+
+            if ( ! $form->isValid() ) {                
                 $this->get('session')
-                        ->getFlashBag()->add('danger', 'error' . $errors);
+                        ->getFlashBag()->add('danger', 'Thp person data provided'
+                              . ' are not valid');
                 
                 return $this->render('ChillPersonBundle:Person:edit.html.twig', 
                         array('person' => $person, 
@@ -107,7 +105,7 @@ class PersonController extends Controller
             $this->get('session')->getFlashBag()
                     ->add('success', 
                             $this->get('translator')
-                            ->trans('The person has been created')
+                            ->trans('The person data has been updated')
                             );
             
             $em = $this->getDoctrine()->getManager();

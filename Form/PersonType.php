@@ -74,7 +74,8 @@ class PersonType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Chill\PersonBundle\Entity\Person'
+            'data_class' => 'Chill\PersonBundle\Entity\Person',
+            'validation_groups' => array('general', 'creation')
         ));
 
         $resolver->setRequired(array(

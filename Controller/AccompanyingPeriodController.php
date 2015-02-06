@@ -221,8 +221,15 @@ class AccompanyingPeriodController extends Controller
                 }
             } else { //if form is not valid
                 $this->get('session')->getFlashBag()
-                            ->add('danger', $this->get('translator')
-                                    ->trans('Pediod closing form is not valide'));
+                    ->add('danger',
+                        $this->get('translator')
+                            ->trans('Pediod closing form is not valide')
+                    );
+                
+                foreach ($form->getErrors() as $error) {
+                    $this->get('session')->getFlashBag()
+                        ->add('info', $error->getMessage());
+                }
             }
         }
         

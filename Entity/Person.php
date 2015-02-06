@@ -5,12 +5,13 @@ namespace Chill\PersonBundle\Entity;
 /*
  * Chill is a software for social workers
  *
- * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS,
+ * <http://www.champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
- *  it under the terms of the GNU Affero General Public License as
+ * it under the terms of the GNU Affero General Public License as
  * published by the Free Software Foundation, either version 3 of the
- *  License, or (at your option) any later version.
+ * License, or (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -120,65 +121,65 @@ class Person {
             $opening = new \DateTime();
         }
         
-        $this->open(new PersonHistoryFile($opening));
+        $this->open(new AccompanyingPeriod($opening));
     }
     
     /**
      * 
-     * @param \Chill\PersonBundle\Entity\PersonHistoryFile $history
-     * @uses PersonHistoryFile::setPerson
+     * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $period
+     * @uses AccompanyingPeriod::setPerson
      */
-    public function addHistoryFile(PersonHistoryFile $history) {
-        $history->setPerson($this);
-        $this->history->add($history);
+    public function addAccompanyingPeriod(AccompanyingPeriod $period) {
+        $period->setPerson($this);
+        $this->history->add($period);
     }
     
     /**
      * set the Person file as open at the given date.
      * 
-     * For updating a opening's date, you should update PersonHistoryFile instance
+     * For updating a opening's date, you should update AccompanyingPeriod instance
      * directly.
      * 
      * For closing a file, @see this::close
      * 
-     * To check if the Person and his history is consistent, use validation.
+     * To check if the Person and its accompanying period is consistent, use validation.
      * 
-     * @param \DateTime $date
+     * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $accompanyingPeriod
      */
-    public function open(PersonHistoryFile $accompanyingPeriod) {
+    public function open(AccompanyingPeriod $accompanyingPeriod) {
         $this->proxyHistoryOpenState = true;
-        $this->addHistoryFile($accompanyingPeriod);
+        $this->addAccompanyingPeriod($accompanyingPeriod);
     }
 
     /**
      * 
      * Set the Person file as closed at the given date.
      * 
-     * For update a closing date, you should update PersonHistoryFile instance 
+     * For update a closing date, you should update AccompanyingPeriod instance 
      * directly.
      * 
-     * To check if the Person and his history are consistent, use validation.
+     * To check if the Person and its accompanying period are consistent, use validation.
      * 
-     * @param PersonHistoryFile
-     * @throws \Exception if two lines of history are open.
+     * @param AccompanyingPeriod
+     * @throws \Exception if two lines of the accompanying period are open.
      */
-    public function close(PersonHistoryFile $accompanyingPeriod) 
+    public function close(AccompanyingPeriod $accompanyingPeriod) 
     {
         $this->proxyHistoryOpenState = false;
     }
     
     /**
      * 
-     * @return null|PersonHistoryFile
+     * @return null|AccompanyingPeriod
      */
-    public function getCurrentHistory() {
+    public function getCurrentAccompanyingPeriod() {
         if ($this->proxyHistoryOpenState === false) {
             return null;
         }
         
-        foreach ($this->history as $history) {
-            if ($history->isOpen()) {
-                return $history;
+        foreach ($this->history as $period) {
+            if ($period->isOpen()) {
+                return $period;
             }
         }
     }
@@ -187,19 +188,19 @@ class Person {
      * 
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
-    public function getHistories() {
+    public function getAccompanyingPeriods() {
         return $this->history;
     }
     
     /**
      * 
-     * @return PersonHistoryFile[]
+     * @return AccompanyingPeriod[]
      */
-    public function getHistoriesOrdered() {
-        $histories = $this->getHistories()->toArray();
+    public function getAccompanyingPeriodsOrdered() {
+        $periods = $this->getAccompanyingPeriods()->toArray();
         
         //order by date :
-        usort($histories, function($a, $b) {
+        usort($periods, function($a, $b) {
                     
                     $dateA = $a->getDateOpening();
                     $dateB = $b->getDateOpening();
@@ -227,7 +228,7 @@ class Person {
                 });
                 
                 
-        return $histories;
+        return $periods;
     }
     
     public function isOpen() {
@@ -370,10 +371,11 @@ class Person {
      * @return int
      */
     public function getGenreNumeric() {
-        if ($this->getGenre() == self::GENRE_WOMAN)
+        if ($this->getGenre() == self::GENRE_WOMAN) {
             return 1;
-        else 
+        } else {
             return 0;
+        }
     }
 
     /**
@@ -390,11 +392,8 @@ class Person {
         
         if ($this->memo !== $memo) {
             $this->memo = $memo;
-            
         }
         
-        
-    
         return $this;
     }
 
@@ -560,112 +559,96 @@ class Person {
     }
     
     // VALIDATION
-    public function isHistoryValid(ExecutionContextInterface $context) {
-        $r = $this->checkHistoryIsNotCovering();
-        
+    public function isAccompanyingPeriodValid(ExecutionContextInterface $context) {
+        $r = $this->checkAccompanyingPeriodIsNotCovering();
         
         if ($r !== true) {
             
             if ($r['result'] === self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE) {
                 $context->addViolationAt('history',
-                        'History not closed is before the new line',
+                        'Accompanying period not closed is before the new line',
                         array() );
                 return;
             } 
             
-            $context->addViolationAt('history', 
-                   'Periods are collapsing',
-                   array(
-                       '%dateOpening%' => $r['dateOpening']->format('d-m-Y'),
-                       '%dateClosing%' => $r['dateClosing']->format('d-m-Y'),
-                       '%date%' => $r['date']->format('d-m-Y')
-                       )
-                   );
-            
-            
-            
+            $context->addViolationAt('history', 'Periods are collapsing',
+                array(
+                    '%dateOpening%' => $r['dateOpening']->format('d-m-Y'),
+                    '%dateClosing%' => $r['dateClosing']->format('d-m-Y'),
+                    '%date%' => $r['date']->format('d-m-Y')
+                )
+            );
         }
     }
     
-    
-
     const ERROR_OPENING_IS_INSIDE_CLOSING = 1;
     const ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE = 2;
-    const ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_HISTORY_LINE = 3;
+    const ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_ACCOMPANYING_PERIOD_LINE = 3;
     const ERROR_OPENING_IS_BEFORE_OTHER_LINE_AND_CLOSED_IS_AFTER_THIS_LINE = 4; 
     
-    public function checkHistoryIsNotCovering() {
+    public function checkAccompanyingPeriodIsNotCovering()
+    {    
+        $periods = $this->getAccompanyingPeriodsOrdered();
         
-        $histories = $this->getHistoriesOrdered();
-        
-                
-         //check order :
-         $oldOpening = array();
-         $oldClosing = array();
-         $i = 0; 
+        $i = 0; 
          
-         foreach ($histories as $key => $history) {
-             //history is open : we must check the arent any history after
-             if ($history->isOpen()) {
-                 foreach ($histories as $subKey => $against) {
-                     //if we are checking the same, continue
-                     if ($key === $subKey) {
-                         continue;
-                     }
+        foreach ($periods as $key => $period) {
+            //accompanying period is open : we must check the arent any period after
+            if ($period->isOpen()) {
+                foreach ($periods as $subKey => $against) {
+                    //if we are checking the same, continue
+                    if ($key === $subKey) {
+                        continue;
+                    }
                      
-                     if ($history->getDateOpening() > $against->getDateOpening()
-                             && $history->getDateOpening() < $against->getDateOpening()) {
-                         // the history date opening is inside another opening line
-                         return array(
-                            'result' => self::ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_HISTORY_LINE,
+                    if ($period->getDateOpening() > $against->getDateOpening()
+                        && $period->getDateOpening() < $against->getDateOpening()) {
+                        // the period date opening is inside another opening line
+                        return array(
+                            'result' => self::ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_ACCOMPANYING_PERIOD_LINE,
                             'dateOpening' => $against->getDateOpening(), 
                             'dateClosing' => $against->getDateClosing(),
-                            'date' => $history->getDateOpening()
-                                );
+                            'date' => $period->getDateOpening()
+                            );
                      }
                      
-                     if ($history->getDateOpening() < $against->getDateOpening()
-                             && $history->getDateClosing() > $against->getDateClosing()) {
-                         // the history date opening is inside another opening line
-                         return array(
+                    if ($period->getDateOpening() < $against->getDateOpening()
+                        && $period->getDateClosing() > $against->getDateClosing()) {
+                        // the period date opening is inside another opening line
+                        return array(
                             'result' => self::ERROR_OPENING_IS_BEFORE_OTHER_LINE_AND_CLOSED_IS_AFTER_THIS_LINE,
                             'dateOpening' => $against->getDateOpening(), 
                             'dateClosing' => $against->getDateClosing(),
-                            'date' => $history->getDateOpening()
-                                );
-                     }
+                            'date' => $period->getDateOpening()
+                            );
+                    }
                      
-                     //if we have an aopening later...
-                     if ($history->getDateOpening() < $against->getDateClosing()) {
-                         return array( 'result' => self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE,
+                    //if we have an aopening later...
+                    if ($period->getDateOpening() < $against->getDateClosing()) {
+                        return array( 'result' => self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE,
                             'dateOpening' => $against->getDateOpening(), 
                             'dateClosing' => $against->getDateClosing(),
-                            'date' => $history->getDateOpening()
-                             );
-                     }
-                     
-                     
-                 }
+                            'date' => $period->getDateOpening()
+                        );
+                    }
+                }
+            } else {
+                //we must check there is not covering lines
                  
-             } else {
-                 //we must check there is not covering lines
-                 
-                 foreach ($histories as $subKey => $against) {
-                     //check if dateOpening is inside an `against` line
-                     if ($history->getDateOpening() > $against->getDateOpening()
-                             && $history->getDateOpening() < $against->getDateClosing()) {
-                           return array(
+                foreach ($periods as $subKey => $against) {
+                    //check if dateOpening is inside an `against` line
+                    if ($period->getDateOpening() > $against->getDateOpening()
+                        && $period->getDateOpening() < $against->getDateClosing()) {
+                            return array(
                                 'result' => self::ERROR_OPENING_IS_INSIDE_CLOSING,
                                 'dateOpening' => $against->getDateOpening(), 
                                 'dateClosing' => $against->getDateClosing(),
-                                'date' => $history->getDateOpening()
+                                'date' => $period->getDateOpening()
                                 );
-                     }
-                 }
-             }
-         }
-         
-         return true;
-        
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

@@ -10,7 +10,7 @@
 {{ form_start(form) }}
 
 {{ 'Last opening since %last_opening%'|trans(
-      { '%last_opening%' : history.dateOpening|localizeddate('long', 'none', app.request.locale) }) }}
+      { '%last_opening%' : accompanying_period.dateOpening|localizeddate('long', 'none', app.request.locale) }) }}
       
 {% if form.dateClosing is defined %}
     {{ form_row(form.dateClosing, {'label' : 'Closing date'} ) }}
@@ -25,7 +25,7 @@
 {{ form_rest(form) }}
 
 <div class="medium btn danger icon-right entypo icon-lock">
-    <button type="submit">{{ 'Close person history'|trans }}</button>
+    <button type="submit">{{ 'Close person accompanying period'|trans }}</button>
 </div>
 
 {{ form_end(form) }}

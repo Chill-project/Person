@@ -1,13 +1,33 @@
 <?php
 
+/*
+ * Chill is a software for social workers
+ *
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
+ * <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Chill\PersonBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Chill\PersonBundle\Entity\Person;
-use Chill\PersonBundle\Form\PersonHistoryFileType;
-use Chill\PersonBundle\Entity\PersonHistoryFile;
+use Chill\PersonBundle\Form\AccompanyingPeriodType;
+use Chill\PersonBundle\Entity\AccompanyingPeriod;
 
-class HistoryController extends Controller
+class AccompanyingPeriodController extends Controller
 {
     public function listAction($person_id){
         
@@ -17,8 +37,8 @@ class HistoryController extends Controller
             return $this->createNotFoundException('Person not found');
         }
         
-        return $this->render('ChillPersonBundle:History:list.html.twig', 
-                array('histories' => $person->getHistoriesOrdered(),
+        return $this->render('ChillPersonBundle:AccompanyingPeriod:list.html.twig', 
+                array('accompanying_periods' => $person->getAccompanyingPeriodsOrdered(),
                     'person' => $person));
         
     }
@@ -30,14 +50,14 @@ class HistoryController extends Controller
             return $this->createNotFoundException('Person not found');
         }
                
-        $history = new PersonHistoryFile(new \DateTime());
-        $history->setPerson($person)
+        $accompanyingPeriod = new AccompanyingPeriod(new \DateTime());
+        $accompanyingPeriod->setPerson($person)
               ->setDateOpening(new \DateTime())
               ->setDateClosing(new \DateTime());
         
         
-        $form = $this->createForm(new PersonHistoryFileType(), 
-                $history, array('period_action' => 'update'));
+        $form = $this->createForm(new AccompanyingPeriodType(), 
+                $accompanyingPeriod, array('period_action' => 'update'));
         
         $request = $this->getRequest();
         
@@ -53,20 +73,20 @@ class HistoryController extends Controller
                     && count($errors) === 0) {
                 $em = $this->getDoctrine()->getManager();
                 
-                $em->persist($history);
+                $em->persist($accompanyingPeriod);
                 
                 $em->flush();
                 
                 $flashBag->add('success', 
                         $this->get('translator')->trans(
-                                'History created!'));
+                                'Period created!'));
                 
-                return $this->redirect($this->generateUrl('chill_person_history_list',
+                return $this->redirect($this->generateUrl('chill_person_accompanying_period_list',
                         array('person_id' => $person->getId())));
             } else {
                 
                 $flashBag->add('danger', $this->get('translator')
-                        ->trans('Error! History not created!'));
+                        ->trans('Error! Period not created!'));
                 
                 foreach($errors as $error) {
                     $flashBag->add('info', $error->getMessage());
@@ -76,30 +96,30 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('ChillPersonBundle:History:form.html.twig',
+        return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig',
                 array(
                    'form' => $form->createView(),
                    'person' => $person,
-                   'history' => $history
+                   'accompanying_period' => $accompanyingPeriod
                    ) 
               );
     }
 
-    public function updateAction($history_id){
+    public function updateAction($person_id, $period_id){
         $em = $this->getDoctrine()->getManager();
         
-        $history = $em->getRepository('ChillPersonBundle:PersonHistoryFile')
-                ->find($history_id);
+        $accompanyingPeriod = $em->getRepository('ChillPersonBundle:AccompanyingPeriod')
+                ->find($period_id);
         
-        if ($history === null) {
-            return $this->createNotFoundException("history with id ".$history_id.
+        if ($accompanyingPeriod === null) {
+            return $this->createNotFoundException("Period with id ".$period_id.
                     " is not found");
         }
         
-        $person = $history->getPerson();
+        $person = $accompanyingPeriod->getPerson();
         
-        $form = $this->createForm(new PersonHistoryFileType(), 
-                $history, array('period_action' => 'update'));
+        $form = $this->createForm(new AccompanyingPeriodType(), 
+                $accompanyingPeriod, array('period_action' => 'update'));
         
         $request = $this->getRequest();
         
@@ -117,14 +137,14 @@ class HistoryController extends Controller
                 
                 $flashBag->add('success', 
                         $this->get('translator')->trans(
-                                'Updating history done'));
+                                'Period updating done'));
                 
-                return $this->redirect($this->generateUrl('chill_person_history_list',
+                return $this->redirect($this->generateUrl('chill_person_accompanying_period_list',
                         array('person_id' => $person->getId())));
             } else {
                 
                 $flashBag->add('danger', $this->get('translator')
-                        ->trans('Error when updating history'));
+                        ->trans('Error when updating the period'));
                 
                 foreach($errors as $error) {
                     $flashBag->add('info', $error->getMessage());
@@ -134,11 +154,11 @@ class HistoryController extends Controller
         
         
         
-        return $this->render('ChillPersonBundle:History:form.html.twig', 
+        return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig', 
                 array(
                    'form' => $form->createView(),
                    'person' => $person,
-                   'history' => $history
+                   'accompanying_period' => $accompanyingPeriod
               ) );
     }
     
@@ -152,18 +172,18 @@ class HistoryController extends Controller
         if ($person->isOpen() === false) {
             $this->get('session')->getFlashBag()
                     ->add('danger', $this->get('translator')
-                            ->trans('Beware history is closed', 
+                            ->trans('Beware period is closed', 
                                     array('%name%' => $person->__toString())));
             
             return $this->redirect(
-                    $this->generateUrl('chill_person_history_list', array(
+                    $this->generateUrl('chill_person_accompanying_period_list', array(
                         'person_id' => $person->getId()
                 )));
         }
         
-        $current = $person->getCurrentHistory();   
+        $current = $person->getCurrentAccompanyingPeriod();   
         
-        $form = $this->createForm(new PersonHistoryFileType(), $current, array(
+        $form = $this->createForm(new AccompanyingPeriodType(), $current, array(
            'period_action' => 'close'
         ));
 
@@ -179,47 +199,38 @@ class HistoryController extends Controller
                 if (count($errors) === 0) {
                     $this->get('session')->getFlashBag()
                             ->add('success', $this->get('translator')
-                                    ->trans('History closed!', 
+                                    ->trans('Period closed!', 
                                             array('%name%' => $person->__toString())));
 
                     $this->getDoctrine()->getManager()->flush();
 
                     return $this->redirect(
-                            $this->generateUrl('chill_person_history_list', array(
+                            $this->generateUrl('chill_person_accompanying_period_list', array(
                                 'person_id' => $person->getId()
                             ))
                             );
                 } else {
                     $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('Error! History not closed!'));
+                                    ->trans('Error! Period not closed!'));
                     
                     foreach ($errors as $error) {
                         $this->get('session')->getFlashBag()
                             ->add('info', $error->getMessage());
                     }
-                    
-                    
-
-
                 }
-
             } else { //if form is not valid
                 $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('History closing form is not valide'));
+                                    ->trans('Pediod closing form is not valide'));
             }
         }
         
-        
-        
-        
-        
-        return $this->render('ChillPersonBundle:History:form.html.twig',
+        return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig',
                 array(
                     'form' => $form->createView(),
                     'person' => $person,
-                    'history' => $current
+                    'accompanying_period' => $current
                 ));
     }
     
@@ -231,10 +242,10 @@ class HistoryController extends Controller
     private function _validatePerson(Person $person) {
         $errors = $this->get('validator')->validate($person, 
                              array('Default'));
-        $errors_history = $this->get('validator')->validate($person, 
+        $errors_accompanying_period = $this->get('validator')->validate($person, 
                             array('history_consistent'));
         
-        foreach($errors_history as $error ) {
+        foreach($errors_accompanying_period as $error ) {
                     $errors->add($error);
                 }
                 
@@ -255,45 +266,45 @@ class HistoryController extends Controller
         if ($person->isOpen() === true) {
             $this->get('session')->getFlashBag()
                     ->add('danger', $this->get('translator')
-                            ->trans('Error! History %name% is not closed ; it can be open', 
+                            ->trans('Error! Period %name% is not closed ; it can be open', 
                                     array('%name%' => $person->__toString())));
             
             return $this->redirect(
-                    $this->generateUrl('chill_person_history_list', array(
+                    $this->generateUrl('chill_person_accompanying_period_list', array(
                         'person_id' => $person->getId()
                 )));
         }
 
-        $history = new PersonHistoryFile(new \DateTime());
+        $accompanyingPeriod = new AccompanyingPeriod(new \DateTime());
 
-        $form = $this->createForm(new PersonHistoryFileType(), $history, array(
-           'period_action' => 'open'));
+        $form = $this->createForm(new AccompanyingPeriodType(),
+            $accompanyingPeriod, array('period_action' => 'open'));
         
         if ($request->getMethod() === 'POST') {
             $form->handleRequest($request);
             
             if ($form->isValid()) {
-                $person->open($history);
+                $person->open($accompanyingPeriod);
                 
                 $errors = $this->_validatePerson($person);
 
                 if (count($errors) <= 0) {
                     $this->get('session')->getFlashBag()
                             ->add('success', $this->get('translator')
-                                    ->trans('History %name% opened!', 
+                                    ->trans('Period %name% opened!', 
                                             array('%name%' => $person->__toString())));
 
                     $this->getDoctrine()->getManager()->flush();
 
                     return $this->redirect(
-                            $this->generateUrl('chill_person_history_list', array(
+                            $this->generateUrl('chill_person_accompanying_period_list', array(
                                 'person_id' => $person->getId()
                             ))
                             );
                 } else {
                     $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('History not opened'));
+                                    ->trans('Period not opened'));
                     
                     foreach ($errors as $error) {
                         $this->get('session')->getFlashBag()
@@ -304,16 +315,15 @@ class HistoryController extends Controller
             } else { // if errors in forms
                 $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
-                                    ->trans('History not opened : form is invalid'));
+                                    ->trans('Period not opened : form is invalid'));
             }
-        
         }
         
-        return $this->render('ChillPersonBundle:History:form.html.twig',
+        return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig',
                 array(
                     'form' => $form->createView(),
                     'person' => $person,
-                    'history' => $history
+                    'accompanying_period' => $accompanyingPeriod
                 ));
     }
     

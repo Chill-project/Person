@@ -2,7 +2,7 @@
 
 /*
  * Chill is a software for social workers
- * Copyright (C) 2014 Julien Fastré <julien.fastre@champs-libres.coop>
+ * Copyright (C) 2014-2015 Champs-Libres Coopérative <info@champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -21,7 +21,7 @@
 namespace Chill\PersonBundle\Tests\Entity;
 
 use Chill\PersonBundle\Entity\Person;
-use Chill\PersonBundle\Entity\PersonHistoryFile;
+use Chill\PersonBundle\Entity\AccompanyingPeriod;
 
 /**
  * Unit tests on person
@@ -30,105 +30,101 @@ use Chill\PersonBundle\Entity\PersonHistoryFile;
  */
 class PersonTest extends \PHPUnit_Framework_TestCase
 {
-    public function testGetCurrentHistory()
+    public function testGetCurrentAccompanyingPeriod()
     {
         $d = new \DateTime('yesterday'); 
         $p = new Person($d);
         
-        $history = $p->getCurrentHistory();
+        $period = $p->getCurrentAccompanyingPeriod();
         
-        $this->assertInstanceOf('Chill\PersonBundle\Entity\PersonHistoryFile', $history);
-        $this->assertTrue($history->isOpen());
-        $this->assertEquals($d, $history->getDateOpening());
+        $this->assertInstanceOf('Chill\PersonBundle\Entity\AccompanyingPeriod', $period);
+        $this->assertTrue($period->isOpen());
+        $this->assertEquals($d, $period->getDateOpening());
         
         //close and test
-        $history->setDateClosing(new \DateTime('tomorrow'));
+        $period->setDateClosing(new \DateTime('tomorrow'));
         
-        $shouldBeNull = $p->getCurrentHistory();
+        $shouldBeNull = $p->getCurrentAccompanyingPeriod();
         $this->assertNull($shouldBeNull);
         
     }
     
-    public function testHistoryOrderWithUnorderedHistory() {
+    public function testAccompanyingPeriodOrderWithUnorderedAccompanyingPeriod() {
         $d = new \DateTime(); 
         $d->setDate(2013, 2, 1);
         $p = new Person($d);
         
         $e = new \DateTime(); 
         $e->setDate(2013, 3, 1);
-        $history = $p->getCurrentHistory()->setDateClosing($e);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $p->close($period);
         
         $f = new \DateTime(); 
         $f->setDate(2013, 1, 1);
-        $p->open(new PersonHistoryFile($f));
+        $p->open(new AccompanyingPeriod($f));
         
         $g = new \DateTime(); 
         $g->setDate(2013, 4, 1); 
-        $history = $p->getCurrentHistory()->setDateClosing($g);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $p->close($period);
         
-        $r = $p->getHistoriesOrdered();
+        $r = $p->getAccompanyingPeriodsOrdered();
         
         $date = $r[0]->getDateOpening()->format('Y-m-d');
-        
         
         $this->assertEquals($date, '2013-01-01');
     }
     
     
-    public function testHistoryOrderSameDateOpening() {
+    public function testAccompanyingPeriodOrderSameDateOpening() {
         $d = new \DateTime(); 
         $d->setDate(2013, 2, 1);
         $p = new Person($d);
         
         $e = new \DateTime(); 
         $e->setDate(2013, 3, 1);
-        $history = $p->getCurrentHistory()->setDateClosing($e);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $p->close($period);
         
         $f = new \DateTime(); 
         $f->setDate(2013, 2, 1);
-        $p->open(new PersonHistoryFile($f));
+        $p->open(new AccompanyingPeriod($f));
         
         $g = new \DateTime(); 
         $g->setDate(2013, 4, 1); 
-        $history = $p->getCurrentHistory()->setDateClosing($g);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $p->close($period);
 
-        $r = $p->getHistoriesOrdered();
+        $r = $p->getAccompanyingPeriodsOrdered();
         
         $date = $r[0]->getDateClosing()->format('Y-m-d');
-        
         
         $this->assertEquals($date, '2013-03-01');
     }
     
-    public function testDateCoveringWithCoveringHistory() {
+    public function testDateCoveringWithCoveringAccompanyingPeriod() {
         $d = new \DateTime(); 
         $d->setDate(2013, 2, 1);
         $p = new Person($d);
         
         $e = new \DateTime(); 
         $e->setDate(2013, 3, 1);
-        $history = $p->getCurrentHistory()->setDateClosing($e);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $p->close($period);
         
         $f = new \DateTime(); 
         $f->setDate(2013, 1, 1);
-        $p->open(new PersonHistoryFile($f));
+        $p->open(new AccompanyingPeriod($f));
         
         $g = new \DateTime(); 
         $g->setDate(2013, 4, 1); 
-        $history = $p->getCurrentHistory()->setDateClosing($g);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $p->close($period);
         
-        $r = $p->checkHistoryIsNotCovering();
+        $r = $p->checkAccompanyingPeriodIsNotCovering();
         
         $this->assertEquals($r['result'], Person::ERROR_OPENING_IS_INSIDE_CLOSING);
     }
-    
-    
     
     public function testNotOpenAFileReOpenedLater() {
         $d = new \DateTime(); 
@@ -137,15 +133,14 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         
         $e = new \DateTime(); 
         $e->setDate(2013, 3, 1);
-        $history = $p->getCurrentHistory()->setDateClosing($e);
-        $p->close($history);
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $p->close($period);
         
         $f = new \DateTime(); 
         $f->setDate(2013, 1, 1);
-        $p->open(new PersonHistoryFile($f));
-
+        $p->open(new AccompanyingPeriod($f));
         
-        $r = $p->checkHistoryIsNotCovering();
+        $r = $p->checkAccompanyingPeriodIsNotCovering();
         
         $this->assertEquals($r['result'], Person::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE);
     }

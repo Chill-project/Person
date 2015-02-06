@@ -1,4 +1,4 @@
-Chill\PersonBundle\Entity\PersonHistoryFile:
+Chill\PersonBundle\Entity\AccompanyingPeriod:
     type: entity
     table: person_history_file
     id:

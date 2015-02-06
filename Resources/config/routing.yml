@@ -45,30 +45,30 @@ chill_person_search:
                 order: 30
                 label: Search within persons
 
-chill_person_history_list:
-    pattern: /{_locale}/person/{person_id}/history
-    defaults: { _controller: ChillPersonBundle:History:list }
+chill_person_accompanying_period_list:
+    pattern: /{_locale}/person/{person_id}/accompanying-period
+    defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:list }
 #    options:
 #        menus:
 #            person:
 #                order: 100
 #                label: menu.person.history
 
-chill_person_history_create:
-    pattern: /{_locale}/person/{person_id}/history/create
-    defaults: { _controller: ChillPersonBundle:History:create }
+chill_person_accompanying_period_create:
+    pattern: /{_locale}/person/{person_id}/accompanying-period/create
+    defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:create }
 
-chill_person_history_update:
-    pattern: /{_locale}/person/history/{history_id}/update
-    defaults: { _controller: ChillPersonBundle:History:update }
+chill_person_accompanying_period_update:
+    pattern: /{_locale}/person/{person_id}/accompanying-period/{period_id}/update
+    defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:update }
 
-chill_person_history_close:
-    pattern: /{_locale}/person/{person_id}/history/close
-    defaults: { _controller: ChillPersonBundle:History:close }
+chill_person_accompanying_period_close:
+    pattern: /{_locale}/person/{person_id}/accompanying-period/close
+    defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:close }
 
-chill_person_history_open:
-    pattern: /{_locale}/person/{person_id}/history/open
-    defaults: { _controller: ChillPersonBundle:History:open }
+chill_person_accompanying_period_open:
+    pattern: /{_locale}/person/{person_id}/accompanying-period/open
+    defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:open }
 
 chill_person_admin:
     pattern: /{_locale}/admin/person

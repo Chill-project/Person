@@ -1,8 +1,8 @@
 {% extends "ChillPersonBundle::layout.html.twig"  %}
 
-{% set activeRouteKey = 'chill_person_history_list' %}
+{% set activeRouteKey = 'chill_person_accompanying_period_list' %}
 
-{% block title %}{{ 'Person history - %name%'|trans({ '%name%' : person.__toString}) }}{% endblock title %}
+{% block title %}{{ 'Person accompanying period - %name%'|trans({ '%name%' : person.__toString}) }}{% endblock title %}
 
 {% block personcontent %}
 <table class="rounded">
@@ -16,28 +16,28 @@
     </thead>
     <tbody>
         {% set i = 0 %}
-        {% for history in histories %}
+        {% for accompanying_period in accompanying_periods %}
         <tr class="{% if i is not even %}striped{% endif %}">
-            <td>{{ history.dateOpening|localizeddate('long', 'none', app.request.locale) }}</td>
+            <td>{{ accompanying_period.dateOpening|localizeddate('long', 'none', app.request.locale) }}</td>
             <td>{% spaceless %}
-                {% if history.isOpen %}
+                {% if accompanying_period.isOpen %}
                     {{ 'Still open'|trans }}
                 
                 {% else %}
-                    {{ history.dateClosing|localizeddate('long', 'none', app.request.locale) }}
+                    {{ accompanying_period.dateClosing|localizeddate('long', 'none', app.request.locale) }}
                 {% endif %}
             
             {% endspaceless %}</td>
             <td>
                 <div class="small warning btn icon-right entypo icon-pencil">
-                    <a  href="{{ path('chill_person_history_update', {'person_id' : person.id, 'history_id' : history.id } ) }}">{{ 'Edit'|trans }}</a>
+                    <a  href="{{ path('chill_person_accompanying_period_update', {'person_id' : person.id, 'period_id' : accompanying_period.id } ) }}">{{ 'Edit'|trans }}</a>
                 </div>
             </td>
         </tr>
-        {% if history.memo is not empty %}
+        {% if accompanying_period.memo is not empty %}
         <tr class="{% if i is not even %}striped{% endif %}">
             <td colspan="3">
-                <pre>{{ history.memo }}</pre>
+                <pre>{{ accompanying_period.memo }}</pre>
             </td>
         </tr>
         {% endif %}
@@ -49,8 +49,8 @@
 
 <div class="form_control">
     <div class="btn small warning icon-right entypo icon-plus">
-        <a href="{{ path ('chill_person_history_create', {'person_id' : person.id } ) }}">
-            {{ 'Create history'|trans }}
+        <a href="{{ path ('chill_person_accompanying_period_create', {'person_id' : person.id } ) }}">
+            {{ 'Create accompanying period'|trans }}
         </a>
     </div>
     
@@ -63,12 +63,12 @@
              {% endif %}{% endspaceless %}">
             {% spaceless %}
                 {% if person.isOpen == true %}
-                    <a href="{{ path('chill_person_history_close', {'person_id' : person.id}) }}">
-                        {{'Close history'|trans }}
+                    <a href="{{ path('chill_person_accompanying_period_close', {'person_id' : person.id}) }}">
+                        {{'Close accompanying period'|trans }}
                     </a>
                 {% else %}
-                    <a href="{{ path('chill_person_history_open', {'person_id' : person.id} ) }}">
-                        {{'Open history'|trans }}
+                    <a href="{{ path('chill_person_accompanying_period_open', {'person_id' : person.id} ) }}">
+                        {{'Open accompanying period'|trans }}
                     </a>
                 {% endif %}
             {% endspaceless %}   

@@ -1,14 +1,34 @@
 <?php
 
+/*
+ * Chill is a software for social workers
+ *
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
+ * <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 namespace Chill\PersonBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\ExecutionContextInterface;
 
 /**
- * PersonHistoryFile
+ * AccompanyingPeriod
  */
-class PersonHistoryFile
+class AccompanyingPeriod
 {
     /**
      * @var integer
@@ -44,7 +64,7 @@ class PersonHistoryFile
     /**
      * 
      * @param \DateTime $dateOpening
-     * @uses PersonHistoryFile::setDateClosing()
+     * @uses AccompanyingPeriod::setDateClosing()
      */
     public function __construct(\DateTime $dateOpening) {
         $this->setDateOpening($dateOpening);
@@ -65,7 +85,7 @@ class PersonHistoryFile
      * Set date_opening
      *
      * @param \DateTime $dateOpening
-     * @return PersonHistoryFile
+     * @return AccompanyingPeriod
      */
     public function setDateOpening($dateOpening)
     {
@@ -90,7 +110,7 @@ class PersonHistoryFile
      * For closing a Person file, you should use Person::setClosed instead.
      *
      * @param \DateTime $dateClosing
-     * @return PersonHistoryFile
+     * @return AccompanyingPeriod
      * 
      */
     public function setDateClosing($dateClosing)
@@ -126,7 +146,7 @@ class PersonHistoryFile
      * Set memo
      *
      * @param string $memo
-     * @return PersonHistoryFile
+     * @return AccompanyingPeriod
      */
     public function setMemo($memo)
     {
@@ -152,11 +172,11 @@ class PersonHistoryFile
     /**
      * Set person.
      * 
-     * For consistency, you should use Person::addHistoryFile instead.
+     * For consistency, you should use Person::addAccompanyingPeriod instead.
      *
      * @param \Chill\PersonBundle\Entity\Person $person
-     * @return PersonHistoryFile
-     * @see Person::addHistoryFile
+     * @return AccompanyingPeriod
+     * @see Person::addAccompanyingPeriod
      */
     public function setPerson(\Chill\PersonBundle\Entity\Person $person = null)
     {
@@ -196,19 +216,19 @@ class PersonHistoryFile
             return;
         }
         
-        if ($this->isClosingAfterOpening() === false) {
+        if (! $this->isClosingAfterOpening()) {
             $context->addViolationAt('dateClosing', 
-                    'validation.PersonHistoryFile.constraint.dateOfClosing_before_dateOfOpening',
-                    array(), null);
+                'validation.PersonHistoryFile.constraint.dateOfClosing_before_dateOfOpening',
+                array(), null);
         }
     }
     
     /**
+     * Returns true if the closing date is after the opening date.
      * 
      * @return boolean
      */
     public function isClosingAfterOpening() {
-        
         $diff = $this->getDateOpening()->diff($this->getDateClosing());
         
         if ($diff->invert === 0) {
@@ -216,6 +236,5 @@ class PersonHistoryFile
         } else {
             return false;
         }
-
     }
 }

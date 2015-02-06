@@ -8,17 +8,14 @@ use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormEvent;
 
-class PersonHistoryFileType extends AbstractType
+class AccompanyingPeriodType extends AbstractType
 {
-   
-    
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        
         //if the period_action is close, date opening should not be seen
         if ($options['period_action'] !== 'close') {
             $builder
@@ -39,7 +36,7 @@ class PersonHistoryFileType extends AbstractType
                   ($options['period_action'] === 'close')
                   OR
                   ($options['period_action'] === 'update' AND !$accompanyingPeriod->isOpen())
-                  ){
+                  ) {
                 $form->add('date_closing', 'date', array('required' => true,
                 'widget' => 'single_text'));
                 $form->add('closingMotive', 'closing_motive');
@@ -58,15 +55,14 @@ class PersonHistoryFileType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Chill\PersonBundle\Entity\PersonHistoryFile'
+            'data_class' => 'Chill\PersonBundle\Entity\AccompanyingPeriod'
         ));
 
         $resolver
-              ->setRequired(array('period_action'))
-              ->addAllowedTypes(array('period_action' => 'string'))
-              ->addAllowedValues(array('period_action' => array(
-                 'update', 'open', 'close')))
-              ;
+            ->setRequired(array('period_action'))
+            ->addAllowedTypes(array('period_action' => 'string'))
+            ->addAllowedValues(array('period_action' => array(
+                'update', 'open', 'close')));
     }
 
     /**
@@ -74,6 +70,6 @@ class PersonHistoryFileType extends AbstractType
      */
     public function getName()
     {
-        return 'cl_chill_personbundle_personhistoryfile';
+        return 'chill_personbundle_accompanyingperiod';
     }
 }

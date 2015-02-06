@@ -3,7 +3,7 @@
 /*
  * Chill is a software for social workers
  *
- * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -223,20 +223,20 @@ class PersonController extends Controller
      * @param \Chill\PersonBundle\Entity\Person $person
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
-    private function _validatePersonAndHistory(Person $person)
+    private function _validatePersonAndAccompanyingPeriod(Person $person)
     {
         $errors = $this->get('validator')
-                ->validate($person, array('creation'));
+            ->validate($person, array('creation'));
         
-        //validate history
-        $histories = $person->getHistories();
+        //validate accompanying periods
+        $periods = $person->getAccompanyingPeriods();
         
-        foreach ($histories as $history) {
-            $errors_history = $this->get('validator')
-                ->validate($history);
+        foreach ($periods as $period) {
+            $period_errors = $this->get('validator')
+                ->validate($period);
         
             //group errors :
-            foreach($errors_history as $error) {
+            foreach($period_errors as $error) {
                 $errors->add($error);
             }
         }
@@ -262,7 +262,7 @@ class PersonController extends Controller
         
         $person = $this->_bindCreationForm($form);
         
-        $errors = $this->_validatePersonAndHistory($person);   
+        $errors = $this->_validatePersonAndAccompanyingPeriod($person);   
    
         if ( count($errors) > 0) {
             $flashBag = $this->get('session')->getFlashBag();
@@ -339,7 +339,7 @@ class PersonController extends Controller
         
         $person = $this->_bindCreationForm($form);
         
-        $errors = $this->_validatePersonAndHistory($person);
+        $errors = $this->_validatePersonAndAccompanyingPeriod($person);
         
         if ($errors->count() ===  0) {
             $em = $this->getDoctrine()->getManager();

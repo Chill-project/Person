@@ -30,7 +30,7 @@ Chill\PersonBundle\Entity\Person:
                   traverse: true
     constraints:
           - Callback:
-              methods: [isHistoryValid]
+              methods: [isAccompanyingPeriodValid]
               groups: [history_consistent]
 
 Chill\PersonBundle\Entity\PersonHistoryFile:

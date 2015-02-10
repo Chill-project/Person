@@ -18,3 +18,10 @@ services:
             - ['setContainer', ["@service_container"]]
         tags:
             - { name: chill.search, alias: 'person_regular' }
+            
+    chill.person.timeline.accompanying_period_opening:
+        class: Chill\PersonBundle\Timeline\TimelineAccompanyingPeriodOpening
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: chill.timeline, context: 'person' }

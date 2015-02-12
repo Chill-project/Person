@@ -35,7 +35,6 @@ Chill\PersonBundle\Entity\Person:
         email:
             type: text  
         proxyAccompanyingPeriodOpenState:
-            column: proxyHistoryOpenState
             type: boolean
             name: proxy_open
         cFData:

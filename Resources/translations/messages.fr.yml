@@ -58,7 +58,6 @@ Reset: 'Remise à zéro'
 'Search within persons': 'Recherche parmi les personnes'
 '%total% persons matching the search %pattern%': '{0} Aucune personne ne correspond aux termes de recherche "%pattern%" | {1} Une personne a été trouvée par la recherche "%pattern%" | ]1,Inf] %total% personnes correspondent aux termes de recherche "%pattern%".'
 'Last opening since %last_opening%': 'Dernière ouverture le %last_opening%.'
-'Close person accompanying period': Clotûrer
 'Person accompanying period - %name%': 'Historique du dossier - %name%'
 'Opening date': 'Date d''ouverture'
 'Closing date': 'Date de fermeture'

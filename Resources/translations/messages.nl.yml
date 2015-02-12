@@ -58,7 +58,6 @@ Reset: Delete
 '%total% persons matching the search %pattern%': '{0} Geen personen stemmen met het gezocht "%pattern%" overeen. | {1} Één persoon stemd met het gezocht "%pattern%" overeen. | ]1,Inf] %total% personen stemmen met het gezocht "%pattern%" overeen.'
 'Person details': 'Details van de persoon'
 'Last opening since %last_opening%': '__Last opening since %last_opening%'
-'Close person accompanying period ': '__Close person accompanying period '
 'Person accompanying period - %name%': '__Person accompanying period - %name%'
 'Opening date': '__Opening date'
 'Closing date': '__Closing date'

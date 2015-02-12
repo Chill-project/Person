@@ -31,7 +31,7 @@ Chill\PersonBundle\Entity\Person:
     constraints:
           - Callback:
               methods: [isAccompanyingPeriodValid]
-              groups: [history_consistent]
+              groups: [accompanying_period_consistent]
 
 Chill\PersonBundle\Entity\AccompanyingPeriod:
     properties:

@@ -250,7 +250,7 @@ class AccompanyingPeriodController extends Controller
         $errors = $this->get('validator')->validate($person, 
                              array('Default'));
         $errors_accompanying_period = $this->get('validator')->validate($person, 
-                            array('history_consistent'));
+                            array('accompanying_period_consistent'));
         
         foreach($errors_accompanying_period as $error ) {
                     $errors->add($error);

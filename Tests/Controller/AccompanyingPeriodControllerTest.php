@@ -134,7 +134,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      * and we fill the close form (at /en/person/[id]/accompanying-period/close
      *      with : dateClosing: 2015-02-01
      *      with : the last closing motive in list
-     * Then the response should redirect to history view
+     * Then the response should redirect to period view
      * And the next page should have a `.error` element present in page
      * 
      * @todo
@@ -168,7 +168,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      * and we fill the close form (at /en/person/[id]/accompanying-period/close
      *      with : dateClosing: 2014-01-01
      *      with : the last closing motive in list
-     * Then the response should redirect to history view
+     * Then the response should redirect to period view
      * And the next page should have a `.error` element present in page
      * 
      * @todo
@@ -203,7 +203,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      *      with : dateClosing: 2014-12-31
      *      with : dateOpening: 2014-01-01
      *      with : the last closing motive in list
-     * Then the response should redirect to history view
+     * Then the response should redirect to period view
      */
     public function testAddNewPeriodBeforeActual()
     {
@@ -353,7 +353,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      *      with : dateClosing: 2014-01-01 (before opening)
      *      with : dateOpening: 2015-01-01
      *      with : the last closing motive in list
-     * Then the response should redirect to history view
+     * Then the response should redirect to period view
      */
     public function testCreatePeriodWithClosingBeforeOpeningFails()
     {

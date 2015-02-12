@@ -25,7 +25,7 @@ Chill\PersonBundle\Entity\Person:
         genre:
                - NotNull:
                   groups: [general, creation]
-        history:
+        accompanyingPeriods:
               - Valid:
                   traverse: true
     constraints:

@@ -18,8 +18,11 @@ Chill\PersonBundle\Entity\AccompanyingPeriod:
     manyToOne:
         person:
             targetEntity: Person
-            inversedBy: history
+            inversedBy: accompanyingPeriods
             cascade: [refresh]
+            joinColumn:
+                name: person_id
+                referencedColumnName: id
         closingMotive:
             targetEntity: Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive
             nullable: true

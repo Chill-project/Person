@@ -5,7 +5,6 @@
 'This is not a number': 'La valeur introduite n''est pas un nombre.'
 'Birthdate not valid': 'La date de naissance n''est pas valide.'
 'Periods are collapsing': 'L''historique des ouvertures et fermetures de dossier n''est pas cohérent. Des historiques d''ouverture et de fermeture se chevauchent. Vérifiez la liste des ouvertures et fermetures.'
-'History not closed is before the new line': 'Vous tentez d''ouvrir un dossier à une date passée alors qu''il est réouvert plus tard. Veuillez insérer une nouvelle ligne d''ouverture avant de la clotûrer avant la suivante.'
 'Closing date can not be before opening date': 'La date de fermeture du dossier ne peut pas être avant la date d''ouverture.'
 'Opening date is not valid': 'La date d''ouverture n''est pas valide'
 'Opening date can not be null': 'La date d''ouverure ne peut être nulle'

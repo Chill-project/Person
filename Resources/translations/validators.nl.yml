@@ -5,7 +5,6 @@
 'This is not a number': 'Je moet hier een cijfer invullen.'
 'Birthdate not valid': 'Geboortedatum is foutief ingevuld'
 'Periods are collapsing': 'De periodes van openen en sluiten van het dossier is foutief. Verifieer de data.'
-"History not closed is before the new line": "U probeert een dossier te starten in het verleden, dit is onmogelijk!"
 'Closing date can not be before opening date': 'Dossier kan niet gesloten worden voor datum van openen dossier.'
 'Opening date is not valid': 'Startdatum is ongeldig'
 'Opening date can not be null': 'Startdatum  kan niet  nul zijn'

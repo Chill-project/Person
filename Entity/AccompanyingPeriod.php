@@ -209,8 +209,6 @@ class AccompanyingPeriod
         
     
     /// VALIDATION function
-    
-    
     public function isDateConsistent(ExecutionContextInterface $context) {
         if ($this->isOpen()) {
             return;
@@ -218,7 +216,7 @@ class AccompanyingPeriod
         
         if (! $this->isClosingAfterOpening()) {
             $context->addViolationAt('dateClosing', 
-                'validation.PersonHistoryFile.constraint.dateOfClosing_before_dateOfOpening',
+                'validation.AccompanyingPeriod.constraint.dateOfClosing_before_dateOfOpening',
                 array(), null);
         }
     }

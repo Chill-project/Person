@@ -87,13 +87,13 @@ class Person {
      *
      * @var \Doctrine\Common\Collections\ArrayCollection
      */
-    private $history;
+    private $accompanyingPeriods;
     
     /**
      *
      * @var boolean
      */
-    private $proxyHistoryOpenState = false;
+    private $proxyAccompanyingPeriodOpenState = false;
 
 
     /**
@@ -114,7 +114,7 @@ class Person {
     private $spokenLanguages;
     
     public function __construct(\DateTime $opening = null) {
-        $this->history = new ArrayCollection();
+        $this->accompanyingPeriods = new ArrayCollection();
         $this->spokenLanguages = new ArrayCollection();
         
         if ($opening === null) {
@@ -129,13 +129,13 @@ class Person {
      * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $period
      * @uses AccompanyingPeriod::setPerson
      */
-    public function addAccompanyingPeriod(AccompanyingPeriod $period) {
-        $period->setPerson($this);
-        $this->history->add($period);
+    public function addAccompanyingPeriod(AccompanyingPeriod $accompanyingPeriod) {
+        $accompanyingPeriod->setPerson($this);
+        $this->accompanyingPeriods->add($accompanyingPeriod);
     }
     
-    public function removeHistoryFile(AccompanyingPeriod $history) {
-        $this->history->remove($history);
+    public function removeAccompanyingPeriod(AccompanyingPeriod $accompanyingPeriod) {
+        $this->accompanyingPeriods->remove($accompanyingPeriod);
     }
     
     /**
@@ -151,7 +151,7 @@ class Person {
      * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $accompanyingPeriod
      */
     public function open(AccompanyingPeriod $accompanyingPeriod) {
-        $this->proxyHistoryOpenState = true;
+        $this->proxyAccompanyingPeriodOpenState = true;
         $this->addAccompanyingPeriod($accompanyingPeriod);
     }
 
@@ -169,7 +169,7 @@ class Person {
      */
     public function close(AccompanyingPeriod $accompanyingPeriod) 
     {
-        $this->proxyHistoryOpenState = false;
+        $this->proxyAccompanyingPeriodOpenState = false;
     }
     
     /**
@@ -177,11 +177,11 @@ class Person {
      * @return null|AccompanyingPeriod
      */
     public function getCurrentAccompanyingPeriod() {
-        if ($this->proxyHistoryOpenState === false) {
+        if ($this->proxyAccompanyingPeriodOpenState === false) {
             return null;
         }
         
-        foreach ($this->history as $period) {
+        foreach ($this->accompanyingPeriods as $period) {
             if ($period->isOpen()) {
                 return $period;
             }
@@ -193,7 +193,7 @@ class Person {
      * @return \Doctrine\Common\Collections\ArrayCollection
      */
     public function getAccompanyingPeriods() {
-        return $this->history;
+        return $this->accompanyingPeriods;
     }
     
     /**
@@ -236,7 +236,7 @@ class Person {
     }
     
     public function isOpen() {
-        return $this->proxyHistoryOpenState;
+        return $this->proxyAccompanyingPeriodOpenState;
     }
 
     /**

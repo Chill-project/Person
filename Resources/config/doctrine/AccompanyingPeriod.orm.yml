@@ -1,6 +1,6 @@
 Chill\PersonBundle\Entity\AccompanyingPeriod:
+    table: accompanying_period
     type: entity
-    table: person_history_file
     id:
         id:
             type: integer
@@ -18,7 +18,7 @@ Chill\PersonBundle\Entity\AccompanyingPeriod:
     manyToOne:
         person:
             targetEntity: Person
-            inversedBy: history
+            inversedBy: accompanyingPeriods
             cascade: [refresh]
         closingMotive:
             targetEntity: Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive

@@ -25,13 +25,13 @@ Chill\PersonBundle\Entity\Person:
         genre:
                - NotNull:
                   groups: [general, creation]
-        history:
+        accompanyingPeriods:
               - Valid:
                   traverse: true
     constraints:
           - Callback:
               methods: [isAccompanyingPeriodValid]
-              groups: [history_consistent]
+              groups: [accompanying_period_consistent]
 
 Chill\PersonBundle\Entity\AccompanyingPeriod:
     properties:

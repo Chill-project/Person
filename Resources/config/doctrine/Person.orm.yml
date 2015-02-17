@@ -34,7 +34,7 @@ Chill\PersonBundle\Entity\Person:
             default: ''
         email:
             type: text  
-        proxyHistoryOpenState:
+        proxyAccompanyingPeriodOpenState:
             type: boolean
             name: proxy_open
         cFData:
@@ -52,7 +52,7 @@ Chill\PersonBundle\Entity\Person:
             inversedBy: nationals
             nullable: true
     oneToMany:
-        history:
+        accompanyingPeriods:
             targetEntity: AccompanyingPeriod
             mappedBy: person
             cascade: [persist, remove, merge, detach]

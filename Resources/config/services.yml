@@ -25,3 +25,10 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: chill.timeline, context: 'person' }
+            
+    chill.person.timeline.accompanying_period_closing:
+        class: Chill\PersonBundle\Timeline\TimelineAccompanyingPeriodClosing
+        arguments:
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: chill.timeline, context: 'person' }

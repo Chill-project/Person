@@ -23,70 +23,56 @@ use Chill\MainBundle\Timeline\TimelineProviderInterface;
 use Doctrine\ORM\EntityManager;
 
 /**
- * 
+ * Provide information for opening periods to timeline
  *
  * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
-class TimelineAccompanyingPeriodOpening implements TimelineProviderInterface
+class TimelineAccompanyingPeriodClosing extends AbstractTimelineAccompanyingPeriod
 {
+
     /**
-     *
-     * @var EntityManager
+     * 
+     * {@inheritDoc}
      */
-    private $em;
-    
-    public function __construct(EntityManager $em)
+    public function supportsType($type)
     {
-        $this->em = $em;
-    }
-    
-    public function fetchUnion($context, array $args)
-    {
-        if ($context !== 'person') {
-            throw new \LogicException('TimelineAccompanyingPeriod is not able '
-                    . 'to render context '.$context);
-        }
-        
-        $idColumn =  $this->em
-                ->getClassMetadata('ChillPersonBundle:AccompanyingPeriod')
-                ->getColumnName('id');
-        $dateColumn = $this->em
-                ->getClassMetadata('ChillPersonBundle:AccompanyingPeriod')
-                ->getColumnName('date_opening');
-        $personForeignKeyColumn = $this->em
-                ->getClassMetadata('ChillPersonBundle:AccompanyingPeriod')
-                ->getAssociationMapping('person')['joinColumns'][0]['name'];
-        $tableName = $this->em
-                ->getClassMetadata('ChillPersonBundle:AccompanyingPeriod')
-                ->getTableName();
-        
-        return sprintf("SELECT $idColumn AS id, 'accompanying_period_opening' AS key, "
-                . "$dateColumn AS date "
-                . "FROM $tableName "
-                . "WHERE $personForeignKeyColumn = %d", 
-                $args['person']->getId());
+        return $type === 'accompanying_period_closing';
     }
 
-    public function getEntities(array $ids)
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    public function fetchQuery($context, array $args)
     {
-        $periods = $this->em
-                ->getRepository('ChillPersonBundle:AccompanyingPeriod')
-                ->findBy(array('id' => $ids));
+        $metadata = $this->em
+                    ->getClassMetadata('ChillPersonBundle:AccompanyingPeriod');
         
-        $results = array();
-        foreach($periods as $period) {
-            $results[$period->getId()] = array(
-                'template' => 'ChillPersonBundle:Timeline:opening_period.html.twig',
-                'entity' => array('period' => $period)
-            );
-        }
+        $data = $this->basicFetchQuery($context, $args);
         
-        return $results;
+        $data['type'] = 'accompanying_period_closing';
+        $data['WHERE'] = sprintf('%s = %d AND %s IS NOT NULL', 
+                $metadata
+                    ->getAssociationMapping('person')['joinColumns'][0]['name'],
+                $args['person']->getId(),
+                $metadata
+                    ->getColumnName('date_closing')
+                );
+        
+        return $data;
     }
 
-    public function supportsKey($key)
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    public function getEntityTemplate($entity, $context, array $args)
     {
-        return $key === 'accompanying_period_opening';
+        return $this->getBasicEntityTemplate(
+                'ChillPersonBundle:Timeline:closing_period.html.twig', 
+                $entity, 
+                $context, 
+                $args
+                );
     }
-
 }

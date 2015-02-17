@@ -67,3 +67,7 @@ Reset: 'Remise à zéro'
 'Create accompanying period': 'Nouvel ouverture-fermeture à une autre date'
 'Closing motive': 'Motif de clôture'
 'Person details': 'Détails de la personne'
+
+#timeline
+'An accompanying period is opened for %person% on %date%': Une période d'accompagnement a été ouverte le %date% pour %person%
+'An accompanying period is closed for %person% on %date%': Une période d'accompagnement a été fermée le %date% pour %person%

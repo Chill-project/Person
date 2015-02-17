@@ -44,7 +44,7 @@ class TimelinePersonController extends Controller
         return $this->render('ChillPersonBundle:Timeline:index.html.twig', array
             (
                 'timeline' => $this->get('chill.main.timeline_builder')
-                        ->getTimeline('person', array('person' => $person)),
+                        ->getTimelineHTML('person', array('person' => $person)),
                 'person' => $person
             )
         );

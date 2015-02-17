@@ -1,1 +1,1 @@
-<p><i class="fa fa-folder-open"></i> Dossier ouvert le {{ period.dateOpening|localizeddate('long', 'none') }}</p>
+<p><i class="fa fa-folder-open"></i>&nbsp;{{ 'An accompanying period is opened for %person% on %date%'|trans({'%person%': person, '%date%': period.dateOpening|localizeddate('long', 'none') } ) }}</p>

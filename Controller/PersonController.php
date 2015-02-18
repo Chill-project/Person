@@ -118,7 +118,7 @@ class PersonController extends Controller
             return $this->redirect($url);
         }
     }
-    
+
     public function searchAction()
     {
         $q = $this->getRequest()->query->getAlnum('q', '');
@@ -175,6 +175,26 @@ class PersonController extends Controller
                     'persons' => $persons,
                     'pattern' => $q
                 ));
+    }
+
+    /**
+     * Return a csv file with all the persons
+     *
+     * @return A csv file with all the persons
+     */
+    public function exportAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $persons = $em->getRepository('ChillPersonBundle:Person')->findAll();
+
+        $response = $this->render('ChillPersonBundle:Person:export.csv.twig',
+            array(
+                'persons' => $persons,
+                'cf_group' => $this->getCFGroup()));
+        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
+
+        return $response;
     }
     
     public function newAction()

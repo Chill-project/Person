@@ -79,3 +79,12 @@ chill_person_admin:
                 order: 100
                 label: menu.person.admin.index
                 helper: menu.person.admin.helper
+
+chill_person_export:
+    pattern: /{_locale}/person/export/
+    defaults: { _controller: ChillPersonBundle:Person:export }
+    options:
+        menus:
+            export:
+                order: 200
+                label: Export persons

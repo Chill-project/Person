@@ -1,0 +1,60 @@
+"{{ 'Person id'|trans }}",{#
+#}"{{ 'First name'|trans }}",{#
+#}"{{ 'Last name'|trans }}",{#
+#}"{{ 'Gender'|trans }}",{#
+#}"{{ 'Date of birth'|trans }}",{#
+#}"{{ 'Place of birth'|trans }}",{#
+#}"{{ 'Nationality'|trans }}",{#
+#}"{{ 'Spoken languages'|trans }}",{#
+#}"{{ 'Email'|trans }}",{#
+#}"{{ 'Phonenumber'|trans }}",{#
+#}{% if cf_group  %}{#
+    #}{% for customField in cf_group.customFields %}{#
+        #}"{{ chill_custom_field_label(customField) }}"{% if not loop.last %},{% endif %}{#
+    #}{% endfor %}{#
+#}{% endif %}{#
+#}
+
+{% for person in persons %}{#
+    #}{{ person.id }},{#
+    #}"{{ person.firstName }}",{#
+    #}"{{ person.lastName }}",{#
+    #}"{{ person.genre }}",{#
+    #}"{{ person.dateOfBirth|localizeddate('short', 'none') }}",{#
+    #}"{# countryOfBirth
+        #}{% if person.countryOfBirth is not null %}{#
+        #}{{ person.countryOfBirth.name|localize_translatable_string }}{#
+        #}{% else %}{#
+        #}{{ 'Unknown country of birth'|trans }}{#
+        #}{% endif %}{#
+    #}",{#
+    #}"{# nationality
+        #}{% if person.nationality is not null %}{#
+        #}{{ person.nationality.name|localize_translatable_string }}{#
+        #}{% else %}{#
+        #}{{ 'Without nationality'|trans }}{#
+        #}{% endif %}{#
+    #}",{#
+    #}"{# spokenLanguages
+        #}{% if person.spokenLanguages|length == 0 %}{#
+            #}{{ 'Unknown spoken languages'|trans }}{#
+        #}{% else %}{#
+            #}{% for lang in person.spokenLanguages %}{#
+                #}{{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}{#
+            #}{% endfor %}{#
+        #}{% endif %}{#
+    #}",{#
+    #}"{{ person.email|csv_cell }}",{#
+    #}"{{ person.phonenumber|csv_cell }}",{#
+    #}{% if cf_group  %}{#
+        #}{% for customField in cf_group.customFields %}{#
+            #}{% if customField.type == 'title' %}{#
+                #}""{#
+            #}{% else %}{#
+                #}"{{ chill_custom_field_widget(report.cFData , customField, 'csv') }}"{#
+            #}{% endif %}{#
+            #}{% if not loop.last %},{% endif %}{#
+        #}{% endfor %}{#
+    #}{% endif %}
+    
+{% endfor %}

@@ -17,9 +17,9 @@
 
 {% for person in persons %}{#
     #}{{ person.id }},{#
-    #}"{{ person.firstName }}",{#
-    #}"{{ person.lastName }}",{#
-    #}"{{ person.genre }}",{#
+    #}"{{ person.firstName|csv_cell }}",{#
+    #}"{{ person.lastName|csv_cell }}",{#
+    #}"{{ person.genre|csv_cell }}",{#
     #}"{{ person.dateOfBirth|localizeddate('short', 'none') }}",{#
     #}"{# countryOfBirth
         #}{% if person.countryOfBirth is not null %}{#

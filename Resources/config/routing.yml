@@ -88,3 +88,12 @@ chill_person_export:
             export:
                 order: 200
                 label: Export persons
+
+chill_person_timeline:
+    pattern: /{_locale}/person/{person_id}/timeline
+    defaults: { _controller: ChillPersonBundle:TimelinePerson:person }
+    options:
+        menus:
+            person:
+                order: 60
+                label: Timeline

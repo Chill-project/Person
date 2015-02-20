@@ -51,7 +51,7 @@
             #}{% if customField.type == 'title' %}{#
                 #}""{#
             #}{% else %}{#
-                #}"{{ chill_custom_field_widget(report.cFData , customField, 'csv') }}"{#
+                #}"{{ chill_custom_field_widget(person.cFData , customField, 'csv') }}"{#
             #}{% endif %}{#
             #}{% if not loop.last %},{% endif %}{#
         #}{% endfor %}{#

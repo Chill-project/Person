@@ -13,9 +13,9 @@
         #}"{{ chill_custom_field_label(customField) }}"{% if not loop.last %},{% endif %}{#
     #}{% endfor %}{#
 #}{% endif %}{#
-#}
 
-{% for person in persons %}{#
+#}{{ '\r\n'|raw }}{#
+#}{% for person in persons %}{#
     #}{{ person.id }},{#
     #}"{{ person.firstName|csv_cell }}",{#
     #}"{{ person.lastName|csv_cell }}",{#
@@ -55,6 +55,7 @@
             #}{% endif %}{#
             #}{% if not loop.last %},{% endif %}{#
         #}{% endfor %}{#
-    #}{% endif %}
+    #}{% endif %}{#
+    #}{{ '\r\n'|raw }}{#
 
-{% endfor %}
+#}{% endfor %}

@@ -192,7 +192,7 @@ class PersonController extends Controller
             array(
                 'persons' => $persons,
                 'cf_group' => $this->getCFGroup()));
-        $response->headers->set('Content-Type', 'text/csv');
+        $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
         $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
 
         return $response;

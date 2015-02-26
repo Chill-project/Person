@@ -47,6 +47,7 @@ class PersonControllerExportTest extends WebTestCase
      * 
      * The test is the following :
      * - check if the file has the csv format
+     * - check if each row as the same number of cell than the first row
      * - check if the number of row of the csv file is the same than the number of persons
      * 
      * @return \Symfony\Component\BrowserKit\Client
@@ -63,20 +64,32 @@ class PersonControllerExportTest extends WebTestCase
         $this->assertTrue(
             strpos($response->headers->get('Content-Type'),'text/csv') !== false,
             'The csv file is well received');
-        
+
         $content = $response->getContent();
-        $rows = (explode("\n", $content));
+        $rows = str_getcsv($content, "\n");
+        $headerRow = array_pop($rows);
+        $header = str_getcsv($headerRow);
+        $headerSize = sizeof($header);
+        $numberOfRows = 0;
+
+        foreach ($rows as $row) {
+            $rowContent = str_getcsv($row);
+
+            $this->assertTrue(
+                sizeof($rowContent) == $headerSize,
+                'Each row of the csv contains the good number of elements ('
+                . 'regarding to the first row');
+
+            $numberOfRows ++;
+        }
 
         $em = $client->getContainer()->get('doctrine.orm.entity_manager');
         $persons = $em->getRepository('ChillPersonBundle:Person')->findAll();
 
-        if($rows[sizeof($rows) -1] == "") {
-             array_pop($rows);
-        }
-
         $this->assertTrue(
-            sizeof($rows) == (sizeof($persons) + 1),
-            'The csv file has a number of row equivalent than the number of person in the db'
+            $numberOfRows == (sizeof($persons)),
+            'The csv file has a number of row equivalent than the number of '
+            . 'person in the db'
         );
     }
 }

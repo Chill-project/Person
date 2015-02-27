@@ -37,19 +37,19 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      *
      * @var \Symfony\Component\BrowserKit\Client
      */
-    private $client;
+    protected $client;
     
     /**
      *
      * @var Person
      */
-    private $person;
+    protected $person;
     
     /**
      *
      * @var \Doctrine\ORM\EntityManagerInterface
      */
-    private static $em;
+    protected static $em;
     
     const OPENING_INPUT = 'chill_personbundle_accompanyingperiod[date_opening]';
     const CLOSING_INPUT = 'chill_personbundle_accompanyingperiod[date_closing]';
@@ -88,7 +88,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
        static::$em->flush();
     }
     
-    private function generatePeriods(array $periods)
+    protected function generatePeriods(array $periods)
     {
         foreach ($periods as $periodDef) {
             $period = new AccompanyingPeriod(new \DateTime($periodDef['openingDate']));
@@ -112,14 +112,14 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         static::$em->flush();
     }
     
-    private function getLastValueOnClosingMotive(\Symfony\Component\DomCrawler\Form $form)
+    protected function getLastValueOnClosingMotive(\Symfony\Component\DomCrawler\Form $form)
     {
         $values = $form->get(self::CLOSING_MOTIVE_INPUT)
               ->availableOptionValues();
         return end($values);
     }
     
-    private function getRandomClosingMotive()
+    protected function getRandomClosingMotive()
     {
         $motives = static::$em
                 ->getRepository('ChillPersonBundle:AccompanyingPeriod\ClosingMotive')

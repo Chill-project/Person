@@ -83,7 +83,6 @@ class PersonTest extends \PHPUnit_Framework_TestCase
     /**
      * Test if the getAccompanyingPeriodsOrdered function, for periods
      * starting at the same time order regarding to the closing date.
-     * 
      */
     public function testAccompanyingPeriodOrderSameDateOpening() {
         $d = new \DateTime("2013/2/1");

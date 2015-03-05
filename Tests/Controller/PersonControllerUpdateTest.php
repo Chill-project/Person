@@ -77,6 +77,16 @@ class PersonControllerUpdateTest extends WebTestCase
     }
     
     /**
+     * 
+     * @return Person
+     */
+    protected function refreshPerson() 
+    {
+        $this->person = $this->em->getRepository('ChillPersonBundle:Person')
+              ->find($this->person->getId());
+    }
+    
+    /**
      * Test the edit page exist and rendering is successful
      */
     public function testEditPageIsSuccessful()
@@ -126,7 +136,7 @@ class PersonControllerUpdateTest extends WebTestCase
                 ->setValue($transformedValue);
         
         $this->client->submit($form);
-        $this->em->refresh($this->person);
+        $this->refreshPerson();
         
         $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl),
               'the page is redirected to general view');
@@ -145,7 +155,7 @@ class PersonControllerUpdateTest extends WebTestCase
                 ->setValue($selectedLanguages);
         
         $this->client->submit($form);
-        $this->em->refresh($this->person);
+        $this->refreshPerson();
         
         $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl),
                 'the page is redirected to /general view');
@@ -222,6 +232,7 @@ class PersonControllerUpdateTest extends WebTestCase
     
     public function tearDown()
     {
+        $this->refreshPerson();
         $this->em->remove($this->person);
         $this->em->flush();
     }

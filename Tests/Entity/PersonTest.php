@@ -81,13 +81,6 @@ class PersonTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * TODO : choose the good doc
-     * 
-     * Test if the getAccompanyingPeriodsOrdered function do not change the
-     * order of two periods starting at the same moment
-     * 
-     * or
-     * 
      * Test if the getAccompanyingPeriodsOrdered function, for periods
      * starting at the same time order regarding to the closing date.
      * 
@@ -96,15 +89,15 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $d = new \DateTime("2013/2/1");
         $p = new Person($d);
         
-        $e = new \DateTime("2013/3/1");
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $g = new \DateTime("2013/4/1"); 
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
         $p->close($period);
         
         $f = new \DateTime("2013/2/1");
         $p->open(new AccompanyingPeriod($f));
         
-        $g = new \DateTime("2013/4/1"); 
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $e = new \DateTime("2013/3/1");
+        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
         $p->close($period);
 
         $r = $p->getAccompanyingPeriodsOrdered();

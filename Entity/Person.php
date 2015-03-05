@@ -562,12 +562,15 @@ class Person {
         return $this->spokenLanguages;
     }
     
-    // VALIDATION
+    /**
+     * Validation callback that checks if the accompanying periods are valid
+     * 
+     * This method add violation errors.
+     */
     public function isAccompanyingPeriodValid(ExecutionContextInterface $context) {
         $r = $this->checkAccompanyingPeriodIsNotCovering();
         
         if ($r !== true) {
-            
             if ($r['result'] === self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE) {
                 $context->addViolationAt('history',
                         'Accompanying period not closed is before the new line',

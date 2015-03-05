@@ -126,7 +126,7 @@ class Person {
     
     /**
      * 
-     * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $period
+     * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $accompanyingPeriod
      * @uses AccompanyingPeriod::setPerson
      */
     public function addAccompanyingPeriod(AccompanyingPeriod $accompanyingPeriod) {
@@ -164,7 +164,7 @@ class Person {
      * 
      * To check if the Person and its accompanying period are consistent, use validation.
      * 
-     * @param AccompanyingPeriod
+     * @param accompanyingPeriod
      * @throws \Exception if two lines of the accompanying period are open.
      */
     public function close(AccompanyingPeriod $accompanyingPeriod) 
@@ -596,9 +596,7 @@ class Person {
     public function checkAccompanyingPeriodIsNotCovering()
     {    
         $periods = $this->getAccompanyingPeriodsOrdered();
-        
-        $i = 0; 
-         
+
         foreach ($periods as $key => $period) {
             //accompanying period is open : we must check the arent any period after
             if ($period->isOpen()) {

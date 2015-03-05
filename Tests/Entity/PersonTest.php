@@ -26,12 +26,15 @@ use Chill\PersonBundle\Entity\Person;
 use Chill\PersonBundle\Entity\AccompanyingPeriod;
 
 /**
- * Unit tests on person
- *
- * @author Julien Fastré <julien.fastre@champs-libres.coop>
+ * Unit tests for the person Entity
  */
 class PersonTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * Test the creation of an accompanying, its closure and the access to 
+     * the current accompaniying period via the getCurrentAccompanyingPeriod
+     * function.
+     */
     public function testGetCurrentAccompanyingPeriod()
     {
         $d = new \DateTime('yesterday'); 
@@ -48,25 +51,25 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         
         $shouldBeNull = $p->getCurrentAccompanyingPeriod();
         $this->assertNull($shouldBeNull);
-        
     }
     
-    public function testAccompanyingPeriodOrderWithUnorderedAccompanyingPeriod() {
-        $d = new \DateTime(); 
-        $d->setDate(2013, 2, 1);
+    /**
+     * Test if the getAccompanyingPeriodsOrdered function return a list of
+     * periods ordered ascendency.
+     */
+    public function testAccompanyingPeriodOrderWithUnorderedAccompanyingPeriod()
+    {       
+        $d = new \DateTime("2013/2/1");
         $p = new Person($d);
         
-        $e = new \DateTime(); 
-        $e->setDate(2013, 3, 1);
+        $e = new \DateTime("2013/3/1");
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
         $p->close($period);
         
-        $f = new \DateTime(); 
-        $f->setDate(2013, 1, 1);
+        $f = new \DateTime("2013/1/1");
         $p->open(new AccompanyingPeriod($f));
         
-        $g = new \DateTime(); 
-        $g->setDate(2013, 4, 1); 
+        $g = new \DateTime("2013/4/1"); 
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
         $p->close($period);
         
@@ -77,23 +80,30 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($date, '2013-01-01');
     }
     
-    
+    /**
+     * TODO : choose the good doc
+     * 
+     * Test if the getAccompanyingPeriodsOrdered function do not change the
+     * order of two periods starting at the same moment
+     * 
+     * or
+     * 
+     * Test if the getAccompanyingPeriodsOrdered function, for periods
+     * starting at the same time order regarding to the closing date.
+     * 
+     */
     public function testAccompanyingPeriodOrderSameDateOpening() {
-        $d = new \DateTime(); 
-        $d->setDate(2013, 2, 1);
+        $d = new \DateTime("2013/2/1");
         $p = new Person($d);
         
-        $e = new \DateTime(); 
-        $e->setDate(2013, 3, 1);
+        $e = new \DateTime("2013/3/1");
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
         $p->close($period);
         
-        $f = new \DateTime(); 
-        $f->setDate(2013, 2, 1);
+        $f = new \DateTime("2013/2/1");
         $p->open(new AccompanyingPeriod($f));
         
-        $g = new \DateTime(); 
-        $g->setDate(2013, 4, 1); 
+        $g = new \DateTime("2013/4/1"); 
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
         $p->close($period);
 
@@ -104,22 +114,23 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($date, '2013-03-01');
     }
     
+    /**
+     * Test if the function checkAccompanyingPeriodIsNotCovering returns
+     * the good constant when two periods are collapsing : a period
+     * is covering another one : start_1 < start_2 & end_2 < end_1
+     */
     public function testDateCoveringWithCoveringAccompanyingPeriod() {
-        $d = new \DateTime(); 
-        $d->setDate(2013, 2, 1);
+        $d = new \DateTime("2013/2/1");
         $p = new Person($d);
         
-        $e = new \DateTime(); 
-        $e->setDate(2013, 3, 1);
+        $e = new \DateTime("2013/3/1");
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
         $p->close($period);
         
-        $f = new \DateTime(); 
-        $f->setDate(2013, 1, 1);
+        $f = new \DateTime("2013/1/1");
         $p->open(new AccompanyingPeriod($f));
         
-        $g = new \DateTime(); 
-        $g->setDate(2013, 4, 1); 
+        $g = new \DateTime("2013/4/1"); 
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
         $p->close($period);
         
@@ -128,18 +139,20 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($r['result'], Person::ERROR_OPENING_IS_INSIDE_CLOSING);
     }
     
+    /**
+     * Test if the function checkAccompanyingPeriodIsNotCovering returns
+     * the good constant when two periods are collapsing : a period is open
+     * before an existing period
+     */
     public function testNotOpenAFileReOpenedLater() {
-        $d = new \DateTime(); 
-        $d->setDate(2013, 2, 1);
+        $d = new \DateTime("2013/2/1");
         $p = new Person($d);
         
-        $e = new \DateTime(); 
-        $e->setDate(2013, 3, 1);
+        $e = new \DateTime("2013/3/1");
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
         $p->close($period);
         
-        $f = new \DateTime(); 
-        $f->setDate(2013, 1, 1);
+        $f = new \DateTime("2013/1/1");
         $p->open(new AccompanyingPeriod($f));
         
         $r = $p->checkAccompanyingPeriodIsNotCovering();

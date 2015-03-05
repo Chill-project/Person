@@ -2,7 +2,9 @@
 
 /*
  * Chill is a software for social workers
- * Copyright (C) 2014-2015 Champs-Libres Coopérative <info@champs-libres.coop>
+ * 
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
+ * <http://www.champs-libres.coop>, <info@champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by

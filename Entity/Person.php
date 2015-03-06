@@ -5,8 +5,8 @@ namespace Chill\PersonBundle\Entity;
 /*
  * Chill is a software for social workers
  *
- * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS,
- * <http://www.champs-libres.coop>
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
+ * <http://www.champs-libres.coop>, <info@champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -567,93 +567,67 @@ class Person {
      * 
      * This method add violation errors.
      */
-    public function isAccompanyingPeriodValid(ExecutionContextInterface $context) {
-        $r = $this->checkAccompanyingPeriodIsNotCovering();
+    public function isAccompanyingPeriodValid(ExecutionContextInterface $context)
+    {
+        $r = $this->checkAccompanyingPeriodsAreNotCollapsing();
         
         if ($r !== true) {
-            if ($r['result'] === self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE) {
-                $context->addViolationAt('history',
-                        'Accompanying period not closed is before the new line',
-                        array() );
-                return;
-            } 
+            if ($r['result'] === self::ERROR_PERIODS_ARE_COLLAPSING) {
+                $context->addViolationAt('accompanyingPeriods',
+                    'Two accompanying periods have days in commun',
+                    array());
+            }
             
-            $context->addViolationAt('history', 'Periods are collapsing',
-                array(
-                    '%dateOpening%' => $r['dateOpening']->format('d-m-Y'),
-                    '%dateClosing%' => $r['dateClosing']->format('d-m-Y'),
-                    '%date%' => $r['date']->format('d-m-Y')
-                )
-            );
+            if ($r['result'] === self::ERROR_ADDIND_PERIOD_AFTER_AN_OPEN_PERIOD) {
+                $context->addViolationAt('accompanyingPeriods',
+                    'A period is opened and a period is added after it',
+                    array());
+            }
         }
     }
     
-    const ERROR_OPENING_IS_INSIDE_CLOSING = 1;
-    const ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE = 2;
-    const ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_ACCOMPANYING_PERIOD_LINE = 3;
-    const ERROR_OPENING_IS_BEFORE_OTHER_LINE_AND_CLOSED_IS_AFTER_THIS_LINE = 4; 
+    const ERROR_PERIODS_ARE_COLLAPSING = 1; // when two different periods
+    // have days in commun
+    const ERROR_ADDIND_PERIOD_AFTER_AN_OPEN_PERIOD = 2; // where there exist
+    // a period opened and another one after it
     
-    public function checkAccompanyingPeriodIsNotCovering()
-    {    
+    /**
+     * Function used for validation that check if the accompanying periods of
+     * the person are not collapsing (i.e. have not shared days) or having
+     * a period after an open period.
+     * 
+     * @return true | array True if the accompanying periods are not collapsing,
+     * an array with data for displaying the error
+     */
+    public function checkAccompanyingPeriodsAreNotCollapsing()
+    {
         $periods = $this->getAccompanyingPeriodsOrdered();
-
-        foreach ($periods as $key => $period) {
-            //accompanying period is open : we must check the arent any period after
-            if ($period->isOpen()) {
-                foreach ($periods as $subKey => $against) {
-                    //if we are checking the same, continue
-                    if ($key === $subKey) {
-                        continue;
-                    }
-                     
-                    if ($period->getDateOpening() > $against->getDateOpening()
-                        && $period->getDateOpening() < $against->getDateOpening()) {
-                        // the period date opening is inside another opening line
-                        return array(
-                            'result' => self::ERROR_OPENING_NOT_CLOSE_IS_INSIDE_CLOSED_ACCOMPANYING_PERIOD_LINE,
-                            'dateOpening' => $against->getDateOpening(), 
-                            'dateClosing' => $against->getDateClosing(),
-                            'date' => $period->getDateOpening()
-                            );
-                     }
-                     
-                    if ($period->getDateOpening() < $against->getDateOpening()
-                        && $period->getDateClosing() > $against->getDateClosing()) {
-                        // the period date opening is inside another opening line
-                        return array(
-                            'result' => self::ERROR_OPENING_IS_BEFORE_OTHER_LINE_AND_CLOSED_IS_AFTER_THIS_LINE,
-                            'dateOpening' => $against->getDateOpening(), 
-                            'dateClosing' => $against->getDateClosing(),
-                            'date' => $period->getDateOpening()
-                            );
-                    }
-                     
-                    //if we have an aopening later...
-                    if ($period->getDateOpening() < $against->getDateClosing()) {
-                        return array( 'result' => self::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE,
-                            'dateOpening' => $against->getDateOpening(), 
-                            'dateClosing' => $against->getDateClosing(),
-                            'date' => $period->getDateOpening()
-                        );
-                    }
-                }
-            } else {
-                //we must check there is not covering lines
-                 
-                foreach ($periods as $subKey => $against) {
-                    //check if dateOpening is inside an `against` line
-                    if ($period->getDateOpening() > $against->getDateOpening()
-                        && $period->getDateOpening() < $against->getDateClosing()) {
-                            return array(
-                                'result' => self::ERROR_OPENING_IS_INSIDE_CLOSING,
-                                'dateOpening' => $against->getDateOpening(), 
-                                'dateClosing' => $against->getDateClosing(),
-                                'date' => $period->getDateOpening()
-                                );
-                    }
-                }
+        $periodsNbr = sizeof($periods);
+        $i = 0;
+        
+        while($i < $periodsNbr - 1) {
+            $periodI = $periods[$i];
+            $periodAfterI = $periods[$i + 1];
+            
+            if($periodI->isOpen()) {                
+                return array(
+                    'result' => self::ERROR_ADDIND_PERIOD_AFTER_AN_OPEN_PERIOD,
+                    'dateOpening' => $periodAfterI->getDateOpening(),
+                    'dateClosing' => $periodAfterI->getDateClosing(),
+                    'date' => $periodI->getDateOpening()
+                );
+            } elseif ($periodI->getDateClosing() >= $periodAfterI->getDateOpening()) {
+                return array(
+                    'result' => self::ERROR_PERIODS_ARE_COLLAPSING,
+                    'dateOpening' => $periodI->getDateOpening(),
+                    
+                    'dateClosing' => $periodI->getDateClosing(),
+                    'date' => $periodAfterI->getDateOpening()
+                );
             }
+            $i++;
         }
+        
         return true;
     }
 }

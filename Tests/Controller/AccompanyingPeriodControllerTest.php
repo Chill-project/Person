@@ -29,8 +29,9 @@ use Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive;
 
 /**
  * Test the creation or deletion of accompanying periods
- *
- * @author Julien Fastré <julien.fastre@champs-libres.coop>
+ * 
+ * The person on which the test is done has a (current) period opened (and not 
+ * closed) starting the 2015-01-05.
  */
 class AccompanyingPeriodControllerTest extends WebTestCase
 {
@@ -56,14 +57,19 @@ class AccompanyingPeriodControllerTest extends WebTestCase
     const CLOSING_INPUT = 'chill_personbundle_accompanyingperiod[date_closing]';
     const CLOSING_MOTIVE_INPUT = 'chill_personbundle_accompanyingperiod[closingMotive]';
     
+    /**
+     * Setup before the first test of this class (see phpunit doc)
+     */
     public static function setUpBeforeClass()
     {
         static::bootKernel();
-        
         static::$em = static::$kernel->getContainer()
               ->get('doctrine.orm.entity_manager');
     }
     
+    /**
+     * Setup before each test method (see phpunit doc)
+     */
     public function setUp()
     {
         $this->client = static::createClient(array(), array(
@@ -74,13 +80,15 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $this->person = (new Person(new \DateTime('2015-01-05')))
               ->setFirstName('Roland')
               ->setLastName('Gallorime')
-              ->setGenre(Person::GENRE_MAN)
-              ;
+              ->setGenre(Person::GENRE_MAN);
 
         static::$em->persist($this->person);
         static::$em->flush();
     }
     
+     /**
+     * TearDown after each test method (see phpunit doc)
+     */
     public function tearDown()
     {
        static::$em->refresh($this->person);
@@ -207,7 +215,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testAddNewPeriodBeforeActual()
     {
-        
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
@@ -244,8 +251,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testCreatePeriodWithClosingAfterCurrentFails()
     {
-        $this->markTestSkipped('this feature is not yet implemented');
-        
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
@@ -280,8 +285,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testCreatePeriodWithOpeningAndClosingAfterCurrentFails()
     {
-        $this->markTestSkipped('this feature is not yet implemented');
-        
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         

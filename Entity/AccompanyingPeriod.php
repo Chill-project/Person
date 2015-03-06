@@ -4,7 +4,7 @@
  * Chill is a software for social workers
  *
  * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
- * <http://www.champs-libres.coop>
+ * <http://www.champs-libres.coop>, <info@champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -206,8 +206,6 @@ class AccompanyingPeriod
         return $this;
     }
 
-        
-    
     /// VALIDATION function
     public function isDateConsistent(ExecutionContextInterface $context) {
         if ($this->isOpen()) {

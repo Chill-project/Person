@@ -4,7 +4,7 @@
  * Chill is a software for social workers
  *
  * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
- * <http://www.champs-libres.coop>
+ * <http://www.champs-libres.coop>, <info@champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as
@@ -40,7 +40,6 @@ class AccompanyingPeriodController extends Controller
         return $this->render('ChillPersonBundle:AccompanyingPeriod:list.html.twig', 
                 array('accompanying_periods' => $person->getAccompanyingPeriodsOrdered(),
                     'person' => $person));
-        
     }
     
     public function createAction($person_id) {
@@ -51,40 +50,34 @@ class AccompanyingPeriodController extends Controller
         }
                
         $accompanyingPeriod = new AccompanyingPeriod(new \DateTime());
-        $accompanyingPeriod->setPerson($person)
-              ->setDateOpening(new \DateTime())
-              ->setDateClosing(new \DateTime());
+        $accompanyingPeriod->setDateClosing(new \DateTime());
         
+        $person->addAccompanyingPeriod(
+            $accompanyingPeriod);
         
         $form = $this->createForm(new AccompanyingPeriodType(), 
-                $accompanyingPeriod, array('period_action' => 'update'));
+            $accompanyingPeriod, array('period_action' => 'update'));
         
         $request = $this->getRequest();
         
         if ($request->getMethod() === 'POST') {
-            
             $form->handleRequest($request);
-            
             $errors = $this->_validatePerson($person);
-            
             $flashBag = $this->get('session')->getFlashBag();
             
             if ($form->isValid(array('Default', 'closed')) 
-                    && count($errors) === 0) {
+                && count($errors) === 0) {
+                
                 $em = $this->getDoctrine()->getManager();
-                
                 $em->persist($accompanyingPeriod);
-                
                 $em->flush();
-                
                 $flashBag->add('success', 
-                        $this->get('translator')->trans(
-                                'Period created!'));
+                    $this->get('translator')->trans(
+                        'Period created!'));
                 
                 return $this->redirect($this->generateUrl('chill_person_accompanying_period_list',
                         array('person_id' => $person->getId())));
             } else {
-                
                 $flashBag->add('danger', $this->get('translator')
                         ->trans('Error! Period not created!'));
                 
@@ -93,8 +86,6 @@ class AccompanyingPeriodController extends Controller
                 }
             }
         }
-        
-        
         
         return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig',
                 array(
@@ -117,18 +108,13 @@ class AccompanyingPeriodController extends Controller
         }
         
         $person = $accompanyingPeriod->getPerson();
-        
-        $form = $this->createForm(new AccompanyingPeriodType(), 
-                $accompanyingPeriod, array('period_action' => 'update'));
-        
+        $form = $this->createForm(new AccompanyingPeriodType(),
+            $accompanyingPeriod, array('period_action' => 'update'));
         $request = $this->getRequest();
         
         if ($request->getMethod() === 'POST') {
-            
             $form->handleRequest($request);
-            
             $errors = $this->_validatePerson($person);
-            
             $flashBag = $this->get('session')->getFlashBag();
             
             if ($form->isValid(array('Default', 'closed')) 
@@ -136,13 +122,12 @@ class AccompanyingPeriodController extends Controller
                 $em->flush();
                 
                 $flashBag->add('success', 
-                        $this->get('translator')->trans(
-                                'Period updating done'));
+                    $this->get('translator')->trans(
+                        'Period updating done'));
                 
                 return $this->redirect($this->generateUrl('chill_person_accompanying_period_list',
                         array('person_id' => $person->getId())));
             } else {
-                
                 $flashBag->add('danger', $this->get('translator')
                         ->trans('Error when updating the period'));
                 
@@ -151,8 +136,6 @@ class AccompanyingPeriodController extends Controller
                 }
             }
         }
-        
-        
         
         return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig', 
                 array(
@@ -171,9 +154,9 @@ class AccompanyingPeriodController extends Controller
         
         if ($person->isOpen() === false) {
             $this->get('session')->getFlashBag()
-                    ->add('danger', $this->get('translator')
-                            ->trans('Beware period is closed', 
-                                    array('%name%' => $person->__toString())));
+                ->add('danger', $this->get('translator')
+                    ->trans('Beware period is closed', 
+                        array('%name%' => $person->__toString())));
             
             return $this->redirect(
                     $this->generateUrl('chill_person_accompanying_period_list', array(
@@ -182,7 +165,6 @@ class AccompanyingPeriodController extends Controller
         }
         
         $current = $person->getCurrentAccompanyingPeriod();   
-        
         $form = $this->createForm(new AccompanyingPeriodType(), $current, array(
            'period_action' => 'close'
         ));
@@ -198,9 +180,9 @@ class AccompanyingPeriodController extends Controller
 
                 if (count($errors) === 0) {
                     $this->get('session')->getFlashBag()
-                            ->add('success', $this->get('translator')
-                                    ->trans('Period closed!', 
-                                            array('%name%' => $person->__toString())));
+                        ->add('success', $this->get('translator')
+                            ->trans('Period closed!',
+                                array('%name%' => $person->__toString())));
 
                     $this->getDoctrine()->getManager()->flush();
 
@@ -247,14 +229,14 @@ class AccompanyingPeriodController extends Controller
      * @return \Symfony\Component\Validator\ConstraintViolationListInterface
      */
     private function _validatePerson(Person $person) {
-        $errors = $this->get('validator')->validate($person, 
-                             array('Default'));
-        $errors_accompanying_period = $this->get('validator')->validate($person, 
-                            array('accompanying_period_consistent'));
+        $errors = $this->get('validator')->validate($person,
+            array('Default'));
+        $errors_accompanying_period = $this->get('validator')->validate($person,
+            array('accompanying_period_consistent'));
         
         foreach($errors_accompanying_period as $error ) {
-                    $errors->add($error);
-                }
+            $errors->add($error);
+        }
                 
         return $errors;
     }
@@ -270,11 +252,11 @@ class AccompanyingPeriodController extends Controller
         $request = $this->getRequest();
         
         //in case the person is already open
-        if ($person->isOpen() === true) {
+        if ($person->isOpen()) {
             $this->get('session')->getFlashBag()
-                    ->add('danger', $this->get('translator')
-                            ->trans('Error! Period %name% is not closed ; it can be open', 
-                                    array('%name%' => $person->__toString())));
+                ->add('danger', $this->get('translator')
+                    ->trans('Error! Period %name% is not closed ; it can be open',
+                        array('%name%' => $person->__toString())));
             
             return $this->redirect(
                     $this->generateUrl('chill_person_accompanying_period_list', array(
@@ -304,21 +286,19 @@ class AccompanyingPeriodController extends Controller
                     $this->getDoctrine()->getManager()->flush();
 
                     return $this->redirect(
-                            $this->generateUrl('chill_person_accompanying_period_list', array(
-                                'person_id' => $person->getId()
-                            ))
-                            );
+                        $this->generateUrl('chill_person_accompanying_period_list', array(
+                            'person_id' => $person->getId()
+                        )));
                 } else {
                     $this->get('session')->getFlashBag()
-                            ->add('danger', $this->get('translator')
-                                    ->trans('Period not opened'));
+                        ->add('danger', $this->get('translator')
+                            ->trans('Period not opened'));
                     
                     foreach ($errors as $error) {
                         $this->get('session')->getFlashBag()
                             ->add('info', $error->getMessage());
                     }
                 }
-            
             } else { // if errors in forms
                 $this->get('session')->getFlashBag()
                             ->add('danger', $this->get('translator')
@@ -327,17 +307,14 @@ class AccompanyingPeriodController extends Controller
         }
         
         return $this->render('ChillPersonBundle:AccompanyingPeriod:form.html.twig',
-                array(
-                    'form' => $form->createView(),
-                    'person' => $person,
-                    'accompanying_period' => $accompanyingPeriod
-                ));
+            array('form' => $form->createView(),
+                'person' => $person,
+                'accompanying_period' => $accompanyingPeriod));
     }
     
     private function _getPerson($id) {
         return $this->getDoctrine()->getManager()
-                ->getRepository('ChillPersonBundle:Person')
-                ->find($id);
+            ->getRepository('ChillPersonBundle:Person')
+            ->find($id);
     }
-
 }

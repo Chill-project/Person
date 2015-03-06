@@ -126,9 +126,9 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
         $p->close($period);
         
-        $r = $p->checkAccompanyingPeriodIsNotCovering();
+        $r = $p->checkAccompanyingPeriodsAreNotCollapsing();
         
-        $this->assertEquals($r['result'], Person::ERROR_OPENING_IS_INSIDE_CLOSING);
+        $this->assertEquals($r['result'], Person::ERROR_PERIODS_ARE_COLLAPSING);
     }
     
     /**
@@ -147,8 +147,8 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $f = new \DateTime("2013/1/1");
         $p->open(new AccompanyingPeriod($f));
         
-        $r = $p->checkAccompanyingPeriodIsNotCovering();
+        $r = $p->checkAccompanyingPeriodsAreNotCollapsing();
         
-        $this->assertEquals($r['result'], Person::ERROR_OPENING_NOT_CLOSED_IS_BEFORE_NEW_LINE);
+        $this->assertEquals($r['result'], Person::ERROR_ADDIND_PERIOD_AFTER_AN_OPEN_PERIOD);
     }
 }

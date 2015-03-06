@@ -2,8 +2,9 @@
 
 /*
  * Chill is a software for social workers
- * Copyright (C) 2015, Champs Libres Cooperative SCRLFS, 
- * <http://www.champs-libres.coop>
+ * 
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
+ * <http://www.champs-libres.coop>, <info@champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Affero General Public License as published by
@@ -211,7 +212,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
-        $form = $crawler->selectButton('Submit')->form();;
+        $form = $crawler->selectButton('Submit')->form();
         $form->get(self::CLOSING_MOTIVE_INPUT)
               ->setValue($this->getLastValueOnClosingMotive($form));
         $form->get(self::CLOSING_INPUT)
@@ -244,13 +245,12 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testCreatePeriodWithClosingAfterCurrentFails()
     {
-        
         $this->markTestSkipped('this feature is not yet implemented');
         
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
-        $form = $crawler->selectButton('Submit')->form();;
+        $form = $crawler->selectButton('Submit')->form();
         $form->get(self::CLOSING_MOTIVE_INPUT)
               ->setValue($this->getLastValueOnClosingMotive($form));
         $form->get(self::CLOSING_INPUT)
@@ -281,13 +281,12 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testCreatePeriodWithOpeningAndClosingAfterCurrentFails()
     {
-        
         $this->markTestSkipped('this feature is not yet implemented');
         
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
-        $form = $crawler->selectButton('Submit')->form();;
+        $form = $crawler->selectButton('Submit')->form();
         $form->get(self::CLOSING_MOTIVE_INPUT)
               ->setValue($this->getLastValueOnClosingMotive($form));
         $form->get(self::CLOSING_INPUT)
@@ -360,7 +359,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
-        $form = $crawler->selectButton('Submit')->form();;
+        $form = $crawler->selectButton('Submit')->form();
         $form->get(self::CLOSING_MOTIVE_INPUT)
               ->setValue($this->getLastValueOnClosingMotive($form));
         $form->get(self::CLOSING_INPUT)
@@ -402,7 +401,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
-        $form = $crawler->selectButton('Submit')->form();;
+        $form = $crawler->selectButton('Submit')->form();
         $form->get(self::CLOSING_MOTIVE_INPUT)
               ->setValue($this->getLastValueOnClosingMotive($form));
         $form->get(self::CLOSING_INPUT)
@@ -444,7 +443,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/create');
         
-        $form = $crawler->selectButton('Submit')->form();;
+        $form = $crawler->selectButton('Submit')->form();
         $form->get(self::CLOSING_MOTIVE_INPUT)
               ->setValue($this->getLastValueOnClosingMotive($form));
         $form->get(self::CLOSING_INPUT)
@@ -459,6 +458,4 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawlerResponse->filter('.error')->count(),
               "an 'error' element is shown");
     }
-    
-    
 }

@@ -176,7 +176,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testClosingCurrentPeriodWithDateClosingBeforeOpeningFails()
     {
-        
         $crawler = $this->client->request('GET', '/en/person/'
               .$this->person->getId().'/accompanying-period/close');
         
@@ -316,7 +315,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testCreatePeriodWithDateEndBetweenAnotherPeriodFails()
     {
-        
         $this->generatePeriods(array(
             [
                 'openingDate' => '2014-01-01',
@@ -431,7 +429,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     public function testCreatePeriodWithDateOpeningBetweenAnotherPeriodFails()
     {
-        
         $this->generatePeriods(array(
             [
                 'openingDate' => '2014-01-01',

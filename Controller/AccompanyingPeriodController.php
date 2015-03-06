@@ -33,10 +33,6 @@ class AccompanyingPeriodController extends Controller
         
         $person = $this->_getPerson($person_id);
         
-        if ($person === null) {
-            return $this->createNotFoundException('Person not found');
-        }
-        
         return $this->render('ChillPersonBundle:AccompanyingPeriod:list.html.twig', 
                 array('accompanying_periods' => $person->getAccompanyingPeriodsOrdered(),
                     'person' => $person));
@@ -44,10 +40,6 @@ class AccompanyingPeriodController extends Controller
     
     public function createAction($person_id) {
         $person = $this->_getPerson($person_id);
-        
-        if ($person === null) {
-            return $this->createNotFoundException('Person not found');
-        }
                
         $accompanyingPeriod = new AccompanyingPeriod(new \DateTime());
         $accompanyingPeriod->setDateClosing(new \DateTime());
@@ -148,10 +140,6 @@ class AccompanyingPeriodController extends Controller
     public function closeAction($person_id) {
         $person = $this->_getPerson($person_id);
         
-        if ($person === null) {
-            return $this->createNotFoundException('Person not found');
-        }
-        
         if ($person->isOpen() === false) {
             $this->get('session')->getFlashBag()
                 ->add('danger', $this->get('translator')
@@ -245,10 +233,6 @@ class AccompanyingPeriodController extends Controller
     public function openAction($person_id) {
         $person = $this->_getPerson($person_id);
         
-        if ($person === null) {
-            return $this->createNotFoundException('Person not found');
-        }
-        
         $request = $this->getRequest();
         
         //in case the person is already open
@@ -313,8 +297,13 @@ class AccompanyingPeriodController extends Controller
     }
     
     private function _getPerson($id) {
-        return $this->getDoctrine()->getManager()
-            ->getRepository('ChillPersonBundle:Person')
-            ->find($id);
+        $person = $this->getDoctrine()->getManager()
+            ->getRepository('ChillPersonBundle:Person')->find($id);
+            
+        if ($person === null) {  
+            throw $this->createNotFoundException('Person not found');
+        }
+        
+        return $person;
     }
 }

@@ -246,8 +246,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      *      with : the last closing motive in list
      * Then the response should not redirect to any page
      * and an error element is shown
-     * 
-     * @todo
      */
     public function testCreatePeriodWithClosingAfterCurrentFails()
     {
@@ -280,8 +278,6 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      *      with : the last closing motive in list
      * Then the response should not redirect to any page
      * and an error element is shown
-     * 
-     * @todo
      */
     public function testCreatePeriodWithOpeningAndClosingAfterCurrentFails()
     {

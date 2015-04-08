@@ -36,7 +36,6 @@ class PersonControllerCreateTest extends WebTestCase
     const GENRE_INPUT = "chill_personbundle_person_creation[genre]";
     const DATEOFBIRTH_INPUT = "chill_personbundle_person_creation[dateOfBirth]";
     const CREATEDATE_INPUT = "chill_personbundle_person_creation[creation_date]";
-    
     const LONG_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosq.";
     
     /**
@@ -141,7 +140,7 @@ class PersonControllerCreateTest extends WebTestCase
         $crawler = $this->getAuthenticatedClient()->submit($form);
         
         $this->assertEquals(1, $crawler->filter('.error')->count(),
-              "An error message is shown if we fill more than 255 characters in lastname");
+            "An error message is shown if we fill more than 255 characters in lastname");
     }
     
     /**
@@ -156,12 +155,14 @@ class PersonControllerCreateTest extends WebTestCase
         $crawler = $this->getAuthenticatedClient()->submit($form);
         
         $this->assertEquals(1, $crawler->filter('.error')->count(),
-              'A message is shown if gender is not set');
+            'A message is shown if gender is not set');
     }
     
     /**
+     * Test the creation of a valid person.
      * 
      * @param Form $form
+     * @return string The id of the created person
      * @depends testAddAPersonPage
      */
     public function testValidForm(Form $form)
@@ -171,13 +172,35 @@ class PersonControllerCreateTest extends WebTestCase
         $client->submit($form);
         
         $this->assertTrue($client->getResponse()->isRedirect(), 
-              "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
+            "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
         $client->followRedirect();
         
         // visualize regexp here : http://jex.im/regulex/#!embed=false&flags=&re=%2Ffr%2Fperson%2F[1-9][0-9]*%2Fgeneral%2Fedit%24
         $this->assertRegExp('|/fr/person/[1-9][0-9]*/general/edit$|', 
-              $client->getHistory()->current()->getUri(), 
-              "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
+            $client->getHistory()->current()->getUri(),
+            "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
+
+        $regexPersonId = null;
+        preg_match("/person\/([1-9][0-9]*)\/general\/edit$/",
+            $client->getHistory()->current()->getUri(), $regexPersonId);
+        return $regexPersonId[1];
+    }
+
+    /**
+     * Test if, for a given person if its person view page (at the url
+     * fr/person/$personID/general) is accessible
+     *
+     * @param string|int $personId The is of the person
+     * @depends testValidForm
+     */
+    public function testPersonViewAccessible($personId)
+    {
+        $client = $this->getAuthenticatedClient();
+        $client->request('GET', '/fr/person/'.$personId.'/general');
+
+        $this->assertTrue($client->getResponse()->isSuccessful(), 
+            "The person view page is accessible at the URL"
+            . "/{_locale}/person/{personID}/general");
     }
     
     public static function tearDownAfterClass()

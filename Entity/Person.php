@@ -508,6 +508,9 @@ class Person {
      */
     public function getCFData()
     {
+        if ($this->cFData === null) {
+            $this->cFData = [];
+        }
         return $this->cFData;
     }
 

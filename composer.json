@@ -36,7 +36,8 @@
     },
     "require-dev": {
         "symfony/dom-crawler": "2.5",
-        "symfony/security": "~2.5"
+        "symfony/security": "~2.5",
+        "symfony/phpunit-bridge": "^2.7"
     },
     "scripts": {
         "post-install-cmd": [

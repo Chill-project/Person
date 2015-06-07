@@ -51,6 +51,9 @@ Chill\PersonBundle\Entity\Person:
             targetEntity: Chill\MainBundle\Entity\Country
             inversedBy: nationals
             nullable: true
+        center:
+            targetEntity: Chill\MainBundle\Entity\Center
+            nullable: false
     oneToMany:
         accompanyingPeriods:
             targetEntity: AccompanyingPeriod

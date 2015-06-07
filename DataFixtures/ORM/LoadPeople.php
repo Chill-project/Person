@@ -118,7 +118,8 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                 'FirstName' => $firstName,
                 'LastName' => $lastName,
                 'Genre' => $sex,
-                'Nationality' => (rand(0,100) > 50) ? NULL: 'BE'
+                'Nationality' => (rand(0,100) > 50) ? NULL: 'BE',
+                'center' => (rand(0,1) == 0) ? 'centerA': 'centerB'
             );
             
             $this->addAPerson($this->fillWithDefault($person), $manager);
@@ -151,18 +152,19 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
         foreach ($person as $key => $value) {
             switch ($key) {
                 case 'CountryOfBirth':
-                    $p->setCountryOfBirth($this->getCountry($value));
+                    $value = $this->getCountry($value);
                     break;
                 case 'Nationality':
-                    $p->setNationality($this->getCountry($value));
+                    $value = $this->getCountry($value);
                     break;
                 case 'DateOfBirth':
                     $value = new \DateTime($value);
-
-
-                default:
-                    call_user_func(array($p, 'set'.$key), $value);
+                    break;
+                case 'center':
+                    $value = $this->getReference($value);
+                    break;  
             }
+            call_user_func(array($p, 'set'.$key), $value);
         }
 
         $manager->persist($p);
@@ -210,7 +212,8 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
             'PlaceOfBirth' => "Châteauroux",
             'Genre' => Person::GENRE_MAN,
             'CountryOfBirth' => 'FR',
-            'Nationality' => 'RU'      
+            'Nationality' => 'RU',
+            'center' => 'centerA'
         ),
        array(
           //to have a person with same firstname as Gérard Depardieu
@@ -218,24 +221,28 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
             'LastName' => "Jean",
             'DateOfBirth' => "1960-10-12",
             'CountryOfBirth' => 'FR',
-            'Nationality' => 'FR'      
+            'Nationality' => 'FR',
+            'center' => 'centerA'
         ),
        array(
           //to have a person with same birthdate of Gérard Depardieu
           'FirstName' => 'Van Snick',
           'LastName' => 'Bart',
-          'DateOfBirth' => '1948-12-27'
+          'DateOfBirth' => '1948-12-27',
+          'center' => 'centerA'
        ),
        array(
           //to have a woman with Depardieu as FirstName
           'FirstName' => 'Depardieu',
           'LastName' => 'Charline',
-          'Genre' => Person::GENRE_WOMAN
+          'Genre' => Person::GENRE_WOMAN,
+          'center' => 'centerA'
        ),
        array(
           //to have a special character in lastName
           'FirstName' => 'Manço',
-          'LastName' => 'Étienne'
+          'LastName' => 'Étienne',
+          'center' => 'centerA'
        )
     );
 }

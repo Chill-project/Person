@@ -6,6 +6,7 @@ use Doctrine\DBAL\Migrations\AbstractMigration;
 use Doctrine\DBAL\Schema\Schema;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Chill\MainBundle\Entity\Center;
 
 /**
  * Add a center to class person
@@ -43,13 +44,38 @@ class Version20150607231010 extends AbstractMigration implements ContainerAwareI
     {
         $this->abortIf($this->connection->getDatabasePlatform()->getName() != 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
         
+        // retrieve center for setting a default center
         $centers = $this->container->get('doctrine.orm.entity_manager')
                 ->getRepository('ChillMainBundle:Center')
                 ->findAll();
-        $defaultCenterId = $centers[0]->getId();
+        
+        
+        if (count($center) > 0) {
+            $defaultCenterId = $centers[0]->getId();
+        } else { // if no center, performs other checks
+            //check if there are data in person table
+            $nbPeople = $this->container->get('doctrine.orm.entity_manager')
+                    ->createQuery('SELECT count(p) FROM ChillPersonBundle:Person p')
+                    ->getSingleScalarResult();
+            
+            if ($nbPeople > 0) {
+                // we have data ! We have to create a center !
+                $center = (new Center())
+                        ->setName('Auto-created center');
+                $this->container->get('doctrine.orm.entity_manager')
+                        ->persist($center)
+                        ->flush();
+                $defaultCenterId = $center->getId();
+            }
+        } 
+        
 
         $this->addSql('ALTER TABLE person ADD center_id INT');
-        $this->addSql('UPDATE person SET center_id = :id', array('id' => $defaultCenterId));
+        
+        if (isset($defaultCenterId)) {
+            $this->addSql('UPDATE person SET center_id = :id', array('id' => $defaultCenterId));
+        }
+        
         $this->addSql('ALTER TABLE person '
                 . 'ADD CONSTRAINT FK_person_center FOREIGN KEY (center_id) '
                 . 'REFERENCES centers (id) NOT DEFERRABLE INITIALLY IMMEDIATE');

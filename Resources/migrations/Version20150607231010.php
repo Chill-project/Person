@@ -60,8 +60,8 @@ class Version20150607231010 extends AbstractMigration implements ContainerAwareI
             
             if ($nbPeople > 0) {
                 // we have data ! We have to create a center !
-                $center = (new Center())
-                        ->setName('Auto-created center');
+                $center = new Center();
+                $center->setName('Auto-created center');
                 $this->container->get('doctrine.orm.entity_manager')
                         ->persist($center)
                         ->flush();

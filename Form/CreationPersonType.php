@@ -66,6 +66,7 @@ class CreationPersonType extends AbstractType
                             ->addModelTransformer($dateToStringTransformer)
                            )
                     ->add('form_status', 'hidden')
+                    ->add('center', 'center')
                     ;
         } else {
             $builder
@@ -80,6 +81,7 @@ class CreationPersonType extends AbstractType
                     'widget' => 'single_text', 'format' => 'dd-MM-yyyy',
                     'data' => new \DateTime()))
                 ->add('form_status', 'hidden', array('data' => $this->form_status))
+                ->add('center', 'center')
             ;
         }
     }

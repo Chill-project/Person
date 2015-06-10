@@ -199,10 +199,21 @@ class PersonController extends Controller
     }
     
     public function newAction()
-    {    
+    {   
+        $defaultCenter = $this->get('security.token_storage')
+                        ->getToken()
+                        ->getUser()
+                        ->getGroupCenters()[0]
+                        ->getCenter();
+        
+        $person = (new Person())
+                ->setCenter($defaultCenter);
+        
         $form = $this->createForm(
                 new CreationPersonType(CreationPersonType::FORM_NOT_REVIEWED), 
-                null, array('action' => $this->generateUrl('chill_person_review')));
+                array('creation_date' => new \DateTime(), 'center' => $defaultCenter),
+                array('action' => $this->generateUrl('chill_person_review'))
+                );
         
         return $this->_renderNewForm($form);   
     }
@@ -232,6 +243,7 @@ class PersonController extends Controller
                 ->setLastName($form['lastName']->getData())
                 ->setGenre($form['genre']->getData())
                 ->setDateOfBirth($form['dateOfBirth']->getData())
+                ->setCenter($form['center']->getData())
                 ;
         
         return $person;

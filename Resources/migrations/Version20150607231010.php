@@ -50,7 +50,7 @@ class Version20150607231010 extends AbstractMigration implements ContainerAwareI
                 ->findAll();
         
         
-        if (count($center) > 0) {
+        if (count($centers) > 0) {
             $defaultCenterId = $centers[0]->getId();
         } else { // if no center, performs other checks
             //check if there are data in person table

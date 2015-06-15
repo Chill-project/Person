@@ -57,12 +57,17 @@ class PersonControllerUpdateTest extends WebTestCase
     {
         static::bootKernel();
         
+        $this->em = static::$kernel->getContainer()
+              ->get('doctrine.orm.entity_manager');
+        
+        $center = $this->em->getRepository('ChillMainBundle:Center')
+              ->findOneBy(array('name' => 'Center A'));
+       
         $this->person = (new Person())
                 ->setLastName("My Beloved")
                 ->setFirstName("Jesus")
+                ->setCenter($center)
                 ->setGenre(Person::GENRE_MAN);
-        
-        $this->em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
         
         $this->em->persist($this->person);
         $this->em->flush();

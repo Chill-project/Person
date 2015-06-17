@@ -32,6 +32,7 @@ class PersonVoter extends AbstractChillVoter
 {
     const CREATE = 'CHILL_PERSON_CREATE';
     const UPDATE = 'CHILL_PERSON_UPDATE';
+    const SEE    = 'CHILL_PERSON_SEE';
     
     /**
      *
@@ -40,13 +41,13 @@ class PersonVoter extends AbstractChillVoter
     protected $helper;
     
     public function __construct(AuthorizationHelper $helper)
-    {
+    {;
         $this->$helper = $helper;
     }
     
     protected function getSupportedAttributes()
     {
-        return array(self::CREATE, self::UPDATE);
+        return array(self::CREATE, self::UPDATE, self::SEE);
     }
 
     protected function getSupportedClasses()

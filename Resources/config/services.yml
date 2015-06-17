@@ -32,3 +32,8 @@ services:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: chill.timeline, context: 'person' }
+            
+    chill.person.security.authorization.person:
+        class: Chill\PersonBundle\Security\Authorization\PersonVoter
+        arguments:
+            - "@chill.main.security.authorization.helper"

@@ -61,10 +61,7 @@ class PersonVoter extends AbstractChillVoter
             return false;
         }
         
-        if ($this->helper->userCanReachCenter($user, $person->getCenter())) {
-            return true;
-        } else {
-            return false;
-        }
+        return $this->helper->userHasAccess($user, $person, $attribute);
+        
     }
 }

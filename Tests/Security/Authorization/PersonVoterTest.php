@@ -24,6 +24,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Chill\PersonBundle\Entity\Person;
 use Chill\MainBundle\Entity\Center;
+use Chill\MainBundle\Entity\User;
+use Chill\MainBundle\Entity\PermissionsGroup;
+use Chill\MainBundle\Entity\GroupCenter;
+use Chill\MainBundle\Entity\RoleScope;
+use Chill\MainBundle\Entity\Scope;
 
 /**
  * Test PersonVoter
@@ -33,6 +38,12 @@ use Chill\MainBundle\Entity\Center;
  */
 class PersonVoterTest extends KernelTestCase
 {
+    
+    use PrepareUserTrait, PrepareCenterTrait, PrepareScopeTrait {
+            PrepareUserTrait::setUpTrait insteadof PrepareCenterTrait, PrepareScopeTrait;
+            PrepareUserTrait::tearDownTrait insteadof PrepareCenterTrait, PrepareScopeTrait;
+        }
+    
     /**
      *
      * @var \Chill\PersonBundle\Security\Authorization\PersonVoter
@@ -48,10 +59,9 @@ class PersonVoterTest extends KernelTestCase
     public function setUp()
     {
         static::bootKernel();
+        $this->setUpTrait();
         $this->voter = static::$kernel->getContainer()
               ->get('chill.person.security.authorization.person');
-        
-        $this->prophet = new \Prophecy\Prophet;
     }
     
     public function testNullUser()
@@ -61,25 +71,72 @@ class PersonVoterTest extends KernelTestCase
         $person = $this->preparePerson($center);
         
         $this->assertEquals(
-              VoterInterface::ACCESS_DENIED,
-              $this->voter->vote($token, $person, array('CHILL_PERSON_SEE')), 
-              "assert that a null user is not allowed to see");
+                VoterInterface::ACCESS_DENIED,
+                $this->voter->vote($token, $person, array('CHILL_PERSON_SEE')), 
+                "assert that a null user is not allowed to see"
+                );
     }
     
-    private function logIn()
+    public function testUserCanNotReachCenter()
     {
-        $session = $this->client->getContainer()->get('session');
-
-        $firewall = 'secured_area';
-        $token = new UsernamePasswordToken('admin', null, $firewall, array('ROLE_ADMIN'));
-        $session->set('_security_'.$firewall, serialize($token));
-        $session->save();
-
-        $cookie = new Cookie($session->getName(), $session->getId());
-        $this->client->getCookieJar()->set($cookie);
+        $centerA = $this->prepareCenter(1, 'centera');
+        $centerB = $this->prepareCenter(2, 'centerb');
+        $token = $this->prepareToken(array(
+            array(
+                'center' => $centerA, 'permissionsGroup' => array(
+                    ['scope' => $scope, 'role' => 'CHILL_PERSON_UPDATE']
+                )
+            )
+        ));
+        $person = $this->preparePerson($centerB);
+        
+        $this->assertEquals(
+                VoterInterface::ACCESS_DENIED,
+                $this->voter->vote($token, $person, array('CHILL_PERSON_UPDATE')),
+                'assert that a user with right not in the good center has access denied'
+                );
     }
     
+    /**
+     * test a user with sufficient right may see the person
+     */
+    public function testUserAllowed()
+    {
+        $center = $this->prepareCenter(1, 'center');
+        $scope = $this->prepareScope(1, 'default');
+        $token = $this->prepareToken(array(
+            array(
+                'center' => $center, 'permissionsGroup' => array(
+                    ['scope' => $scope, 'role' => 'CHILL_PERSON_SEE']
+                )
+            )
+        ));
+        $person = $this->preparePerson($center);
+        
+        $this->assertEquals(
+                VoterInterface::ACCESS_GRANTED,
+                $this->voter->vote($token, $person, array('CHILL_PERSON_SEE')),
+                'assert that a user with correct rights may is granted access'
+                );
+    }
     
+    /**
+     * test a user with sufficient right may see the person.
+     * hierarchy between role is required
+     */
+    public function testUserAllowedWithInheritance()
+    {
+        $this->markTestAsSkipped();
+    }    
+    
+    /**
+     * prepare a person
+     * 
+     * The only properties set is the center, others properties are ignored.
+     * 
+     * @param Center $center
+     * @return Person
+     */
     protected function preparePerson(Center $center)
     {
         return (new Person())
@@ -88,28 +145,23 @@ class PersonVoterTest extends KernelTestCase
     }
     
     /**
-     * prepare a mocked center, with and id and name given
+     * prepare a token interface with correct rights
      * 
-     * @param int $id
-     * @param string $name
-     * @return \Chill\MainBundle\Entity\Center 
+     * if $permissions = null, user will be null (no user associated with token
+     * 
+     * @param array $permissions an array of permissions, with key 'center' for the center and 'permissions' for an array of permissions
+     * @return \Symfony\Component\Security\Core\Authentication\Token\TokenInterface
      */
-    protected function prepareCenter($id, $name)
-    {
-        $center = $this->prophet->prophesize();
-        $center->willExtend('\Chill\MainBundle\Entity\Center');
-        $center->getId()->willReturn($id);
-        $center->getName()->willReturn($name);
-        
-        return $center->reveal();
-    }
-    
-    protected function prepareToken($username = null)
-    {
+    protected function prepareToken(array $permissions = null)
+    {        
         $token = $this->prophet->prophesize();
         $token
             ->willImplement('\Symfony\Component\Security\Core\Authentication\Token\TokenInterface');
-        $token->getUser()->willReturn(null);
+        if ($permissions === NULL) {
+            $token->getUser()->willReturn(null);
+        } else {
+            $token->getUser()->willReturn($this->prepareUser($permissions));
+        }
         
         return $token->reveal();
     }

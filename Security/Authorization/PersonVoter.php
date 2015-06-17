@@ -41,8 +41,8 @@ class PersonVoter extends AbstractChillVoter
     protected $helper;
     
     public function __construct(AuthorizationHelper $helper)
-    {;
-        $this->$helper = $helper;
+    {
+        $this->helper = $helper;
     }
     
     protected function getSupportedAttributes()

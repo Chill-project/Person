@@ -29,6 +29,10 @@ use Chill\MainBundle\Entity\PermissionsGroup;
 use Chill\MainBundle\Entity\GroupCenter;
 use Chill\MainBundle\Entity\RoleScope;
 use Chill\MainBundle\Entity\Scope;
+use Chill\MainBundle\Test\PrepareUserTrait;
+use Chill\MainBundle\Test\PrepareCenterTrait;
+use Chill\MainBundle\Test\PrepareScopeTrait;
+use Chill\MainBundle\Test\ProphecyTrait;
 
 /**
  * Test PersonVoter
@@ -39,10 +43,7 @@ use Chill\MainBundle\Entity\Scope;
 class PersonVoterTest extends KernelTestCase
 {
     
-    use PrepareUserTrait, PrepareCenterTrait, PrepareScopeTrait {
-            PrepareUserTrait::setUpTrait insteadof PrepareCenterTrait, PrepareScopeTrait;
-            PrepareUserTrait::tearDownTrait insteadof PrepareCenterTrait, PrepareScopeTrait;
-        }
+    use PrepareUserTrait, PrepareCenterTrait, PrepareScopeTrait;
     
     /**
      *
@@ -59,9 +60,9 @@ class PersonVoterTest extends KernelTestCase
     public function setUp()
     {
         static::bootKernel();
-        $this->setUpTrait();
         $this->voter = static::$kernel->getContainer()
               ->get('chill.person.security.authorization.person');
+        $this->prophet = new \Prophecy\Prophet();
     }
     
     public function testNullUser()
@@ -81,6 +82,7 @@ class PersonVoterTest extends KernelTestCase
     {
         $centerA = $this->prepareCenter(1, 'centera');
         $centerB = $this->prepareCenter(2, 'centerb');
+        $scope = $this->prepareScope(1, 'default');
         $token = $this->prepareToken(array(
             array(
                 'center' => $centerA, 'permissionsGroup' => array(
@@ -126,7 +128,22 @@ class PersonVoterTest extends KernelTestCase
      */
     public function testUserAllowedWithInheritance()
     {
-        $this->markTestAsSkipped();
+        $center = $this->prepareCenter(1, 'center');
+        $scope = $this->prepareScope(1, 'default');
+        $token = $this->prepareToken(array(
+            array(
+                'center' => $center, 'permissionsGroup' => array(
+                    ['scope' => $scope, 'role' => 'CHILL_PERSON_UPDATE']
+                )
+            )
+        ));
+        $person = $this->preparePerson($center);
+        var_dump('test allowed with inheritance');
+        $this->assertEquals(
+                VoterInterface::ACCESS_GRANTED,
+                $this->voter->vote($token, $person, array('CHILL_PERSON_UPDATE')),
+                'assert that a user with correct role is granted on inherited roles'
+                );
     }    
     
     /**

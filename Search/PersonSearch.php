@@ -23,11 +23,13 @@ use Chill\MainBundle\Search\AbstractSearch;
 use Doctrine\ORM\EntityManagerInterface;
 use Chill\PersonBundle\Entity\Person;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAware;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Chill\MainBundle\Search\ParsingException;
+use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Chill\MainBundle\Security\Authorization\AuthorizationHelper;
 
-class PersonSearch extends AbstractSearch
+class PersonSearch extends AbstractSearch implements ContainerAwareInterface
 {
     use ContainerAwareTrait;
     
@@ -37,10 +39,31 @@ class PersonSearch extends AbstractSearch
      */
     private $em;
     
+    /**
+     *
+     * @var \Chill\MainBundle\Entity\User
+     */
+    private $user;
     
-    public function __construct(EntityManagerInterface $em)
+    /**
+     *
+     * @var AuthorizationHelper 
+     */
+    private $helper;
+    
+    
+    public function __construct(EntityManagerInterface $em, 
+          TokenInterface $token, AuthorizationHelper $helper)
     {
         $this->em = $em;
+        $this->user = $token->getUser();
+        $this->helper = $helper;
+        
+        // throw an error if user is not a valid user
+        if (!$this->user instanceof \Chill\MainBundle\Entity\User) {
+            throw new \LogicException('The user provided must be an instance'
+                  . ' of Chill\MainBundle\Entity\User');
+        }
     }
 
     /*

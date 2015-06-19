@@ -130,64 +130,6 @@ class PersonController extends Controller
         }
     }
 
-    public function searchAction()
-    {
-        $q = $this->getRequest()->query->getAlnum('q', '');
-        $q = trim($q);
-        
-        if ( $q === '' ) {
-            $this->get('session')
-                ->getFlashBag()
-                ->add('info', 
-                    $this->get('translator')
-                    ->trans('Your query is empty. Be more explicive')
-                );
-        }
-        
-        $em = $this->getDoctrine()->getManager();
-        
-        $offset = $this->getRequest()->query->getInt('offet', 0);
-        $limit = $this->getRequest()->query->getInt('limit', 30);
-        
-        $dql = 'SELECT p FROM ChillPersonBundle:Person p'
-                . ' WHERE'
-                . ' LOWER(p.firstName) like LOWER(:q)'
-                . ' OR LOWER(p.lastName)  like LOWER(:q)';
-        
-        if ($this->container->getParameter('cl_chill_person.search.use_double_metaphone')) {
-            $dql .= ' OR DOUBLEMETAPHONE(p.lastName) = DOUBLEMETAPHONE(:qabsolute)';
-        }
-
-        
-        $query = $em->createQuery($dql)
-                ->setParameter('q', '%'.$q.'%');
-        if ($this->container->getParameter('cl_chill_person.search.use_double_metaphone')) {
-            $query->setParameter('qabsolute', $q);
-        }
-                
-              //  ->setOffset($offset)
-              //  ->setLimit($limit)
-        $persons = $query->getResult() ;
-        
-        
-        if (count($persons) === 0 ){
-            $this->get('session')
-                    ->getFlashBag()
-                    ->add('info', 
-                            $this->get('translator')
-                            ->trans('Your query %q% gives no results', array( 
-                                '%q%' => $q
-                            ))
-                            );
-        }
-        
-        return $this->render('ChillPersonBundle:Person:list.html.twig', 
-                array( 
-                    'persons' => $persons,
-                    'pattern' => $q
-                ));
-    }
-
     /**
      * Return a csv file with all the persons
      *

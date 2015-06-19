@@ -201,7 +201,8 @@ class PersonControllerCreateTest extends WebTestCase
         $this->assertTrue($form->has(self::CENTER_INPUT),
               'The page contains a "center" input');
         $centerInput = $form->get(self::CENTER_INPUT);
-        $lastCenterInputValue = end($centerInput->availableOptionValues());
+        $availableValues = $centerInput->availableOptionValues();
+        $lastCenterInputValue = end($availableValues);
         $centerInput->setValue($lastCenterInputValue);
         
         $client->submit($form);

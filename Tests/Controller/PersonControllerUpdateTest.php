@@ -81,10 +81,6 @@ class PersonControllerUpdateTest extends WebTestCase
         ));
     }
     
-    /**
-     * 
-     * @return Person
-     */
     protected function refreshPerson() 
     {
         $this->person = $this->em->getRepository('ChillPersonBundle:Person')
@@ -100,6 +96,30 @@ class PersonControllerUpdateTest extends WebTestCase
         
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 
                 "The person edit form is accessible");
+    }
+    
+    public function testEditPageDeniedForUnauthorized_OutsideCenter()
+    {
+        $client = static::createClient(array(), array(
+           'PHP_AUTH_USER' => 'center b_social',
+           'PHP_AUTH_PW'   => 'password',
+        ));
+        
+        $client->request('GET', $this->editUrl);
+        
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+    
+    public function testEditPageDeniedForUnauthorized_InsideCenter()
+    {
+        $client = static::createClient(array(), array(
+           'PHP_AUTH_USER' => 'center a_administrative',
+           'PHP_AUTH_PW'   => 'password',
+        ));
+        
+        $client->request('GET', $this->editUrl);
+        
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
     
     /**

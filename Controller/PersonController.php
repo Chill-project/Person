@@ -51,8 +51,12 @@ class PersonController extends Controller
         $person = $this->_getPerson($person_id);
         
         if ($person === null) {
-            return $this->createNotFoundException("Person with id $person_id not found on this server");
+            return $this->createNotFoundException("Person with id $person_id not"
+                    . " found on this server");
         }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_SEE', $person,
+                "You are not allowed to see this person.");
         
         return $this->render('ChillPersonBundle:Person:view.html.twig',
             array("person" => $person,
@@ -66,6 +70,9 @@ class PersonController extends Controller
         if ($person === null) {
             return $this->createNotFoundException();
         }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_UPDATE', $person, 
+                'You are not allowed to edit this person');
         
         $form = $this->createForm(new PersonType(), $person,
             array(
@@ -86,6 +93,9 @@ class PersonController extends Controller
         if ($person === null) {
             return $this->createNotFoundException();
         }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_UPDATE', $person, 
+                'You are not allowed to edit this person');
         
         $form = $this->createForm(new PersonType(), $person,
             array("cFGroup" => $this->getCFGroup()));
@@ -200,6 +210,7 @@ class PersonController extends Controller
     
     public function newAction()
     {   
+        // this is a dummy default center. 
         $defaultCenter = $this->get('security.token_storage')
                         ->getToken()
                         ->getUser()
@@ -371,6 +382,9 @@ class PersonController extends Controller
         $person = $this->_bindCreationForm($form);
         
         $errors = $this->_validatePersonAndAccompanyingPeriod($person);
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_CREATE', $person, 
+                'You are not allowed to create this person');
         
         if ($errors->count() ===  0) {
             $em = $this->getDoctrine()->getManager();

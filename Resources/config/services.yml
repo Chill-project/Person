@@ -39,3 +39,5 @@ services:
         class: Chill\PersonBundle\Security\Authorization\PersonVoter
         arguments:
             - "@chill.main.security.authorization.helper"
+        tags:
+            - { name: security.voter }

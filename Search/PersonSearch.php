@@ -26,8 +26,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Chill\MainBundle\Search\ParsingException;
-use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
 use Chill\MainBundle\Security\Authorization\AuthorizationHelper;
+use Symfony\Component\Security\Core\Role\Role;
 
 class PersonSearch extends AbstractSearch implements ContainerAwareInterface
 {
@@ -53,10 +54,10 @@ class PersonSearch extends AbstractSearch implements ContainerAwareInterface
     
     
     public function __construct(EntityManagerInterface $em, 
-          TokenInterface $token, AuthorizationHelper $helper)
+          TokenStorage $tokenStorage, AuthorizationHelper $helper)
     {
         $this->em = $em;
-        $this->user = $token->getUser();
+        $this->user = $tokenStorage->getToken()->getUser();
         $this->helper = $helper;
         
         // throw an error if user is not a valid user
@@ -212,6 +213,14 @@ class PersonSearch extends AbstractSearch implements ContainerAwareInterface
             }
         }
         
+        //restraint center for security
+        $reachableCenters = $this->helper->getReachableCenters($this->user, 
+                new Role('CHILL_PERSON_SEE'));
+        $qb->andWhere($qb->expr()
+                ->in('p.center', ':centers'))
+                ->setParameter('centers', $reachableCenters)
+                ;
+              
         $this->_cacheQuery[$cacheKey] = $qb;
         
         return $qb;

@@ -138,10 +138,9 @@ class PersonVoterTest extends KernelTestCase
             )
         ));
         $person = $this->preparePerson($center);
-        var_dump('test allowed with inheritance');
         $this->assertEquals(
                 VoterInterface::ACCESS_GRANTED,
-                $this->voter->vote($token, $person, array('CHILL_PERSON_UPDATE')),
+                $this->voter->vote($token, $person, array('CHILL_PERSON_SEE')),
                 'assert that a user with correct role is granted on inherited roles'
                 );
     }    

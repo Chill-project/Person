@@ -40,6 +40,8 @@ class TimelinePersonController extends Controller
         if ($person === NULL) {
             throw $this->createNotFoundException();
         }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_SEE', $person);
 
         return $this->render('ChillPersonBundle:Timeline:index.html.twig', array
             (

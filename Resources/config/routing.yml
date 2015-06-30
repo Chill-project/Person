@@ -1,5 +1,5 @@
 chill_person_view:
-    pattern: /{_locale}/person/{person_id}/general
+    path: /{_locale}/person/{person_id}/general
     defaults: { _controller: ChillPersonBundle:Person:view }
     options:
         menus:
@@ -8,15 +8,15 @@ chill_person_view:
                 label: Person details
 
 chill_person_general_edit:
-    pattern: /{_locale}/person/{person_id}/general/edit
+    path: /{_locale}/person/{person_id}/general/edit
     defaults: {_controller: ChillPersonBundle:Person:edit }
 
 chill_person_general_update:
-    pattern: /{_locale}/person/{person_id}/general/update
+    path: /{_locale}/person/{person_id}/general/update
     defaults: {_controller: ChillPersonBundle:Person:update }
 
 chill_person_new:
-    pattern: /{_locale}/person/new
+    path: /{_locale}/person/new
     defaults: {_controller: ChillPersonBundle:Person:new }
     options:
         menus:
@@ -29,15 +29,15 @@ chill_person_new:
                 icons: [plus, male, female]
 
 chill_person_review:
-    pattern: /{_locale}/person/review
+    path: /{_locale}/person/review
     defaults: {_controller: ChillPersonBundle:Person:review }
 
 chill_person_create:
-    pattern: /{_locale}/person/create
+    path: /{_locale}/person/create
     defaults: {_controller: ChillPersonBundle:Person:create }
 
 chill_person_search:
-    pattern: /{_locale}/person/search
+    path: /{_locale}/person/search
     defaults: { _controller: ChillPersonBundle:Person:search }
     options:
         menus:
@@ -46,7 +46,7 @@ chill_person_search:
                 label: Search within persons
 
 chill_person_accompanying_period_list:
-    pattern: /{_locale}/person/{person_id}/accompanying-period
+    path: /{_locale}/person/{person_id}/accompanying-period
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:list }
 #    options:
 #        menus:
@@ -55,23 +55,23 @@ chill_person_accompanying_period_list:
 #                label: menu.person.history
 
 chill_person_accompanying_period_create:
-    pattern: /{_locale}/person/{person_id}/accompanying-period/create
+    path: /{_locale}/person/{person_id}/accompanying-period/create
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:create }
 
 chill_person_accompanying_period_update:
-    pattern: /{_locale}/person/{person_id}/accompanying-period/{period_id}/update
+    path: /{_locale}/person/{person_id}/accompanying-period/{period_id}/update
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:update }
 
 chill_person_accompanying_period_close:
-    pattern: /{_locale}/person/{person_id}/accompanying-period/close
+    path: /{_locale}/person/{person_id}/accompanying-period/close
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:close }
 
 chill_person_accompanying_period_open:
-    pattern: /{_locale}/person/{person_id}/accompanying-period/open
+    path: /{_locale}/person/{person_id}/accompanying-period/open
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:open }
 
 chill_person_admin:
-    pattern: /{_locale}/admin/person
+    path: /{_locale}/admin/person
     defaults: { _controller: ChillPersonBundle:Admin:index }
     options: 
         menus:
@@ -81,7 +81,7 @@ chill_person_admin:
                 helper: menu.person.admin.helper
 
 chill_person_export:
-    pattern: /{_locale}/person/export/
+    path: /{_locale}/person/export/
     defaults: { _controller: ChillPersonBundle:Person:export }
     options:
         menus:
@@ -90,7 +90,7 @@ chill_person_export:
                 label: Export persons
 
 chill_person_timeline:
-    pattern: /{_locale}/person/{person_id}/timeline
+    path: /{_locale}/person/{person_id}/timeline
     defaults: { _controller: ChillPersonBundle:TimelinePerson:person }
     options:
         menus:

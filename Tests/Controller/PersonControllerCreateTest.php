@@ -36,6 +36,8 @@ class PersonControllerCreateTest extends WebTestCase
     const GENRE_INPUT = "chill_personbundle_person_creation[genre]";
     const DATEOFBIRTH_INPUT = "chill_personbundle_person_creation[dateOfBirth]";
     const CREATEDATE_INPUT = "chill_personbundle_person_creation[creation_date]";
+    const CENTER_INPUT = "chill_personbundle_person_creation[center]";
+    
     const LONG_TEXT = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosq.";
     
     /**
@@ -43,10 +45,10 @@ class PersonControllerCreateTest extends WebTestCase
      * 
      * @return \Symfony\Component\BrowserKit\Client
      */
-    private function getAuthenticatedClient()
+    private function getAuthenticatedClient($username = 'center a_social')
     {
         return static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center a_social',
+           'PHP_AUTH_USER' => $username,
            'PHP_AUTH_PW'   => 'password',
         ));
     }
@@ -55,10 +57,11 @@ class PersonControllerCreateTest extends WebTestCase
      * 
      * @param Form $creationForm
      */
-    private function fillAValidCreationForm(Form &$creationForm)
+    private function fillAValidCreationForm(Form &$creationForm, 
+          $firstname = 'God', $lastname = 'Jesus')
     {
-        $creationForm->get(self::FIRSTNAME_INPUT)->setValue("God");
-        $creationForm->get(self::LASTNAME_INPUT)->setValue("Jesus");
+        $creationForm->get(self::FIRSTNAME_INPUT)->setValue($firstname);
+        $creationForm->get(self::LASTNAME_INPUT)->setValue($lastname);
         $creationForm->get(self::GENRE_INPUT)->select("man");
         $date = new \DateTime('1947-02-01');
         $creationForm->get(self::DATEOFBIRTH_INPUT)->setValue($date->format('d-m-Y'));
@@ -203,13 +206,57 @@ class PersonControllerCreateTest extends WebTestCase
             . "/{_locale}/person/{personID}/general");
     }
     
+    /**
+     * test adding a person with a user with multi center
+     * is valid
+     */
+    public function testValidFormWithMultiCenterUser()
+    {
+        $client = $this->getAuthenticatedClient('multi_center');
+        
+        $crawler = $client->request('GET', '/fr/person/new');
+        
+        $this->assertTrue($client->getResponse()->isSuccessful(), 
+              "The page is accessible at the URL /{_locale}/person/new");
+        $form = $crawler->selectButton("Ajouter la personne")->form();
+        
+        $this->fillAValidCreationForm($form, 'roger', 'rabbit');
+        
+        $this->assertTrue($form->has(self::CENTER_INPUT),
+              'The page contains a "center" input');
+        $centerInput = $form->get(self::CENTER_INPUT);
+        $availableValues = $centerInput->availableOptionValues();
+        $lastCenterInputValue = end($availableValues);
+        $centerInput->setValue($lastCenterInputValue);
+        
+        $client->submit($form);
+        
+        $this->assertTrue($client->getResponse()->isRedirect(), 
+              "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
+        $client->followRedirect();
+        $this->assertRegExp('|/fr/person/[1-9][0-9]*/general/edit$|', 
+              $client->getHistory()->current()->getUri(), 
+              "a valid form redirect to url /{_locale}/person/{personId}/general/edit");
+             
+    }
+    
     public static function tearDownAfterClass()
     {
         static::bootKernel();
         $em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
+        
+        //remove two people created during test
         $jesus = $em->getRepository('ChillPersonBundle:Person')
               ->findOneBy(array('firstName' => 'God'));
-        $em->remove($jesus);
+        if ($jesus !== NULL) {
+            $em->remove($jesus);
+        }
+        
+        $jesus2 = $em->getRepository('ChillPersonBundle:Person')
+              ->findOneBy(array('firstName' => 'roger'));
+        if ($jesus2 !== NULL) {
+            $em->remove($jesus2);
+        }
         $em->flush();
     }
 }

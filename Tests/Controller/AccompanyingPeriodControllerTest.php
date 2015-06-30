@@ -77,9 +77,13 @@ class AccompanyingPeriodControllerTest extends WebTestCase
            'PHP_AUTH_PW'   => 'password',
         ));
         
+        $center = static::$em->getRepository('ChillMainBundle:Center')
+              ->findOneBy(array('name' => 'Center A'));
+        
         $this->person = (new Person(new \DateTime('2015-01-05')))
               ->setFirstName('Roland')
               ->setLastName('Gallorime')
+              ->setCenter($center)
               ->setGenre(Person::GENRE_MAN);
 
         static::$em->persist($this->person);

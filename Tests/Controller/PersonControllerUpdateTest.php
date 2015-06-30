@@ -57,12 +57,17 @@ class PersonControllerUpdateTest extends WebTestCase
     {
         static::bootKernel();
         
+        $this->em = static::$kernel->getContainer()
+              ->get('doctrine.orm.entity_manager');
+        
+        $center = $this->em->getRepository('ChillMainBundle:Center')
+              ->findOneBy(array('name' => 'Center A'));
+       
         $this->person = (new Person())
                 ->setLastName("My Beloved")
                 ->setFirstName("Jesus")
+                ->setCenter($center)
                 ->setGenre(Person::GENRE_MAN);
-        
-        $this->em = static::$kernel->getContainer()->get('doctrine.orm.entity_manager');
         
         $this->em->persist($this->person);
         $this->em->flush();
@@ -76,10 +81,6 @@ class PersonControllerUpdateTest extends WebTestCase
         ));
     }
     
-    /**
-     * 
-     * @return Person
-     */
     protected function refreshPerson() 
     {
         $this->person = $this->em->getRepository('ChillPersonBundle:Person')
@@ -95,6 +96,30 @@ class PersonControllerUpdateTest extends WebTestCase
         
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 
                 "The person edit form is accessible");
+    }
+    
+    public function testEditPageDeniedForUnauthorized_OutsideCenter()
+    {
+        $client = static::createClient(array(), array(
+           'PHP_AUTH_USER' => 'center b_social',
+           'PHP_AUTH_PW'   => 'password',
+        ));
+        
+        $client->request('GET', $this->editUrl);
+        
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+    }
+    
+    public function testEditPageDeniedForUnauthorized_InsideCenter()
+    {
+        $client = static::createClient(array(), array(
+           'PHP_AUTH_USER' => 'center a_administrative',
+           'PHP_AUTH_PW'   => 'password',
+        ));
+        
+        $client->request('GET', $this->editUrl);
+        
+        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
     
     /**

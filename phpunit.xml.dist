@@ -19,5 +19,6 @@
     </filter>
     <php>
         <server name="KERNEL_DIR" value="/Tests/Fixtures/App/app/" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>  
 </phpunit>

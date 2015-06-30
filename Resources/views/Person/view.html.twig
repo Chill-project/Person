@@ -35,8 +35,9 @@ This view should receive those arguments:
 
 {% block personcontent %}
 
-
+{% if is_granted('CHILL_PERSON_UPDATE', person) %}
 {{ include(edit_tmp_name, edit_tmp_args) }}
+{% endif %}
 
 <figure>
     <h2>{{ 'General information'|trans }}</h2>
@@ -83,7 +84,9 @@ This view should receive those arguments:
     </dl>
 </figure>
 
+{% if is_granted('CHILL_PERSON_UPDATE', person) %}
 {{ include(edit_tmp_name, edit_tmp_args) }}
+{% endif %}
 
 <figure>
     <h2>{{ 'Administrative information'|trans }}</h2>
@@ -112,7 +115,9 @@ This view should receive those arguments:
     </dl>
 </figure>
 
+{% if is_granted('CHILL_PERSON_UPDATE', person) %}
 {{ include(edit_tmp_name, edit_tmp_args) }}
+{% endif %}
 
 <figure>
     <h2>{{ 'Contact information'|trans }}</h2>
@@ -128,7 +133,9 @@ This view should receive those arguments:
 
 </figure>
 
+{% if is_granted('CHILL_PERSON_UPDATE', person) %}
 {{ include(edit_tmp_name, edit_tmp_args) }}
+{% endif %}
 
 {% if cFGroup  %}
     <figure>
@@ -142,7 +149,9 @@ This view should receive those arguments:
         {% endfor %}
     </figure>
 
-    {{ include(edit_tmp_name, edit_tmp_args) }}
+{% if is_granted('CHILL_PERSON_UPDATE', person) %}
+{{ include(edit_tmp_name, edit_tmp_args) }}
+{% endif %}
     
 {% endif %}
 

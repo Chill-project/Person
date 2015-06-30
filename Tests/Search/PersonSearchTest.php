@@ -194,9 +194,25 @@ class PersonSearchTest extends WebTestCase
         $this->assertRegExp('/Étienne/', $crawlerNoSpecial->text());
     }
     
-    private function generateCrawlerForSearch($pattern)
+    /**
+     * test that person which a user cannot see are not displayed in results
+     */
+    public function testSearchWithAuthorization()
     {
-        $client = $this->getAuthenticatedClient();
+        $crawlerCanSee = $this->generateCrawlerForSearch('Gérard', 'center a_social');
+        $crawlerCannotSee = $this->generateCrawlerForSearch('Gérard', 'center b_social');
+        
+        $this->assertRegExp('/Gérard/', $crawlerCanSee->text(),
+                'center a_social may see "Gérard" in center a');
+        $this->assertRegExp('/Aucune personne ne correspond aux termes de recherche "gerard"/',
+                $crawlerCannotSee->text(),
+                'center b_social may not see any "Gérard" associated to center b');
+        
+    }
+    
+    private function generateCrawlerForSearch($pattern, $username = 'center a_social')
+    {
+        $client = $this->getAuthenticatedClient($username);
         
         $crawler = $client->request('GET', '/fr/search', array(
            'q' => $pattern
@@ -211,10 +227,10 @@ class PersonSearchTest extends WebTestCase
      * 
      * @return \Symfony\Component\BrowserKit\Client
      */
-    private function getAuthenticatedClient()
+    private function getAuthenticatedClient($username = 'center a_social')
     {
         return static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center a_social',
+           'PHP_AUTH_USER' => $username,
            'PHP_AUTH_PW'   => 'password',
         ));
     }

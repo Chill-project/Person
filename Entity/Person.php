@@ -25,11 +25,12 @@ namespace Chill\PersonBundle\Entity;
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Chill\MainBundle\Entity\Country;
 use Doctrine\Common\Collections\ArrayCollection;
+use Chill\MainBundle\Entity\HasCenterInterface;
 
 /**
  * Person
  */
-class Person {
+class Person implements HasCenterInterface {
     /**
      * @var integer
      */
@@ -59,6 +60,12 @@ class Person {
      * @var string
      */
     private $genre;
+    
+    /**
+     *
+     * @var \Chill\MainBundle\Entity\Center
+     */
+    private $center;
     
     const GENRE_MAN = 'man';
     const GENRE_WOMAN = 'woman';
@@ -486,7 +493,30 @@ class Person {
     public function getLabel() {
         return $this->getFirstName()." ".$this->getLastName();
     }
+    
+    /**
+     * Get center
+     * 
+     * @return \Chill\MainBundle\Entity\Center
+     */
+    public function getCenter()
+    {
+        return $this->center;
+    }
 
+    /**
+     * Set the center
+     * 
+     * @param \Chill\MainBundle\Entity\Center $center
+     * @return \Chill\PersonBundle\Entity\Person
+     */
+    public function setCenter(\Chill\MainBundle\Entity\Center $center)
+    {
+        $this->center = $center;
+        return $this;
+    }
+
+    
     /**
      * Set cFData
      *

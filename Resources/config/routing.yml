@@ -26,7 +26,7 @@ chill_person_new:
             section:
                 order: 10
                 label: Add a person
-                icons: [plus, male, female]
+                icons: [plus]
 
 chill_person_review:
     path: /{_locale}/person/review

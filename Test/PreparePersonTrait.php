@@ -20,13 +20,14 @@
 namespace Chill\PersonBundle\Test;
 
 use Chill\PersonBundle\Entity\Person;
+use Chill\MainBundle\Entity\Center;
 
 /**
  * 
  *
  * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
-class PreparePersonTrait
+trait PreparePersonTrait
 {
     
     /**

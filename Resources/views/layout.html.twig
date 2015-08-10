@@ -18,16 +18,10 @@
 
 {% block layout_content %}
 
-<div class="container">
-    <div id="person_wrapper">
-        <div id="general" class="parent">
-            <div class="grid-8">
+    <div class="grid-12 parent" id="header-person-name" >
+        <div class="grid-10 push-1">
+            <div >
                 <h1>
-                    {% if person.genre == "woman" %}
-                        <i class="fa fa-female"></i>
-                    {%  else %}
-                        <i class="fa fa-male"></i>
-                    {% endif %}
                     {{  person.firstName }} {{ person.lastName }} {% spaceless %}
                         {% if not person.isOpen %}
                             <i class="fa fa-lock"></i>      
@@ -35,6 +29,10 @@
                     {% endspaceless %}
                 </h1>
             </div>
+        </div>
+    </div>
+    <div class="grid-12 parent" id="header-person-details" >
+        <div class="grid-10 push-1 parent">
             <div class="grid-4">
                 <p><i class="fa fa-birthday-cake"></i>  {% spaceless %}
                     {% if person.dateOfBirth == null %}
@@ -47,13 +45,15 @@
                         {% endtranschoice %}
                     {% endif %}
                 {% endspaceless %}</p>
-
+            </div>
+            <div class="grid-4">
                 {% if person.nationality is not null %}
                     <p><i class="fa fa-flag"></i> {{ person.nationality.name|localize_translatable_string }}</p>
                 {% else %}
                     <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}Without nationality{% endtrans %}</p>
                 {% endif %} 
-
+            </div>
+            <div class="grid-4">
                 <p><i class="fa fa-bullhorn"></i>
                     {% if person.spokenLanguages|length == 0 %}
                         {{ 'Unknown spoken languages'|trans }}
@@ -63,50 +63,50 @@
                         {% endfor %}
                     {% endif %}
                 </p>
-            </div>
+            </div> 
         </div>
+    </div>
 
-        <div id="person_details" class="content">
-            <section class="container"> 
-                {# Note: activeRouteKey should be defined in Controller or child layout #}       
-                {{ chill_menu('person', {
-                     'layout': 'ChillPersonBundle::menu.html.twig',
-                     'args' : {'person_id': person.id },
-                     'activeRouteKey': activeRouteKey
-                }) }}
-                              
-                <div class="grid-8">
-                    {# Flash messages ! #}
-                    <div class="container">
-                        {% for flashMessage in app.session.flashbag.get('success') %}
-                            <div class="grid-8 centered success">
-                                <span>
-                                    {{ flashMessage|raw }}
-                                </span>
-                            </div>
-                        {% endfor %}
-                            
-                        {% for flashMessage in app.session.flashbag.get('danger') %}
-                            <div class="grid-8 centered error">
-                                <span>
-                                    {{ flashMessage|raw }}
-                                </span>
-                            </div>
-                        {% endfor %}
-                            
-                        {% for flashMessage in app.session.flashbag.get('info') %}
-                            <div class="grid-8 centered notice">
-                                <span>
-                                    {{ flashMessage|raw }}
-                                </span>
-                            </div>
-                        {% endfor %}    
-                    </div>
-
-                    {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
+    <div id="person_details" class="content">
+        <section class="container"> 
+            {# Note: activeRouteKey should be defined in Controller or child layout #}       
+            {{ chill_menu('person', {
+                 'layout': 'ChillPersonBundle::menu.html.twig',
+                 'args' : {'person_id': person.id },
+                 'activeRouteKey': activeRouteKey
+            }) }}
+                          
+            <div class="grid-8">
+                {# Flash messages ! #}
+                <div class="container">
+                    {% for flashMessage in app.session.flashbag.get('success') %}
+                        <div class="grid-8 centered success">
+                            <span>
+                                {{ flashMessage|raw }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                        
+                    {% for flashMessage in app.session.flashbag.get('danger') %}
+                        <div class="grid-8 centered error">
+                            <span>
+                                {{ flashMessage|raw }}
+                            </span>
+                        </div>
+                    {% endfor %}
+                        
+                    {% for flashMessage in app.session.flashbag.get('info') %}
+                        <div class="grid-8 centered notice">
+                            <span>
+                                {{ flashMessage|raw }}
+                            </span>
+                        </div>
+                    {% endfor %}    
                 </div>
-            </section>
-        </div>
+
+                {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
+            </div>
+        </section>
     </div>
 </div>
 {% endblock %}

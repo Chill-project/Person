@@ -19,55 +19,59 @@
 {% block layout_content %}
 
     <div class="grid-12 parent" id="header-person-name" >
-        <div class="grid-10 push-1">
-            <div >
-                <h1>
-                    {{  person.firstName }} {{ person.lastName }} {% spaceless %}
+        <div class="grid-10 push-1 parent">
+            <div class="grid-4">
+                {{ 'Lastname :'|trans|upper  }} {{ person.lastName }} 
+            </div>
+            <div class="grid-4">
+                {{ 'Fistname:'|trans|upper}} {{  person.firstName }}{% spaceless %}
                         {% if not person.isOpen %}
                             <i class="fa fa-lock"></i>      
                         {% endif %}
-                    {% endspaceless %}
-                </h1>
+                {% endspaceless %}</h1>
             </div>
         </div>
     </div>
     <div class="grid-12 parent" id="header-person-details" >
         <div class="grid-10 push-1 parent">
             <div class="grid-4">
-                <p><i class="fa fa-birthday-cake"></i>  {% spaceless %}
-                    {% if person.dateOfBirth == null %}
-                        {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~
-                            person.genre)|trans }}
-                    {% else %}
-                        {% transchoice person.genreNumeric
-                            with {'%date%' : person.dateOfBirth|localizeddate('long', 'none')} %}
-                            {0} Born the %date% | {1} Born the %date%
-                        {% endtranschoice %}
-                    {% endif %}
-                {% endspaceless %}</p>
+                {{ 'Birthdate :'|trans|upper  }}
+                {% if person.dateOfBirth == null %}
+                    {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~ 
+                        person.genre)|trans }}
+                {% else %}
+                    {{ person.dateOfBirth|localizeddate('long', 'none') }}
+                {% endif %}
             </div>
             <div class="grid-4">
-                {% if person.nationality is not null %}
-                    <p><i class="fa fa-flag"></i> {{ person.nationality.name|localize_translatable_string }}</p>
+                 {{ 'Nationality:'|trans|upper}} 
+                 {% if person.nationality is not null %}
+-                   {{ person.nationality.name|localize_translatable_string }}
                 {% else %}
-                    <p class="without_nationality"><i class="fa fa-flag"></i> {% trans %}Without nationality{% endtrans %}</p>
+                    {% trans %}Without nationality{% endtrans %}
                 {% endif %} 
             </div>
             <div class="grid-4">
-                <p><i class="fa fa-bullhorn"></i>
-                    {% if person.spokenLanguages|length == 0 %}
-                        {{ 'Unknown spoken languages'|trans }}
-                    {% else %}
-                        {% for lang in person.spokenLanguages %}
-                            {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
-                        {% endfor %}
-                    {% endif %}
+                {{ 'Gender:'|trans|upper}} 
+                {{ person.genre }}
+            </div> 
+            <!-- 
+            <div class="grid-4">
+                {% if person.spokenLanguages|length == 0 %}
+                    {{ 'Spoken languages:'|trans|upper}} 
+                    {{ 'Unknown spoken languages'|trans }}
+                {% else %}
+                    {% for lang in person.spokenLanguages %}
+                        {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
+                    {% endfor %}
+                {% endif %}
                 </p>
             </div> 
+            -->
         </div>
     </div>
 
-    <div id="person_details" class="content">
+    <div id="person_details" class="content parent">
         <section class="container"> 
             {# Note: activeRouteKey should be defined in Controller or child layout #}       
             {{ chill_menu('person', {

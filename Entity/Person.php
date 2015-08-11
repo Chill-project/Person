@@ -31,93 +31,63 @@ use Chill\MainBundle\Entity\HasCenterInterface;
  * Person
  */
 class Person implements HasCenterInterface {
-    /**
-     * @var integer
-     */
+    /** @var integer  The person's id */
     private $id;
 
-    /**
-     * @var string
-     */
+    /** @var string The person's first name */
     private $firstName;
 
-    /**
-     * @var string
-     */
+    /** @var string The person's last name */
     private $lastName;
 
-    /**
-     * @var \DateTime
-     */
-    private $dateOfBirth;
+    /** @var \DateTime The person's birthdate */
+    private $dateOfBirth; //to change in birthdate
 
-        /**
-     * @var string
-     */
+    /** @var string The person's place of birth */
     private $placeOfBirth = '';
+    
+    /** @var \CL\Chill\MainBundle\Entity\Country The person's country of birth */
+    private $countryOfBirth;
 
-    /**
-     * @var string
-     */
-    private $genre;
+    /** @var \CL\Chill\MainBundle\Entity\Country The person's nationality */
+    private $nationality;  
+
+    /** @var string The person's gender */
+    private $genre; //to change in gender
     
-    /**
-     *
-     * @var \Chill\MainBundle\Entity\Center
-     */
-    private $center;
-    
-    const GENRE_MAN = 'man';
+    const GENRE_MAN = 'man'; 
     const GENRE_WOMAN = 'woman';
+    
+    /** @var \Chill\MainBundle\Entity\Center The person's center */
+    private $center;
 
-    /**
-     * @var string
-     */
-    private $memo = '';
+    /** @var string A remark over the person */
+    private $memo = ''; // to change in remark
 
-    /**
-     * @var string
-     */
+    /** @var string The person's email */
     private $email = '';
     
     /**
-     * @var \CL\Chill\MainBundle\Entity\Country
-     */
-    private $countryOfBirth;
-
-    /**
-     * @var \CL\Chill\MainBundle\Entity\Country
-     */
-    private $nationality;  
-    
-    /**
-     *
-     * @var \Doctrine\Common\Collections\ArrayCollection
-     */
+     * @var \Doctrine\Common\Collections\ArrayCollection The person's 
+     * accompanying periods (when the person was accompanied by the center)*/
     private $accompanyingPeriods;
     
     /**
-     *
      * @var boolean
      */
     private $proxyAccompanyingPeriodOpenState = false;
 
 
-    /**
-     * The array where customfields data is stored
-     * @var array
-     */
+    /** @var array Array where customfield's data are stored */
     private $cFData;
 
-    /**
-     * @var string
-     */
+    /** @var string The person's phonenumber */
     private $phonenumber = '';
 
     /**
-     * The spoken languages (ArrayCollection of Languages)
-     * @var \Doctrine\Common\Collections\ArrayCollection
-    */
+     * @var \Doctrine\Common\Collections\ArrayCollection The person's spoken 
+     * languages (ArrayCollection of Languages)
+     */
     private $spokenLanguages;
     
     public function __construct(\DateTime $opening = null) {
@@ -132,7 +102,6 @@ class Person implements HasCenterInterface {
     }
     
     /**
-     * 
      * @param \Chill\PersonBundle\Entity\AccompanyingPeriod $accompanyingPeriod
      * @uses AccompanyingPeriod::setPerson
      */

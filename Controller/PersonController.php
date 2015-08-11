@@ -194,8 +194,8 @@ class PersonController extends Controller
                 
         $person->setFirstName($form['firstName']->getData())
                 ->setLastName($form['lastName']->getData())
-                ->setGenre($form['genre']->getData())
-                ->setDateOfBirth($form['dateOfBirth']->getData())
+                ->setGender($form['gender']->getData())
+                ->setBirthdate($form['birthdate']->getData())
                 ->setCenter($form['center']->getData())
                 ;
         
@@ -301,8 +301,8 @@ class PersonController extends Controller
             array('alternatePersons' => $alternatePersons,
                 'firstName' => $form['firstName']->getData(),
                 'lastName' => $form['lastName']->getData(),
-                'dateOfBirth' => $form['dateOfBirth']->getData(),
-                'genre' => $form['genre']->getData(),
+                'birthdate' => $form['birthdate']->getData(),
+                'gender' => $form['gender']->getData(),
                 'creation_date' => $form['creation_date']->getData(),
                 'form' => $form->createView()));
     }

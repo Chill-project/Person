@@ -33,8 +33,8 @@ class PersonControllerCreateTest extends WebTestCase
     
     const FIRSTNAME_INPUT = 'chill_personbundle_person_creation[firstName]';
     const LASTNAME_INPUT = "chill_personbundle_person_creation[lastName]";
-    const GENRE_INPUT = "chill_personbundle_person_creation[genre]";
-    const DATEOFBIRTH_INPUT = "chill_personbundle_person_creation[dateOfBirth]";
+    const GENDER_INPUT = "chill_personbundle_person_creation[gender]";
+    const BIRTHDATE_INPUT = "chill_personbundle_person_creation[birthdate]";
     const CREATEDATE_INPUT = "chill_personbundle_person_creation[creation_date]";
     const CENTER_INPUT = "chill_personbundle_person_creation[center]";
     
@@ -62,9 +62,9 @@ class PersonControllerCreateTest extends WebTestCase
     {
         $creationForm->get(self::FIRSTNAME_INPUT)->setValue($firstname);
         $creationForm->get(self::LASTNAME_INPUT)->setValue($lastname);
-        $creationForm->get(self::GENRE_INPUT)->select("man");
+        $creationForm->get(self::GENDER_INPUT)->select("man");
         $date = new \DateTime('1947-02-01');
-        $creationForm->get(self::DATEOFBIRTH_INPUT)->setValue($date->format('d-m-Y'));
+        $creationForm->get(self::BIRTHDATE_INPUT)->setValue($date->format('d-m-Y'));
         
         return $creationForm;
     }
@@ -90,14 +90,14 @@ class PersonControllerCreateTest extends WebTestCase
               'The page contains a "firstname" input');
         $this->assertTrue($form->has(self::LASTNAME_INPUT),
               'The page contains a "lastname" input');
-        $this->assertTrue($form->has(self::GENRE_INPUT),
+        $this->assertTrue($form->has(self::GENDER_INPUT),
               'The page contains a "gender" input');
-        $this->assertTrue($form->has(self::DATEOFBIRTH_INPUT), 
+        $this->assertTrue($form->has(self::BIRTHDATE_INPUT), 
               'The page has a "date of birth" input');
         $this->assertTrue($form->has(self::CREATEDATE_INPUT),
               'The page contains a "creation date" input');
         
-        $genderType = $form->get(self::GENRE_INPUT);
+        $genderType = $form->get(self::GENDER_INPUT);
         $this->assertEquals('radio', $genderType->getType(), 
               'The gender input has two radio button: man and women');
         $this->assertEquals(2, count($genderType->availableOptionValues()), 
@@ -154,7 +154,7 @@ class PersonControllerCreateTest extends WebTestCase
     public function testGenderIsNull(Form $form)
     {
         $this->fillAValidCreationForm($form);
-        $form->get(self::GENRE_INPUT)->disableValidation()->setValue(NULL);
+        $form->get(self::GENDER_INPUT)->disableValidation()->setValue(NULL);
         $crawler = $this->getAuthenticatedClient()->submit($form);
         
         $this->assertEquals(1, $crawler->filter('.error')->count(),

@@ -50,7 +50,7 @@ This view should receive those arguments:
         <dd>{{ person.lastName }}</dd>
         
         <dt class="inline">{{ 'Gender'|trans }}</dt>
-        <dd>{{ ( person.genre|default('Not given'))|trans }}</dd>
+        <dd>{{ ( person.gender|default('Not given'))|trans }}</dd>
     </dl>
 </figure>
 
@@ -60,8 +60,8 @@ This view should receive those arguments:
     <dl>
             <dt class="inline">{{ 'Date of birth'|trans }}</dt>
             <dd>
-                {%- if person.dateOfBirth is not null -%}
-                {{ person.dateOfBirth|localizeddate('long', 'none') }}
+                {%- if person.birthdate is not null -%}
+                {{ person.birthdate|localizeddate('long', 'none') }}
                 {%- else -%}
                 {{ 'Unknown date of birth'|trans }}
                 {%- endif -%}

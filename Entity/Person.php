@@ -41,7 +41,7 @@ class Person implements HasCenterInterface {
     private $lastName;
 
     /** @var \DateTime The person's birthdate */
-    private $dateOfBirth; //to change in birthdate
+    private $birthdate; //to change in birthdate
 
     /** @var string The person's place of birth */
     private $placeOfBirth = '';
@@ -53,42 +53,50 @@ class Person implements HasCenterInterface {
     private $nationality;  
 
     /** @var string The person's gender */
-    private $genre; //to change in gender
+    private $gender;
     
-    const GENRE_MAN = 'man'; 
-    const GENRE_WOMAN = 'woman';
-    
-    /** @var \Chill\MainBundle\Entity\Center The person's center */
-    private $center;
+    const MALE_GENDER = 'man'; 
+    const FEMALE_GENDER = 'woman';
 
-    /** @var string A remark over the person */
-    private $memo = ''; // to change in remark
+    //TO-ADD : maritalStatus
+
+    //TO-ADD : address
 
     /** @var string The person's email */
     private $email = '';
-    
-    /**
-     * @var \Doctrine\Common\Collections\ArrayCollection The person's 
-     * accompanying periods (when the person was accompanied by the center)*/
-    private $accompanyingPeriods;
-    
-    /**
-     * @var boolean
-     */
-    private $proxyAccompanyingPeriodOpenState = false;
-
-
-    /** @var array Array where customfield's data are stored */
-    private $cFData;
 
     /** @var string The person's phonenumber */
     private $phonenumber = '';
+
+    //TO-ADD : caseOpeningDate
+
+    //TO-ADD nativeLanguag
 
     /**
      * @var \Doctrine\Common\Collections\ArrayCollection The person's spoken 
      * languages (ArrayCollection of Languages)
      */
     private $spokenLanguages;
+    
+    /** @var \Chill\MainBundle\Entity\Center The person's center */
+    private $center;
+
+    /**
+     * @var \Doctrine\Common\Collections\ArrayCollection The person's 
+     * accompanying periods (when the person was accompanied by the center)*/
+    private $accompanyingPeriods; //TO-CHANGE in accompanyingHistory
+
+    /** @var string A remark over the person */
+    private $memo = ''; // TO-CHANGE in remark
+    
+    /**
+     * @var boolean
+     */
+    private $proxyAccompanyingPeriodOpenState = false; //TO-DELETE ?
+
+
+    /** @var array Array where customfield's data are stored */
+    private $cFData;
     
     public function __construct(\DateTime $opening = null) {
         $this->accompanyingPeriods = new ArrayCollection();
@@ -272,26 +280,26 @@ class Person implements HasCenterInterface {
     }
 
     /**
-     * Set dateOfBirth
+     * Set birthdate
      *
-     * @param \DateTime $dateOfBirth
+     * @param \DateTime $birthdate
      * @return Person
      */
-    public function setDateOfBirth($dateOfBirth)
+    public function setBirthdate($birthdate)
     {
-        $this->dateOfBirth = $dateOfBirth;
+        $this->birthdate = $birthdate;
     
         return $this;
     }
 
     /**
-     * Get dateOfBirth
+     * Get birthdate
      *
      * @return \DateTime 
      */
-    public function getDateOfBirth()
+    public function getBirthdate()
     {
-        return $this->dateOfBirth;
+        return $this->birthdate;
     }
 
 
@@ -323,26 +331,26 @@ class Person implements HasCenterInterface {
     }
 
     /**
-     * Set genre
+     * Set gender
      *
-     * @param string $genre
+     * @param string $gender
      * @return Person
      */
-    public function setGenre($genre)
+    public function setGender($gender)
     {
-        $this->genre = $genre;
+        $this->gender = $gender;
     
         return $this;
     }
 
     /**
-     * Get genre
+     * Get gender
      *
      * @return string 
      */
-    public function getGenre()
+    public function getGender()
     {
-        return $this->genre;
+        return $this->gender;
     }
     
     /**
@@ -350,8 +358,8 @@ class Person implements HasCenterInterface {
      * This is used for translations
      * @return int
      */
-    public function getGenreNumeric() {
-        if ($this->getGenre() == self::GENRE_WOMAN) {
+    public function getGenderNumeric() {
+        if ($this->getGender() == self::FEMALE_GENDER) {
             return 1;
         } else {
             return 0;

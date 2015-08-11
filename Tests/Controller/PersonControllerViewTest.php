@@ -56,7 +56,7 @@ class PersonControllerViewTest extends WebTestCase
                 ->setLastName("Tested Person")
                 ->setFirstName("Réginald")
                 ->setCenter($center)
-                ->setGenre(Person::GENRE_MAN);
+                ->setGender(Person::MALE_GENDER);
         
         $this->em->persist($this->person);
         $this->em->flush();

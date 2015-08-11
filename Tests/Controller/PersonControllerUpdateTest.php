@@ -67,7 +67,7 @@ class PersonControllerUpdateTest extends WebTestCase
                 ->setLastName("My Beloved")
                 ->setFirstName("Jesus")
                 ->setCenter($center)
-                ->setGenre(Person::GENRE_MAN);
+                ->setGender(Person::MALE_GENDER);
         
         $this->em->persist($this->person);
         $this->em->flush();
@@ -229,18 +229,18 @@ class PersonControllerUpdateTest extends WebTestCase
             ['firstName', 'random Value', function(Person $person) { return $person->getFirstName(); } ],
             ['lastName' , 'random Value', function(Person $person) { return $person->getLastName(); }  ],
             ['placeOfBirth', 'none place', function(Person $person) { return $person->getPlaceOfBirth(); }],
-            ['dateOfBirth', '15-12-1980', function(Person $person) { return $person->getDateOfBirth()->format('d-m-Y'); }],
+            ['birthdate', '15-12-1980', function(Person $person) { return $person->getBirthdate()->format('d-m-Y'); }],
             ['phonenumber', '0123456789', function(Person $person) { return $person->getPhonenumber(); }],
             ['memo', 'jfkdlmq jkfldmsq jkmfdsq', function(Person $person) { return $person->getMemo(); }],
             ['countryOfBirth', 'BE', function(Person $person) { return $person->getCountryOfBirth()->getCountryCode(); }],
             ['nationality', 'FR', function(Person $person) { return $person->getNationality()->getCountryCode(); }],
             ['placeOfBirth', '', function(Person $person) { return $person->getPlaceOfBirth(); }],
-            ['dateOfBirth', '', function(Person $person) { return $person->getDateOfBirth(); }],
+            ['birthdate', '', function(Person $person) { return $person->getBirthdate(); }],
             ['phonenumber', '', function(Person $person) { return $person->getPhonenumber(); }],
             ['memo', '', function(Person $person) { return $person->getMemo(); }],
             ['countryOfBirth', NULL, function(Person $person) { return $person->getCountryOfBirth(); }],
             ['nationality', NULL, function(Person $person) { return $person->getNationality(); }],
-            ['genre', Person::GENRE_WOMAN, function(Person $person) { return $person->getGenre(); }]
+            ['gender', Person::FEMALE_GENDER, function(Person $person) { return $person->getGender(); }]
         );
     }
     
@@ -251,7 +251,7 @@ class PersonControllerUpdateTest extends WebTestCase
             ['lastName', $this->getVeryLongText()],
             ['firstName', ''],
             ['lastName', ''],
-            ['dateOfBirth', 'false date']
+            ['birthdate', 'false date']
         );
     }
     

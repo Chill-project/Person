@@ -22,6 +22,8 @@
 
 namespace Chill\PersonBundle\Tests\Controller;
 
+ini_set('memory_limit', '-1');
+
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Chill\PersonBundle\Entity\AccompanyingPeriod;
 use Chill\PersonBundle\Entity\Person;
@@ -84,7 +86,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
               ->setFirstName('Roland')
               ->setLastName('Gallorime')
               ->setCenter($center)
-              ->setGenre(Person::GENRE_MAN);
+              ->setGender(Person::MALE_GENDER);
 
         static::$em->persist($this->person);
         static::$em->flush();

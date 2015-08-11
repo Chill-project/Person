@@ -1,6 +1,9 @@
 imports:
     - { resource: parameters.yml }
 
+parameters:
+    locale: en
+
 framework:
     secret:          Not very secret
     router:          { resource: "%kernel.root_dir%/config/routing.yml" }

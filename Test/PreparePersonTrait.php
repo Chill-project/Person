@@ -36,7 +36,7 @@ trait PreparePersonTrait
      * Properties added are : 
      * - firstname
      * - lastname
-     * - genre
+     * - gender
      * 
      * This person should not be persisted in a database
      * 
@@ -49,7 +49,7 @@ trait PreparePersonTrait
               ->setCenter($center)
               ->setFirstName('test firstname')
               ->setLastName('default lastname')
-              ->setGenre(Person::GENRE_MAN)
+              ->setGender(Person::MALE_GENDER)
               ;
     }
     

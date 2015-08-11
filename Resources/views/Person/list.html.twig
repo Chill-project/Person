@@ -42,11 +42,11 @@
                         </a>
                     </td>
                     <td>
-                        <span class="personDateOfBirth">{% if person.dateOfBirth is not null %}{{person.dateOfBirth|localizeddate('long', 'none', app.request.locale) }}{% else %}{{  'Unknown date of birth'|trans }}{% endif %}</span>
+                        {% if person.birthdate is not null %}{{person.birthdate|localizeddate('long', 'none', app.request.locale) }}{% else %}{{  'Unknown date of birth'|trans }}{% endif %}
                     </td>
                     <td>
                         {% if person.nationality is not null %}
-                            <span class="personNationality">{{person.nationality.name | localize_translatable_string }}</span>
+                            {{person.nationality.name | localize_translatable_string }}
                         {% else %}
                             {{ 'Without nationality'|trans }}
                         {% endif %}

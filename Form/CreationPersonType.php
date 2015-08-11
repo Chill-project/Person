@@ -58,10 +58,10 @@ class CreationPersonType extends AbstractType
             
             $builder->add('firstName', 'hidden')
                     ->add('lastName', 'hidden')
-                    ->add( $builder->create('dateOfBirth', 'hidden')
+                    ->add( $builder->create('birthdate', 'hidden')
                             ->addModelTransformer($dateToStringTransformer)
                           )
-                    ->add('genre', 'hidden')
+                    ->add('gender', 'hidden')
                     ->add( $builder->create('creation_date', 'hidden')
                             ->addModelTransformer($dateToStringTransformer)
                            )
@@ -72,9 +72,9 @@ class CreationPersonType extends AbstractType
             $builder
                 ->add('firstName')
                 ->add('lastName')
-                ->add('dateOfBirth', 'date', array('required' => false, 
+                ->add('birthdate', 'date', array('required' => false, 
                     'widget' => 'single_text', 'format' => 'dd-MM-yyyy'))
-                ->add('genre', new GenderType(), array(
+                ->add('gender', new GenderType(), array(
                     'required' => true, 'empty_value' => null
                 ))
                 ->add('creation_date', 'date', array('required' => true, 

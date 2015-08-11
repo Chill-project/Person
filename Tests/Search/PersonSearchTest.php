@@ -138,7 +138,7 @@ class PersonSearchTest extends WebTestCase
               "assert clause firstname and nationality are AND");
     }
     
-    public function testSearchDateOfBirth()
+    public function testSearchBirthdate()
     {
         $crawler = $this->generateCrawlerForSearch('@person birthdate:1948-12-27');
         
@@ -146,7 +146,7 @@ class PersonSearchTest extends WebTestCase
         $this->assertRegExp('/Bart/', $crawler->text());
     }
     
-    public function testSearchCombineDateOfBirthAndFirstName()
+    public function testSearchCombineBirthdateAndFirstName()
     {
         $crawler = $this->generateCrawlerForSearch('@person birthdate:1948-12-27 firstname:(Van Snick)');
         
@@ -154,7 +154,7 @@ class PersonSearchTest extends WebTestCase
         $this->assertNotRegExp('/Depardieu/', $crawler->text());
     }
     
-    public function testSearchCombineGenreAndFirstName()
+    public function testSearchCombineGenderAndFirstName()
     {
         $crawler = $this->generateCrawlerForSearch('@person gender:woman firstname:(Depardieu)');
         

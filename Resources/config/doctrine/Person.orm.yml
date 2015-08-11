@@ -17,16 +17,15 @@ Chill\PersonBundle\Entity\Person:
         lastName:
             type: string
             length: 255
-        dateOfBirth:
+        birthdate:
             type: date
-            column: date_of_birth
             nullable: true
         placeOfBirth:
             type: string
             length: 255
             column: place_of_birth
             default: ''
-        genre:
+        gender:
             type: string
             length: 9
         memo:

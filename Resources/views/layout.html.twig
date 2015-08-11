@@ -36,11 +36,11 @@
         <div class="grid-10 push-1 parent">
             <div class="grid-4">
                 {{ 'Birthdate :'|trans|upper  }}
-                {% if person.dateOfBirth == null %}
+                {% if person.birthdate == null %}
                     {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~ 
-                        person.genre)|trans }}
+                        person.gender)|trans }}
                 {% else %}
-                    {{ person.dateOfBirth|localizeddate('long', 'none') }}
+                    {{ person.birthdate|localizeddate('long', 'none') }}
                 {% endif %}
             </div>
             <div class="grid-4">
@@ -53,7 +53,7 @@
             </div>
             <div class="grid-4">
                 {{ 'Gender:'|trans|upper}} 
-                {{ person.genre }}
+                {{ person.gender }}
             </div> 
             <!-- 
             <div class="grid-4">

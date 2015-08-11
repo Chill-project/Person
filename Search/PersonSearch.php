@@ -172,18 +172,18 @@ class PersonSearch extends AbstractSearch implements ContainerAwareInterface
                       . 'not parsable', 0, $ex);
             }
 
-            $qb->andWhere($qb->expr()->eq('p.dateOfBirth', ':birthdate'))
+            $qb->andWhere($qb->expr()->eq('p.birthdate', ':birthdate'))
               ->setParameter('birthdate', $date);
         }
         
         if (array_key_exists('gender', $terms)) {
-            if (!in_array($terms['gender'], array(Person::GENRE_MAN, Person::GENRE_WOMAN))) {
+            if (!in_array($terms['gender'], array(Person::MALE_GENDER, Person::FEMALE_GENDER))) {
                 throw new ParsingException('The gender '
-                      .$terms['gender'].' is not accepted. Should be "'.Person::GENRE_MAN
-                      .'" or "'.Person::GENRE_WOMAN.'"');
+                      .$terms['gender'].' is not accepted. Should be "'.Person::MALE_GENDER
+                      .'" or "'.Person::FEMALE_GENDER.'"');
             }
             
-            $qb->andWhere($qb->expr()->eq('p.genre', ':gender'))
+            $qb->andWhere($qb->expr()->eq('p.gender', ':gender'))
               ->setParameter('gender', $terms['gender']);
         }
         

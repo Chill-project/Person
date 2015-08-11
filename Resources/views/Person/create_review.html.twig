@@ -38,7 +38,7 @@
 {% endspaceless %}
                         </a>
                     </td>
-                    <td>{{ person.dateOfBirth|localizeddate('long', 'none', app.request.locale) }}</td>
+                    <td>{{ person.birthdate|localizeddate('long', 'none', app.request.locale) }}</td>
                     <td>{% if person.nationality is not null %}{{ person.nationality.name|localize_translatable_string }}{%  else  %}{{ 'Without nationality'|trans }}{% endif %}
                 </tr>
                 
@@ -61,10 +61,10 @@
                 <dd>{{ lastName }}</dd>
                 
                 <dt>{{ 'Date of birth'|trans }}</dt>
-                <dd>{{ dateOfBirth|localizeddate('long', 'none', app.request.locale)|default( 'Unknown date of birth'|trans ) }}</dd>
+                <dd>{{ birthdate|localizeddate('long', 'none', app.request.locale)|default( 'Unknown date of birth'|trans ) }}</dd>
                 
                 <dt>{{ 'Gender'|trans }}</dt>
-                <dd>{{ genre|trans }}</dd>
+                <dd>{{ gender|trans }}</dd>
                 
                 <dt>{{ 'Creation date'|trans }}</dt>
                 <dd>{{ creation_date|localizeddate('long', 'none', app.request.locale) }}</dd>

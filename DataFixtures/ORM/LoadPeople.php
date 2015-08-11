@@ -95,7 +95,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
         do {
             $i++;
             
-            $sex = $this->genres[array_rand($this->genres)];
+            $sex = $this->genders[array_rand($this->genders)];
             
             if ($chooseLastNameOrTri[array_rand($chooseLastNameOrTri)] === 'tri' ) {
                 $length = rand(2, 3);
@@ -108,7 +108,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                 $lastName = $this->lastNames[array_rand($this->lastNames)];
             }
             
-            if ($sex === Person::GENRE_MAN) {
+            if ($sex === Person::MALE_GENDER) {
                 $firstName = $this->firstNamesMale[array_rand($this->firstNamesMale)];
             } else {
                 $firstName = $this->firstNamesFemale[array_rand($this->firstNamesFemale)];
@@ -117,7 +117,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
             $person = array(
                 'FirstName' => $firstName,
                 'LastName' => $lastName,
-                'Genre' => $sex,
+                'Gender' => $sex,
                 'Nationality' => (rand(0,100) > 50) ? NULL: 'BE',
                 'center' => (rand(0,1) == 0) ? 'centerA': 'centerB'
             );
@@ -135,9 +135,9 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
     private function fillWithDefault(array $specific)
     {
         return array_merge(array(
-                'DateOfBirth' => "1960-10-12",
+                'Birthdate' => "1960-10-12",
                 'PlaceOfBirth' => "Ottignies Louvain-La-Neuve",
-                'Genre' => Person::GENRE_MAN,
+                'Gender' => Person::MALE_GENDER,
                 'Email' => "Email d'un ami: roger@tt.com",
                 'CountryOfBirth' => 'BE',
                 'Nationality' => 'BE',
@@ -157,7 +157,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                 case 'Nationality':
                     $value = $this->getCountry($value);
                     break;
-                case 'DateOfBirth':
+                case 'Birthdate':
                     $value = new \DateTime($value);
                     break;
                 case 'center':
@@ -196,7 +196,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
         'ma', 'gone', 'car',"fu", "ka", "lot", "no", "va", "du", "bu", "su",
         "lo", 'to', "cho", "car", 'mo','zu', 'qi', 'mu');
     
-    private $genres = array(Person::GENRE_MAN, Person::GENRE_WOMAN);  
+    private $genders = array(Person::MALE_GENDER, Person::FEMALE_GENDER);  
     
     private $years = array();
     
@@ -208,9 +208,9 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
         array(
             'FirstName' => "Depardieu",
             'LastName' => "Gérard",
-            'DateOfBirth' => "1948-12-27",
+            'Birthdate' => "1948-12-27",
             'PlaceOfBirth' => "Châteauroux",
-            'Genre' => Person::GENRE_MAN,
+            'Gender' => Person::MALE_GENDER,
             'CountryOfBirth' => 'FR',
             'Nationality' => 'RU',
             'center' => 'centerA'
@@ -219,7 +219,7 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
           //to have a person with same firstname as Gérard Depardieu
             'FirstName' => "Depardieu",
             'LastName' => "Jean",
-            'DateOfBirth' => "1960-10-12",
+            'Birthdate' => "1960-10-12",
             'CountryOfBirth' => 'FR',
             'Nationality' => 'FR',
             'center' => 'centerA'
@@ -228,14 +228,14 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
           //to have a person with same birthdate of Gérard Depardieu
           'FirstName' => 'Van Snick',
           'LastName' => 'Bart',
-          'DateOfBirth' => '1948-12-27',
+          'Birthdate' => '1948-12-27',
           'center' => 'centerA'
        ),
        array(
           //to have a woman with Depardieu as FirstName
           'FirstName' => 'Depardieu',
           'LastName' => 'Charline',
-          'Genre' => Person::GENRE_WOMAN,
+          'Gender' => Person::FEMALE_GENDER,
           'center' => 'centerA'
        ),
        array(

@@ -25,8 +25,8 @@ class GenderType extends AbstractType {
     public function setDefaultOptions(OptionsResolverInterface $resolver) {
         
         $a = array(
-            Person::GENRE_MAN => Person::GENRE_MAN,
-            Person::GENRE_WOMAN => Person::GENRE_WOMAN
+            Person::MALE_GENDER => Person::MALE_GENDER,
+            Person::FEMALE_GENDER => Person::FEMALE_GENDER
         );
         
         $resolver->setDefaults(array( 

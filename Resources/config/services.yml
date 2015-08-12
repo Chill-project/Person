@@ -9,7 +9,7 @@ services:
             - "@request"
         tags:
             - { name: form.type, alias: closing_motive }
-            
+
     chill.person.search_person:
         class: Chill\PersonBundle\Search\PersonSearch
         arguments:
@@ -20,21 +20,28 @@ services:
             - ['setContainer', ["@service_container"]]
         tags:
             - { name: chill.search, alias: 'person_regular' }
-            
+    chill.main.form.type.select2maritalstatus:
+        class: Chill\PersonBundle\Form\Type\Select2MaritalStatusType
+        arguments:
+            - "@request_stack"
+            - "@doctrine.orm.entity_manager"
+        tags:
+            - { name: form.type, alias: select2_chill_marital_status }
+
     chill.person.timeline.accompanying_period_opening:
         class: Chill\PersonBundle\Timeline\TimelineAccompanyingPeriodOpening
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: chill.timeline, context: 'person' }
-            
+
     chill.person.timeline.accompanying_period_closing:
         class: Chill\PersonBundle\Timeline\TimelineAccompanyingPeriodClosing
         arguments:
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: chill.timeline, context: 'person' }
-            
+
     chill.person.security.authorization.person:
         class: Chill\PersonBundle\Security\Authorization\PersonVoter
         arguments:

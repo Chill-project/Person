@@ -24,9 +24,7 @@ namespace Chill\PersonBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Chill\PersonBundle\Form\Type\CivilType;
 use Chill\PersonBundle\Form\Type\GenderType;
-use CL\BelgianNationalNumberBundle\Form\BelgianNationalNumberType;
 
 class PersonType extends AbstractType
 {
@@ -57,6 +55,9 @@ class PersonType extends AbstractType
                 'required' => false,
                 'multiple' => true
                 ))
+            ->add('maritalStatus', 'select2_chill_marital_status', array(
+                'required' => false
+                ))
         ;
 
         if($options['cFGroup']) {
@@ -65,7 +66,6 @@ class PersonType extends AbstractType
                 array('attr' => array('class' => 'cf-fields'), 'group' => $options['cFGroup']))
             ;
         }
-
     }
     
     /**

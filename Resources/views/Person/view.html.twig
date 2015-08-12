@@ -113,6 +113,12 @@ This view should receive those arguments:
             {% endif %}
         </dd>
     </dl>
+    <dl>
+        <dt class="inline">{{'Marital status'|trans}}</dt>
+        <dd>
+            {{ person.maritalStatus.name|localize_translatable_string }}
+        </dd>
+    </dl>
 </figure>
 
 {% if is_granted('CHILL_PERSON_UPDATE', person) %}

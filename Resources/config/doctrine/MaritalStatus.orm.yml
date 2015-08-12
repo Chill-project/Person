@@ -1,0 +1,11 @@
+Chill\PersonBundle\Entity\MaritalStatus:
+    table: marital_status
+    type: entity
+    id:
+        id:
+            type: string
+            length: 7
+    fields:
+        name:
+            type: json_array
+    lifecycleCallbacks: {  }

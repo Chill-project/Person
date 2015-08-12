@@ -119,7 +119,8 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                 'LastName' => $lastName,
                 'Gender' => $sex,
                 'Nationality' => (rand(0,100) > 50) ? NULL: 'BE',
-                'center' => (rand(0,1) == 0) ? 'centerA': 'centerB'
+                'center' => (rand(0,1) == 0) ? 'centerA': 'centerB',
+                'maritalStatus' => $this->maritalStatusRef[array_rand($this->maritalStatusRef)]
             );
             
             $this->addAPerson($this->fillWithDefault($person), $manager);
@@ -148,12 +149,10 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
     private function addAPerson(array $person, ObjectManager $manager)
     {
         $p = new Person();
-            
+
         foreach ($person as $key => $value) {
             switch ($key) {
                 case 'CountryOfBirth':
-                    $value = $this->getCountry($value);
-                    break;
                 case 'Nationality':
                     $value = $this->getCountry($value);
                     break;
@@ -161,8 +160,9 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                     $value = new \DateTime($value);
                     break;
                 case 'center':
+                case 'maritalStatus':
                     $value = $this->getReference($value);
-                    break;  
+                    break;
             }
             call_user_func(array($p, 'set'.$key), $value);
         }
@@ -180,11 +180,14 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
               ->getRepository('ChillMainBundle:Country')
               ->findOneByCountryCode($countryCode);
     }
+
+    private $maritalStatusRef = ['ms_single', 'ms_married', 'ms_widow', 'ms_separat', 
+        'ms_divorce', 'ms_legalco', 'ms_unknown'];
     
     private $firstNamesMale = array("Jean", "Mohamed", "Alfred", "Robert",
-         "Compère", "Jean-de-Dieu",
-         "Charles", "Pierre", "Luc", "Mathieu", "Alain", "Etienne", "Eric",
-         "Corentin", "Gaston", "Spirou", "Fantasio", "Mahmadou", "Mohamidou",
+        "Compère", "Jean-de-Dieu",
+        "Charles", "Pierre", "Luc", "Mathieu", "Alain", "Etienne", "Eric",
+        "Corentin", "Gaston", "Spirou", "Fantasio", "Mahmadou", "Mohamidou",
         "Vursuv" );
     private $firstNamesFemale = array("Svedana", "Sevlatina","Irène", "Marcelle",
         "Corentine", "Alfonsine","Caroline","Solange","Gostine", "Fatoumata",
@@ -213,7 +216,8 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
             'Gender' => Person::MALE_GENDER,
             'CountryOfBirth' => 'FR',
             'Nationality' => 'RU',
-            'center' => 'centerA'
+            'center' => 'centerA',
+            'maritalStatus' => 'ms_divorce'
         ),
        array(
           //to have a person with same firstname as Gérard Depardieu
@@ -222,27 +226,31 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
             'Birthdate' => "1960-10-12",
             'CountryOfBirth' => 'FR',
             'Nationality' => 'FR',
-            'center' => 'centerA'
+            'center' => 'centerA',
+            'maritalStatus' => 'ms_divorce'
         ),
        array(
           //to have a person with same birthdate of Gérard Depardieu
           'FirstName' => 'Van Snick',
           'LastName' => 'Bart',
           'Birthdate' => '1948-12-27',
-          'center' => 'centerA'
+          'center' => 'centerA',
+          'maritalStatus' => 'ms_legalco'
        ),
        array(
           //to have a woman with Depardieu as FirstName
           'FirstName' => 'Depardieu',
           'LastName' => 'Charline',
           'Gender' => Person::FEMALE_GENDER,
-          'center' => 'centerA'
+          'center' => 'centerA',
+          'maritalStatus' => 'ms_legalco'
        ),
        array(
           //to have a special character in lastName
           'FirstName' => 'Manço',
           'LastName' => 'Étienne',
-          'center' => 'centerA'
+          'center' => 'centerA',
+          'maritalStatus' => 'ms_unknown'
        )
     );
 }

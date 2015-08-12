@@ -46,10 +46,10 @@ class Person implements HasCenterInterface {
     /** @var string The person's place of birth */
     private $placeOfBirth = '';
     
-    /** @var \CL\Chill\MainBundle\Entity\Country The person's country of birth */
+    /** @var \Chill\MainBundle\Entity\Country The person's country of birth */
     private $countryOfBirth;
 
-    /** @var \CL\Chill\MainBundle\Entity\Country The person's nationality */
+    /** @var \Chill\MainBundle\Entity\Country The person's nationality */
     private $nationality;  
 
     /** @var string The person's gender */
@@ -58,7 +58,8 @@ class Person implements HasCenterInterface {
     const MALE_GENDER = 'man'; 
     const FEMALE_GENDER = 'woman';
 
-    //TO-ADD : maritalStatus
+    /** @var \Chill\PersonBundle\Entity\MaritalStatus The marital status of the person */
+    private $maritalStatus;
 
     //TO-ADD : address
 
@@ -394,6 +395,29 @@ class Person implements HasCenterInterface {
     {
         return $this->memo;
     }
+
+    /**
+     * Set maritalStatus
+     *
+     * @param \Chill\PersonBundle\Entity\MaritalStatus $maritalStatus
+     * @return Person
+     */
+    public function setMaritalStatus($maritalStatus)
+    {
+        $this->maritalStatus = $maritalStatus;
+        return $this;
+    }
+
+    /**
+     * Get maritalStatus
+     *
+     * @return \Chill\PersonBundle\Entity\MaritalStatus 
+     */
+    public function getMaritalStatus()
+    {
+        return $this->maritalStatus;
+    }
+
 
     /**
      * Set email

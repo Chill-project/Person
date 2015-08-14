@@ -55,7 +55,6 @@ class CreationPersonType extends AbstractType
             $dateToStringTransformer = new DateTimeToStringTransformer(
                     null, null, 'dd-MM-yyyy', true);
             
-            
             $builder->add('firstName', 'hidden')
                     ->add('lastName', 'hidden')
                     ->add( $builder->create('birthdate', 'hidden')

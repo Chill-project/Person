@@ -20,6 +20,8 @@
 
 namespace Chill\PersonBundle\Tests\Controller;
 
+ini_set('memory_limit', '-1');
+
 use Chill\PersonBundle\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -240,7 +242,8 @@ class PersonControllerUpdateTest extends WebTestCase
             ['memo', '', function(Person $person) { return $person->getMemo(); }],
             ['countryOfBirth', NULL, function(Person $person) { return $person->getCountryOfBirth(); }],
             ['nationality', NULL, function(Person $person) { return $person->getNationality(); }],
-            ['gender', Person::FEMALE_GENDER, function(Person $person) { return $person->getGender(); }]
+            ['gender', Person::FEMALE_GENDER, function(Person $person) { return $person->getGender(); }],
+            ['maritalStatus', NULL, function(Person $person) {return $person->getMaritalStatus(); }]
         );
     }
     

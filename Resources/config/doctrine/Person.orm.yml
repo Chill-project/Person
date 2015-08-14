@@ -55,6 +55,7 @@ Chill\PersonBundle\Entity\Person:
             nullable: false
         maritalStatus:
             targetEntity: Chill\PersonBundle\Entity\MaritalStatus
+            nullable: true
     oneToMany:
         accompanyingPeriods:
             targetEntity: AccompanyingPeriod

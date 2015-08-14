@@ -24,6 +24,7 @@ namespace Chill\PersonBundle\Entity;
 
 use Symfony\Component\Validator\ExecutionContextInterface;
 use Chill\MainBundle\Entity\Country;
+use Chill\PersonBundle\Entity\MaritalStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Chill\MainBundle\Entity\HasCenterInterface;
 
@@ -402,7 +403,7 @@ class Person implements HasCenterInterface {
      * @param \Chill\PersonBundle\Entity\MaritalStatus $maritalStatus
      * @return Person
      */
-    public function setMaritalStatus($maritalStatus)
+    public function setMaritalStatus(MaritalStatus $maritalStatus = null)
     {
         $this->maritalStatus = $maritalStatus;
         return $this;

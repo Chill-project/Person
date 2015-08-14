@@ -353,7 +353,7 @@ class PersonController extends Controller
         $em = $this->getDoctrine()->getManager();
         
         $person = $em->getRepository('ChillPersonBundle:Person')
-                ->find($id);
+            ->find($id);
         
         return $person;
     }

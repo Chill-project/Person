@@ -116,7 +116,11 @@ This view should receive those arguments:
     <dl>
         <dt class="inline">{{'Marital status'|trans}}</dt>
         <dd>
-            {{ person.maritalStatus.name|localize_translatable_string }}
+            {% if person.maritalStatus is not null %}
+                {{ person.maritalStatus.name|localize_translatable_string }}
+            {% else %}
+                {{ 'no data given'|trans }}
+            {% endif %}
         </dd>
     </dl>
 </figure>

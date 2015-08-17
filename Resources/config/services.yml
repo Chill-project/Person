@@ -20,14 +20,13 @@ services:
             - ['setContainer', ["@service_container"]]
         tags:
             - { name: chill.search, alias: 'person_regular' }
-    chill.main.form.type.select2maritalstatus:
+    chill.person.form.type.select2maritalstatus:
         class: Chill\PersonBundle\Form\Type\Select2MaritalStatusType
         arguments:
             - "@request_stack"
             - "@doctrine.orm.entity_manager"
         tags:
             - { name: form.type, alias: select2_chill_marital_status }
-
     chill.person.timeline.accompanying_period_opening:
         class: Chill\PersonBundle\Timeline\TimelineAccompanyingPeriodOpening
         arguments:

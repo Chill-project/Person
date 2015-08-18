@@ -23,43 +23,47 @@
 namespace Chill\PersonBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Security\Core\Role\Role;
 
 /**
  * Tests for the export of a person
  */
+
 class PersonControllerExportTest extends WebTestCase
 {
+    /** @var \Doctrine\ORM\EntityManagerInterface The entity manager */
+    private $em;
+
     /**
-     * Return an authenticated client, used for browsing and testing pages.
-     * 
-     * @return \Symfony\Component\BrowserKit\Client
-     */
-    private function getAuthenticatedClient()
+     * Prepare the client and the entity manager. The client send a Gest requestion 
+     * on the route chill_person_export.
+    */
+    protected function setUp()
     {
-        return static::createClient(array(), array(
+        $this->client = static::createClient(array(), array(
            'PHP_AUTH_USER' => 'center a_social',
            'PHP_AUTH_PW'   => 'password',
         ));
+
+        $exportUrl = $this->client->getContainer()->get('router')->generate('chill_person_export',
+            array('_locale' => 'fr'));
+
+        $this->client->request('GET', $exportUrl);
+
+        $this->em = $this->client->getContainer()->get('doctrine.orm.entity_manager');
     }
-    
+
     /**
-     * Test the exportAction that returns a csv files containing all the persons.
-     * 
-     * The test is the following :
+     * Test the format of the exportAction :
      * - check if the file has the csv format
      * - check if each row as the same number of cell than the first row
      * - check if the number of row of the csv file is the same than the number of persons
      * 
-     * @return \Symfony\Component\BrowserKit\Client
+     * @return The content of the export
      */
-    public function testExportAction()
+    public function testExportActionFormat()
     {
-        $client = $this->getAuthenticatedClient();
-        $exportUrl = $client->getContainer()->get('router')->generate('chill_person_export',
-            array('_locale' => 'fr'));
-
-        $client->request('GET', $exportUrl);
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
 
         $this->assertTrue(
             strpos($response->headers->get('Content-Type'),'text/csv') !== false,
@@ -83,13 +87,63 @@ class PersonControllerExportTest extends WebTestCase
             $numberOfRows ++;
         }
 
-        $em = $client->getContainer()->get('doctrine.orm.entity_manager');
-        $persons = $em->getRepository('ChillPersonBundle:Person')->findAll();
+
+        $chillSecurityHelper = $this->client->getContainer()->get('chill.main.security.authorization.helper');
+        $user = $this->client->getContainer()->get('security.context')->getToken()->getUser();
+
+        $reachableCenters = $chillSecurityHelper->getReachableCenters($user,
+            new Role('CHILL_PERSON_SEE'));
+
+        $personRepository = $this->em->getRepository('ChillPersonBundle:Person');
+        $qb = $personRepository->createQueryBuilder('p');
+        $qb->where($qb->expr()->in('p.center', ':centers'))
+            ->setParameter('centers', $reachableCenters);
+        $persons = $qb->getQuery()->getResult();
+
 
         $this->assertTrue(
             $numberOfRows == (sizeof($persons)),
             'The csv file has a number of row equivalent than the number of '
             . 'person in the db'
         );
+
+        return $content;
+    }
+
+
+    /** 
+     * Check that the export file do not contain a person form center B
+     *
+     * @depends testExportActionFormat
+     */
+    public function testExportActionNotContainingPersonFromCenterB($content)
+    {
+        $centerB = $this->em->getRepository('ChillMainBundle:Center')
+            ->findOneBy(array('name' => 'Center B'));
+
+        $person = $this->em->getRepository('ChillPersonBundle:Person')
+            ->findOneBy(array('center' => $centerB));
+
+        $this->assertFalse(strpos($person->getFirstName(), $content));
+    }
+
+    /** 
+     * Check that the export file contains information about a random person
+     * of center A
+     * @depends testExportActionFormat
+     */
+    public function testExportActionContainsARandomPersonFromCenterA($content)
+    {
+        $centerA = $this->em->getRepository('ChillMainBundle:Center')
+            ->findOneBy(array('name' => 'Center A'));
+
+        $person = $this->em->getRepository('ChillPersonBundle:Person')
+            ->findOneBy(array('center' => $centerA));
+
+        $this->assertContains($person->getFirstName(), $content);
+        $this->assertContains($person->getLastName(), $content);
+        $this->assertContains($person->getGender(), $content);
+
+        $this->markTestIncomplete('Test other information of the person');
     }
 }

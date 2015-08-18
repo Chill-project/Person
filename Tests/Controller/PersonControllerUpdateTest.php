@@ -20,6 +20,8 @@
 
 namespace Chill\PersonBundle\Tests\Controller;
 
+//ini_set('memory_limit', '-1');
+
 use Chill\PersonBundle\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -85,22 +87,17 @@ class PersonControllerUpdateTest extends WebTestCase
     }
     
     /**
-     * Test the view & edit page are accessible
+     * Test the edit page are accessible
      */
     public function testEditPageIsSuccessful()
     {
-        $this->client->request('GET', $this->viewUrl);
-        $this->assertTrue($this->client->getResponse()->isSuccessful(), 
-            "The person view form is accessible");
-
-
         $this->client->request('GET', $this->editUrl);
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 
             "The person edit form is accessible");
     }
     
     /**
-     * Test the view & edit page of a given person are not accessible for a user
+     * Test if the edit page of a given person is not accessible for a user
      * of another center of the person
      */
     public function testEditPageDeniedForUnauthorized_OutsideCenter()
@@ -109,10 +106,6 @@ class PersonControllerUpdateTest extends WebTestCase
            'PHP_AUTH_USER' => 'center b_social',
            'PHP_AUTH_PW'   => 'password',
         ));
-
-        $client->request('GET', $this->viewUrl);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode(),
-            "The view page of a person of a center A must not be accessible for user of center B");
         
         $client->request('GET', $this->editUrl);
         $this->assertEquals(403, $client->getResponse()->getStatusCode(),

@@ -20,8 +20,6 @@
 
 namespace Chill\PersonBundle\Tests\Controller;
 
-ini_set('memory_limit', '-1');
-
 use Chill\PersonBundle\Entity\Person;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
@@ -34,48 +32,42 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  */
 class PersonControllerUpdateTest extends WebTestCase
 {
-    /**
-     *
-     * @var \Doctrine\ORM\EntityManagerInterface 
-     */
+    /** @var \Doctrine\ORM\EntityManagerInterface The entity manager */
     private $em;
     
-    /**
-     *
-     * @var Person
-     */
+    /** @var Person The person on which the test is executed */
     private $person;
     
-    /**
-     *
-     * @var string
-     */
+    /** @var string The url using for editing the person's information */
     private $editUrl;
+
+    /** @var string The url using for seeing the person's information */
+    private $viewUrl;
     
     /**
-     * prepare client and select a random person
+     * Prepare client and create a random person
      */
     public function setUp()
     {
         static::bootKernel();
         
         $this->em = static::$kernel->getContainer()
-              ->get('doctrine.orm.entity_manager');
+            ->get('doctrine.orm.entity_manager');
         
         $center = $this->em->getRepository('ChillMainBundle:Center')
-              ->findOneBy(array('name' => 'Center A'));
+            ->findOneBy(array('name' => 'Center A'));
        
         $this->person = (new Person())
-                ->setLastName("My Beloved")
-                ->setFirstName("Jesus")
-                ->setCenter($center)
-                ->setGender(Person::MALE_GENDER);
+            ->setLastName("My Beloved")
+            ->setFirstName("Jesus")
+            ->setCenter($center)
+            ->setGender(Person::MALE_GENDER);
         
         $this->em->persist($this->person);
         $this->em->flush();
         
         $this->editUrl = '/en/person/'.$this->person->getId().'/general/edit';
-        $this->seeUrl  = '/en/person/'.$this->person->getId().'/general';
+        $this->viewUrl  = '/en/person/'.$this->person->getId().'/general';
         
         $this->client = static::createClient(array(), array(
            'PHP_AUTH_USER' => 'center a_social',
@@ -83,35 +75,54 @@ class PersonControllerUpdateTest extends WebTestCase
         ));
     }
     
+    /**
+     * Reload the person from the db
+     */
     protected function refreshPerson() 
     {
         $this->person = $this->em->getRepository('ChillPersonBundle:Person')
-              ->find($this->person->getId());
+            ->find($this->person->getId());
     }
     
     /**
-     * Test the edit page exist and rendering is successful
+     * Test the view & edit page are accessible
      */
     public function testEditPageIsSuccessful()
     {
-        $this->client->request('GET', $this->editUrl);
-        
+        $this->client->request('GET', $this->viewUrl);
         $this->assertTrue($this->client->getResponse()->isSuccessful(), 
-                "The person edit form is accessible");
+            "The person view form is accessible");
+
+
+        $this->client->request('GET', $this->editUrl);
+        $this->assertTrue($this->client->getResponse()->isSuccessful(), 
+            "The person edit form is accessible");
     }
     
+    /**
+     * Test the view & edit page of a given person are not accessible for a user
+     * of another center of the person
+     */
     public function testEditPageDeniedForUnauthorized_OutsideCenter()
     {
         $client = static::createClient(array(), array(
            'PHP_AUTH_USER' => 'center b_social',
            'PHP_AUTH_PW'   => 'password',
         ));
+
+        $client->request('GET', $this->viewUrl);
+        $this->assertEquals(403, $client->getResponse()->getStatusCode(),
+            "The view page of a person of a center A must not be accessible for user of center B");
         
         $client->request('GET', $this->editUrl);
-        
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
+        $this->assertEquals(403, $client->getResponse()->getStatusCode(),
+            "The edit page of a person of a center A must not be accessible for user of center B");
     }
     
+    /**
+     * Test the edit page of a given person are not accessible for an
+     * administrative user
+     */
     public function testEditPageDeniedForUnauthorized_InsideCenter()
     {
         $client = static::createClient(array(), array(
@@ -120,12 +131,11 @@ class PersonControllerUpdateTest extends WebTestCase
         ));
         
         $client->request('GET', $this->editUrl);
-        
         $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
     
     /**
-     * test the edition of a field
+     * Test the edition of a field
      * 
      * Given I fill the field with $value
      * And I submit the form
@@ -142,7 +152,7 @@ class PersonControllerUpdateTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->editUrl);
         
         $form = $crawler->selectButton('Submit')
-                ->form();
+            ->form();
         //transform countries into value if needed
         switch ($field) {
             case 'nationality':
@@ -160,15 +170,25 @@ class PersonControllerUpdateTest extends WebTestCase
         }
         
         $form->get('chill_personbundle_person['.$field. ']')
-                ->setValue($transformedValue);
+            ->setValue($transformedValue);
         
         $this->client->submit($form);
         $this->refreshPerson();
         
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl),
-              'the page is redirected to general view');
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->viewUrl),
+            'the page is redirected to general view');
         $this->assertEquals($value, $callback($this->person),
-              'the value '.$field.' is updated in db');
+            'the value '.$field.' is updated in db');
+
+        $crawler = $this->client->followRedirect();
+        $this->assertGreaterThan(0, $crawler->filter('.success')->count(),
+            'a element .success is shown');
+
+        if($field == 'birthdate' or $field == 'memo' or $field == 'countryOfBirth' or $field == 'nationality') {
+            $this->markTestIncomplete('Test html:contains("'.$value.'") was not performed');
+        } else {
+            $this->assertGreaterThan(0, $crawler->filter('html:contains("'.$value.'")')->count());
+        }
     }
     
     public function testEditLanguages()
@@ -177,27 +197,27 @@ class PersonControllerUpdateTest extends WebTestCase
         $selectedLanguages = array('en', 'an', 'bbj');
         
         $form = $crawler->selectButton('Submit')
-                ->form();
+            ->form();
         $form->get('chill_personbundle_person[spokenLanguages]')
-                ->setValue($selectedLanguages);
+            ->setValue($selectedLanguages);
         
         $this->client->submit($form);
         $this->refreshPerson();
         
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->seeUrl),
-                'the page is redirected to /general view');
+        $this->assertTrue($this->client->getResponse()->isRedirect($this->viewUrl),
+            'the page is redirected to /general view');
         //retrieve languages codes present in person
         foreach($this->person->getSpokenLanguages() as $lang){
             $languagesCodesPresents[] = $lang->getId();
         }
         $this->assertEquals(asort($selectedLanguages), asort($languagesCodesPresents),
-                'the person speaks the expected languages');
-        
+            'the person speaks the expected languages');
     }
     
     
     /**
-     * 
+     * Test tbe detection of invalid data during the update procedure 
+     *
      * @dataProvider providesInvalidFieldsValues
      * @param string $field
      * @param string $value
@@ -207,16 +227,16 @@ class PersonControllerUpdateTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->editUrl);
         
         $form = $crawler->selectButton('Submit')
-                ->form();
+            ->form();
         $form->get('chill_personbundle_person['.$field.']')
-                ->setValue($value);
+            ->setValue($value);
         
         $crawler = $this->client->submit($form);
         
         $this->assertFalse($this->client->getResponse()->isRedirect(),
-              'the page is not redirected to /general');
+            'the page is not redirected to /general');
         $this->assertGreaterThan(0, $crawler->filter('.error')->count(),
-              'a element .error is shown');
+            'a element .error is shown');
     }
     
     /**

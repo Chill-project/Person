@@ -28,6 +28,7 @@ use Chill\PersonBundle\Form\PersonType;
 use Chill\PersonBundle\Form\CreationPersonType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Role\Role;
 
 class PersonController extends Controller
 {
@@ -138,14 +139,24 @@ class PersonController extends Controller
     public function exportAction()
     {
         $em = $this->getDoctrine()->getManager();
-        $persons = $em->getRepository('ChillPersonBundle:Person')->findAll();
+        $chillSecurityHelper = $this->get('chill.main.security.authorization.helper');
+        $user = $this->get('security.context')->getToken()->getUser();
+
+        $reachableCenters = $chillSecurityHelper->getReachableCenters($user,
+            new Role('CHILL_PERSON_SEE'));
+
+        $personRepository = $em->getRepository('ChillPersonBundle:Person');
+        $qb = $personRepository->createQueryBuilder('p');
+        $qb->where($qb->expr()->in('p.center', ':centers'))
+            ->setParameter('centers', $reachableCenters);
+        $persons = $qb->getQuery()->getResult();
 
         $response = $this->render('ChillPersonBundle:Person:export.csv.twig',
             array(
                 'persons' => $persons,
                 'cf_group' => $this->getCFGroup()));
         $response->headers->set('Content-Type', 'text/csv; charset=utf-8');
-        $response->headers->set('Content-Disposition', 'attachment; filename="export.csv"');
+        $response->headers->set('Content-Disposition', 'attachment; filename="export_person.csv"');
 
         return $response;
     }

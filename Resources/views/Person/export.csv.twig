@@ -8,6 +8,8 @@
 #}"{{ 'Spoken languages'|trans }}",{#
 #}"{{ 'Email'|trans }}",{#
 #}"{{ 'Phonenumber'|trans }}",{#
+#}"{{ 'Marital Status'|trans }}",{#
+#}"{{ 'Center'|trans }}",{#
 #}{% if cf_group  %}{#
     #}{% for customField in cf_group.customFields %}{#
         #}"{{ chill_custom_field_label(customField) }}"{% if not loop.last %},{% endif %}{#
@@ -46,6 +48,14 @@
     #}",{#
     #}"{{ person.email|csv_cell }}",{#
     #}"{{ person.phonenumber|csv_cell }}",{#
+    #}"{# maritalStatus
+        #}{% if person.maritalStatus is not null %}{#
+            #}{{ person.maritalStatus.name|localize_translatable_string}}{#
+        #}{% else %}{#
+            #}{{ 'Unknown marital status'|trans }}{#        
+        #}{% endif %}{#
+    #}",{#
+    #}"{{ person.center|csv_cell }}",{#
     #}{% if cf_group  %}{#
         #}{% for customField in cf_group.customFields %}{#
             #}{% if customField.type == 'title' %}{#

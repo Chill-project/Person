@@ -10,42 +10,34 @@
         <tr>
             <th>{{ 'Opening date'|trans }}</th>
             <th>{{ 'Closing date'|trans }}</th>
+            <th>{{ 'Remark'|trans }}</th>
             <th>&nbsp;</th>
         </tr>
         
     </thead>
     <tbody>
-        {% set i = 0 %}
         {% for accompanying_period in accompanying_periods %}
-        <tr class="{% if i is not even %}striped{% endif %}">
+        <tr>
             <td>{{ accompanying_period.openingDate|localizeddate('long', 'none', app.request.locale) }}</td>
             <td>{% spaceless %}
                 {% if accompanying_period.isOpen %}
                     {{ 'Still open'|trans }}
-                
                 {% else %}
                     {{ accompanying_period.closingDate|localizeddate('long', 'none', app.request.locale) }}
                 {% endif %}
-            
             {% endspaceless %}</td>
+            <td>
+                {{ accompanying_period.remark }}
+            </td>
             <td>
                 <div class="small warning btn icon-right entypo icon-pencil">
                     <a  href="{{ path('chill_person_accompanying_period_update', {'person_id' : person.id, 'period_id' : accompanying_period.id } ) }}">{{ 'Edit'|trans }}</a>
                 </div>
             </td>
         </tr>
-        {% if accompanying_period.remark is not empty %}
-        <tr class="{% if i is not even %}striped{% endif %}">
-            <td colspan="3">
-                <pre>{{ accompanying_period.remark }}</pre>
-            </td>
-        </tr>
-        {% endif %}
-        {% set i = i+1 %}
         {% endfor %}
     </tbody>
 </table>
-
 
 <div class="form_control">
     <div class="btn small warning icon-right entypo icon-plus">

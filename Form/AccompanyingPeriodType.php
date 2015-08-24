@@ -19,7 +19,7 @@ class AccompanyingPeriodType extends AbstractType
         //if the period_action is close, date opening should not be seen
         if ($options['period_action'] !== 'close') {
             $builder
-                ->add('date_opening', 'date', array(
+                ->add('openingDate', 'date', array(
                    "required" => true, 
                    'widget' => 'single_text',
                    'format' => 'dd-MM-yyyy'
@@ -40,13 +40,13 @@ class AccompanyingPeriodType extends AbstractType
                   OR
                   ($options['period_action'] === 'update' AND !$accompanyingPeriod->isOpen())
                   ) {
-                $form->add('date_closing', 'date', array('required' => true,
+                $form->add('closingDate', 'date', array('required' => true,
                 'widget' => 'single_text', 'format' => 'dd-MM-yyyy'));
                 $form->add('closingMotive', 'closing_motive');
             }
         });
         
-        $builder->add('memo', 'textarea', array(
+        $builder->add('remark', 'textarea', array(
                 'required' => false
             ))
         ;

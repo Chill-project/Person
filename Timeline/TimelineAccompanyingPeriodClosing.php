@@ -56,7 +56,7 @@ class TimelineAccompanyingPeriodClosing extends AbstractTimelineAccompanyingPeri
                     ->getAssociationMapping('person')['joinColumns'][0]['name'],
                 $args['person']->getId(),
                 $metadata
-                    ->getColumnName('date_closing')
+                    ->getColumnName('closingDate')
                 );
         
         return $data;

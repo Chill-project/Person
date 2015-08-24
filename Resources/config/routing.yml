@@ -48,11 +48,11 @@ chill_person_search:
 chill_person_accompanying_period_list:
     path: /{_locale}/person/{person_id}/accompanying-period
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:list }
-#    options:
-#        menus:
-#            person:
-#                order: 100
-#                label: menu.person.history
+    options:
+        menus:
+            person:
+                order: 100
+                label: Accompanying period list
 
 chill_person_accompanying_period_create:
     path: /{_locale}/person/{person_id}/accompanying-period/create

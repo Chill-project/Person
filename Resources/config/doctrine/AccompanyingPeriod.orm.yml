@@ -7,13 +7,13 @@ Chill\PersonBundle\Entity\AccompanyingPeriod:
             id: true
             generator: { strategy: AUTO }
     fields:
-        date_opening:
+        openingDate:
             type: date
-        date_closing:
+        closingDate:
             type: date
             default: null
             nullable: true
-        memo:
+        remark:
             type: text
     manyToOne:
         person:

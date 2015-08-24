@@ -32,7 +32,7 @@ class AccompanyingPeriodTest extends \PHPUnit_Framework_TestCase
         $datetime2 = new \DateTime('tomorrow');
         
         $period = new AccompanyingPeriod($datetime1);
-        $period->setDateClosing($datetime2);
+        $period->setClosingDate($datetime2);
         
         $r = $period->isClosingAfterOpening();
         
@@ -44,7 +44,7 @@ class AccompanyingPeriodTest extends \PHPUnit_Framework_TestCase
         $datetime2 = new \DateTime('now');
         
         $period = new AccompanyingPeriod($datetime1);
-        $period->setDateClosing($datetime2);
+        $period->setClosingDate($datetime2);
         
         $this->assertFalse($period->isClosingAfterOpening());
     }
@@ -53,7 +53,7 @@ class AccompanyingPeriodTest extends \PHPUnit_Framework_TestCase
         $datetime = new \DateTime('now');
         
         $period = new AccompanyingPeriod($datetime);
-        $period->setDateClosing($datetime);
+        $period->setClosingDate($datetime);
         
         $this->assertTrue($period->isClosingAfterOpening());
     }
@@ -66,7 +66,7 @@ class AccompanyingPeriodTest extends \PHPUnit_Framework_TestCase
     
     public function testIsClosed() {
         $period = new AccompanyingPeriod(new \DateTime());
-        $period->setDateClosing(new \DateTime('tomorrow'));
+        $period->setClosingDate(new \DateTime('tomorrow'));
         
         $this->assertFalse($period->isOpen());
     }

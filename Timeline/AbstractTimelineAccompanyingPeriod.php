@@ -83,7 +83,7 @@ abstract class AbstractTimelineAccompanyingPeriod implements TimelineProviderInt
         
         return array(
             'id' => $metadata->getColumnName('id'),
-            'date' => $metadata->getColumnName('date_opening'),
+            'date' => $metadata->getColumnName('openingDate'),
             'FROM' => $metadata->getTableName(),
         );
     }

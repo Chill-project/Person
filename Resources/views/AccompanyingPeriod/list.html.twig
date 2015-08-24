@@ -18,13 +18,13 @@
         {% set i = 0 %}
         {% for accompanying_period in accompanying_periods %}
         <tr class="{% if i is not even %}striped{% endif %}">
-            <td>{{ accompanying_period.dateOpening|localizeddate('long', 'none', app.request.locale) }}</td>
+            <td>{{ accompanying_period.openingDate|localizeddate('long', 'none', app.request.locale) }}</td>
             <td>{% spaceless %}
                 {% if accompanying_period.isOpen %}
                     {{ 'Still open'|trans }}
                 
                 {% else %}
-                    {{ accompanying_period.dateClosing|localizeddate('long', 'none', app.request.locale) }}
+                    {{ accompanying_period.closingDate|localizeddate('long', 'none', app.request.locale) }}
                 {% endif %}
             
             {% endspaceless %}</td>
@@ -34,10 +34,10 @@
                 </div>
             </td>
         </tr>
-        {% if accompanying_period.memo is not empty %}
+        {% if accompanying_period.remark is not empty %}
         <tr class="{% if i is not even %}striped{% endif %}">
             <td colspan="3">
-                <pre>{{ accompanying_period.memo }}</pre>
+                <pre>{{ accompanying_period.remark }}</pre>
             </td>
         </tr>
         {% endif %}

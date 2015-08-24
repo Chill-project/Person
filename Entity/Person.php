@@ -192,12 +192,12 @@ class Person implements HasCenterInterface {
         //order by date :
         usort($periods, function($a, $b) {
                     
-                    $dateA = $a->getDateOpening();
-                    $dateB = $b->getDateOpening();
+                    $dateA = $a->getOpeningDate();
+                    $dateB = $b->getOpeningDate();
                     
                     if ($dateA == $dateB) {
-                        $dateEA = $a->getDateClosing();
-                        $dateEB = $b->getDateClosing();
+                        $dateEA = $a->getClosingDate();
+                        $dateEB = $b->getClosingDate();
                         
                         if ($dateEA == $dateEB) {
                             return 0;
@@ -647,17 +647,17 @@ class Person implements HasCenterInterface {
             if($periodI->isOpen()) {                
                 return array(
                     'result' => self::ERROR_ADDIND_PERIOD_AFTER_AN_OPEN_PERIOD,
-                    'dateOpening' => $periodAfterI->getDateOpening(),
-                    'dateClosing' => $periodAfterI->getDateClosing(),
-                    'date' => $periodI->getDateOpening()
+                    'dateOpening' => $periodAfterI->getOpeningDate(),
+                    'dateClosing' => $periodAfterI->getClosingDate(),
+                    'date' => $periodI->getOpeningDate()
                 );
-            } elseif ($periodI->getDateClosing() >= $periodAfterI->getDateOpening()) {
+            } elseif ($periodI->getClosingDate() >= $periodAfterI->getOpeningDate()) {
                 return array(
                     'result' => self::ERROR_PERIODS_ARE_COLLAPSING,
-                    'dateOpening' => $periodI->getDateOpening(),
+                    'dateOpening' => $periodI->getOpeningDate(),
                     
-                    'dateClosing' => $periodI->getDateClosing(),
-                    'date' => $periodAfterI->getDateOpening()
+                    'dateClosing' => $periodI->getClosingDate(),
+                    'date' => $periodAfterI->getOpeningDate()
                 );
             }
             $i++;

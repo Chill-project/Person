@@ -44,10 +44,10 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         
         $this->assertInstanceOf('Chill\PersonBundle\Entity\AccompanyingPeriod', $period);
         $this->assertTrue($period->isOpen());
-        $this->assertEquals($d, $period->getDateOpening());
+        $this->assertEquals($d, $period->getOpeningDate());
         
         //close and test
-        $period->setDateClosing(new \DateTime('tomorrow'));
+        $period->setClosingDate(new \DateTime('tomorrow'));
         
         $shouldBeNull = $p->getCurrentAccompanyingPeriod();
         $this->assertNull($shouldBeNull);
@@ -63,19 +63,19 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $p = new Person($d);
         
         $e = new \DateTime("2013/3/1");
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($e);
         $p->close($period);
         
         $f = new \DateTime("2013/1/1");
         $p->open(new AccompanyingPeriod($f));
         
         $g = new \DateTime("2013/4/1"); 
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($g);
         $p->close($period);
         
         $r = $p->getAccompanyingPeriodsOrdered();
         
-        $date = $r[0]->getDateOpening()->format('Y-m-d');
+        $date = $r[0]->getOpeningDate()->format('Y-m-d');
         
         $this->assertEquals($date, '2013-01-01');
     }
@@ -89,19 +89,19 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $p = new Person($d);
         
         $g = new \DateTime("2013/4/1"); 
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($g);
         $p->close($period);
         
         $f = new \DateTime("2013/2/1");
         $p->open(new AccompanyingPeriod($f));
         
         $e = new \DateTime("2013/3/1");
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($e);
         $p->close($period);
 
         $r = $p->getAccompanyingPeriodsOrdered();
         
-        $date = $r[0]->getDateClosing()->format('Y-m-d');
+        $date = $r[0]->getClosingDate()->format('Y-m-d');
         
         $this->assertEquals($date, '2013-03-01');
     }
@@ -116,14 +116,14 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $p = new Person($d);
         
         $e = new \DateTime("2013/3/1");
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($e);
         $p->close($period);
         
         $f = new \DateTime("2013/1/1");
         $p->open(new AccompanyingPeriod($f));
         
         $g = new \DateTime("2013/4/1"); 
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($g);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($g);
         $p->close($period);
         
         $r = $p->checkAccompanyingPeriodsAreNotCollapsing();
@@ -141,7 +141,7 @@ class PersonTest extends \PHPUnit_Framework_TestCase
         $p = new Person($d);
         
         $e = new \DateTime("2013/3/1");
-        $period = $p->getCurrentAccompanyingPeriod()->setDateClosing($e);
+        $period = $p->getCurrentAccompanyingPeriod()->setClosingDate($e);
         $p->close($period);
         
         $f = new \DateTime("2013/1/1");

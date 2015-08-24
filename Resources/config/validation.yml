@@ -35,12 +35,12 @@ Chill\PersonBundle\Entity\Person:
 
 Chill\PersonBundle\Entity\AccompanyingPeriod:
     properties:
-        date_opening:
+        openingDate:
               - Date: 
                   message: 'Opening date is not valid'
               - NotNull: 
                   message: 'Opening date can not be null'
-        date_closing:
+        closingDate:
               - Date: 
                   message: 'Closing date is not valid'
               - NotNull:

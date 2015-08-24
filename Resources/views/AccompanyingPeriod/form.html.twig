@@ -10,17 +10,17 @@
 {{ form_start(form) }}
 
 {{ 'Last opening since %last_opening%'|trans(
-      { '%last_opening%' : accompanying_period.dateOpening|localizeddate('long', 'none', app.request.locale) }) }}
+      { '%last_opening%' : accompanying_period.openingDate|localizeddate('long', 'none', app.request.locale) }) }}
       
-{% if form.dateClosing is defined %}
-    {{ form_row(form.dateClosing, {'label' : 'Closing date'} ) }}
+{% if form.closingDate is defined %}
+    {{ form_row(form.closingDate, {'label' : 'Closing date'} ) }}
 {% endif %}
 
 {% if form.closingMotive is defined %}  
     {{ form_row(form.closingMotive, {'label' : 'Closing motive'} ) }}
 {% endif %}
     
-{{ form_row(form.memo, {'label' : 'Memo' } ) }}
+{{ form_row(form.remark, {'label' : 'Remark' } ) }}
 
 {{ form_rest(form) }}
 

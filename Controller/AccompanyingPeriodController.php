@@ -42,7 +42,7 @@ class AccompanyingPeriodController extends Controller
         $person = $this->_getPerson($person_id);
                
         $accompanyingPeriod = new AccompanyingPeriod(new \DateTime());
-        $accompanyingPeriod->setDateClosing(new \DateTime());
+        $accompanyingPeriod->setClosingDate(new \DateTime());
         
         $person->addAccompanyingPeriod(
             $accompanyingPeriod);

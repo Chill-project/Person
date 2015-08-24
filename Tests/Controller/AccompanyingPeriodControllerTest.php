@@ -55,8 +55,8 @@ class AccompanyingPeriodControllerTest extends WebTestCase
      */
     protected static $em;
     
-    const OPENING_INPUT = 'chill_personbundle_accompanyingperiod[date_opening]';
-    const CLOSING_INPUT = 'chill_personbundle_accompanyingperiod[date_closing]';
+    const OPENING_INPUT = 'chill_personbundle_accompanyingperiod[openingDate]';
+    const CLOSING_INPUT = 'chill_personbundle_accompanyingperiod[closingDate]';
     const CLOSING_MOTIVE_INPUT = 'chill_personbundle_accompanyingperiod[closingMotive]';
     
     /**
@@ -114,7 +114,7 @@ class AccompanyingPeriodControllerTest extends WebTestCase
                           . 'motive into your periods fixtures');
                 }
                 
-                $period->setDateClosing(new \DateTime($periodDef['closingDate']))
+                $period->setClosingDate(new \DateTime($periodDef['closingDate']))
                       ->setClosingMotive($periodDef['closingMotive']);
             }
              

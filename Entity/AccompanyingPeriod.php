@@ -30,46 +30,32 @@ use Symfony\Component\Validator\ExecutionContextInterface;
  */
 class AccompanyingPeriod
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     private $id;
 
-    /**
-     * @var \DateTime
-     */
-    private $date_opening;
+    /** @var \DateTime */
+    private $openingDate;
 
-    /**
-     * @var \DateTime
-     */
-    private $date_closing;
+    /** @var \DateTime */
+    private $closingDate;
 
-    /**
-     * @var string
-     */
-    private $memo = '';
+    /** @var string */
+    private $remark = '';
 
-    /**
-     * @var \Chill\PersonBundle\Entity\Person
-     */
+    /** @var \Chill\PersonBundle\Entity\Person */
     private $person;
     
-    /**
-     *
-     * @var AccompanyingPeriod\ClosingMotive
-     */
+    /** @var AccompanyingPeriod\ClosingMotive */
     private $closingMotive = null;
     
     /**
      * 
      * @param \DateTime $dateOpening
-     * @uses AccompanyingPeriod::setDateClosing()
+     * @uses AccompanyingPeriod::setClosingDate()
      */
     public function __construct(\DateTime $dateOpening) {
-        $this->setDateOpening($dateOpening);
+        $this->setOpeningDate($dateOpening);
     }
-
 
     /**
      * Get id
@@ -82,30 +68,30 @@ class AccompanyingPeriod
     }
 
     /**
-     * Set date_opening
+     * Set openingDate
      *
      * @param \DateTime $dateOpening
      * @return AccompanyingPeriod
      */
-    public function setDateOpening($dateOpening)
+    public function setOpeningDate($openingDate)
     {
-        $this->date_opening = $dateOpening;
+        $this->openingDate = $openingDate;
     
         return $this;
     }
 
     /**
-     * Get date_opening
+     * Get openingDate
      *
      * @return \DateTime 
      */
-    public function getDateOpening()
+    public function getOpeningDate()
     {
-        return $this->date_opening;
+        return $this->openingDate;
     }
 
     /**
-     * Set date_closing
+     * Set closingDate
      * 
      * For closing a Person file, you should use Person::setClosed instead.
      *
@@ -113,21 +99,21 @@ class AccompanyingPeriod
      * @return AccompanyingPeriod
      * 
      */
-    public function setDateClosing($dateClosing)
+    public function setClosingDate($closingDate)
     {
-        $this->date_closing = $dateClosing;
+        $this->closingDate = $closingDate;
     
         return $this;
     }
 
     /**
-     * Get date_closing
+     * Get closingDate
      *
      * @return \DateTime 
      */
-    public function getDateClosing()
+    public function getClosingDate()
     {
-        return $this->date_closing;
+        return $this->closingDate;
     }
     
     /**
@@ -135,7 +121,7 @@ class AccompanyingPeriod
      * @return boolean
      */
     public function isOpen() {
-        if ($this->getDateClosing() === null) {
+        if ($this->getClosingDate() === null) {
             return true;
         } else {
             return false;
@@ -143,30 +129,30 @@ class AccompanyingPeriod
     }
 
     /**
-     * Set memo
+     * Set remark
      *
-     * @param string $memo
+     * @param string $remark
      * @return AccompanyingPeriod
      */
-    public function setMemo($memo)
+    public function setRemark($remark)
     {
-        if ($memo === null) {
-            $memo = '';
+        if ($remark === null) {
+            $remark = '';
         }
         
-        $this->memo = $memo;
+        $this->remark = $remark;
     
         return $this;
     }
 
     /**
-     * Get memo
+     * Get remark
      *
      * @return string 
      */
-    public function getMemo()
+    public function getRemark()
     {
-        return $this->memo;
+        return $this->remark;
     }
 
     /**
@@ -225,7 +211,7 @@ class AccompanyingPeriod
      * @return boolean
      */
     public function isClosingAfterOpening() {
-        $diff = $this->getDateOpening()->diff($this->getDateClosing());
+        $diff = $this->getOpeningDate()->diff($this->getClosingDate());
         
         if ($diff->invert === 0) {
             return true;

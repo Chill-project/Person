@@ -37,22 +37,13 @@ use Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive;
  */
 class AccompanyingPeriodControllerTest extends WebTestCase
 {
-    /**
-     *
-     * @var \Symfony\Component\BrowserKit\Client
-     */
+    /** @var \Symfony\Component\BrowserKit\Client */
     protected $client;
     
-    /**
-     *
-     * @var Person
-     */
+    /** @var Person The person on which the form is applied*/
     protected $person;
     
-    /**
-     *
-     * @var \Doctrine\ORM\EntityManagerInterface
-     */
+    /**  @var \Doctrine\ORM\EntityManagerInterface */
     protected static $em;
     
     const OPENING_INPUT = 'chill_personbundle_accompanyingperiod[openingDate]';
@@ -80,13 +71,13 @@ class AccompanyingPeriodControllerTest extends WebTestCase
         ));
         
         $center = static::$em->getRepository('ChillMainBundle:Center')
-              ->findOneBy(array('name' => 'Center A'));
+            ->findOneBy(array('name' => 'Center A'));
         
         $this->person = (new Person(new \DateTime('2015-01-05')))
-              ->setFirstName('Roland')
-              ->setLastName('Gallorime')
-              ->setCenter($center)
-              ->setGender(Person::MALE_GENDER);
+            ->setFirstName('Roland')
+            ->setLastName('Gallorime')
+            ->setCenter($center)
+            ->setGender(Person::MALE_GENDER);
 
         static::$em->persist($this->person);
         static::$em->flush();
@@ -103,6 +94,10 @@ class AccompanyingPeriodControllerTest extends WebTestCase
        static::$em->flush();
     }
     
+    /**
+     * Given an array of periods (key openingDate, closingDate (optioal),
+     * closingMotive) generate the periods in the db.
+     */ 
     protected function generatePeriods(array $periods)
     {
         foreach ($periods as $periodDef) {
@@ -119,26 +114,34 @@ class AccompanyingPeriodControllerTest extends WebTestCase
             }
              
             $this->person->addAccompanyingPeriod($period);
-            
             static::$em->persist($period);
-            
         }
         
         static::$em->flush();
     }
     
+    /**
+     * Get the last value of a closing motive
+     * @var \Symfony\Component\DomCrawler\Form The form
+     * @return Chill\PersonBundle\Entity\AccompanyingPeriod The last value of closing
+     * motive
+     */
     protected function getLastValueOnClosingMotive(\Symfony\Component\DomCrawler\Form $form)
     {
         $values = $form->get(self::CLOSING_MOTIVE_INPUT)
-              ->availableOptionValues();
+            ->availableOptionValues();
         return end($values);
     }
     
+    /**
+     * Get a random closing motive
+     * @return Chill\PersonBundle\Entity\AccompanyingPeriod The last closing motive
+     */
     protected function getRandomClosingMotive()
     {
         $motives = static::$em
-                ->getRepository('ChillPersonBundle:AccompanyingPeriod\ClosingMotive')
-                ->findAll();
+            ->getRepository('ChillPersonBundle:AccompanyingPeriod\ClosingMotive')
+            ->findAll();
         return end($motives);
     }
     

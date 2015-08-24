@@ -183,7 +183,9 @@ class Person implements HasCenterInterface {
     }
     
     /**
-     * 
+     * Get the accompanying periods of a give person with the 
+     * chronological order.
+     *
      * @return AccompanyingPeriod[]
      */
     public function getAccompanyingPeriodsOrdered() {
@@ -191,32 +193,30 @@ class Person implements HasCenterInterface {
         
         //order by date :
         usort($periods, function($a, $b) {
-                    
-                    $dateA = $a->getOpeningDate();
-                    $dateB = $b->getOpeningDate();
-                    
-                    if ($dateA == $dateB) {
-                        $dateEA = $a->getClosingDate();
-                        $dateEB = $b->getClosingDate();
-                        
-                        if ($dateEA == $dateEB) {
-                            return 0;
-                        }
-                        
-                        if ($dateEA < $dateEB) {
-                            return -1;
-                        } else {
-                            return +1;
-                        }
-                    }
-                    
-                    if ($dateA < $dateB) {
-                        return -1 ;
-                    } else {
-                        return 1;
-                    }
-                });
+            $dateA = $a->getOpeningDate();
+            $dateB = $b->getOpeningDate();
+            
+            if ($dateA == $dateB) {
+                $dateEA = $a->getClosingDate();
+                $dateEB = $b->getClosingDate();
                 
+                if ($dateEA == $dateEB) {
+                    return 0;
+                }
+                
+                if ($dateEA < $dateEB) {
+                    return -1;
+                } else {
+                    return +1;
+                }
+            }
+            
+            if ($dateA < $dateB) {
+                return -1 ;
+            } else {
+                return 1;
+            }
+        });    
                 
         return $periods;
     }

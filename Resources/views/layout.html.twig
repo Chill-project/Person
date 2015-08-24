@@ -20,22 +20,34 @@
 
     <div class="grid-12 parent" id="header-person-name" >
         <div class="grid-10 push-1 parent">
-            <div class="grid-4">
-                {{ 'Lastname :'|trans|upper  }} {{ person.lastName }} 
+            <div class="grid-3">
+                <span style="font-family:'open_sansbold'">{{ 'Lastname'|trans|upper  }}</span> : {{ person.lastName|upper }}
             </div>
-            <div class="grid-4">
-                {{ 'Fistname:'|trans|upper}} {{  person.firstName }}{% spaceless %}
-                        {% if not person.isOpen %}
-                            <i class="fa fa-lock"></i>      
-                        {% endif %}
-                {% endspaceless %}</h1>
+            <div class="grid-3">
+                <span style="font-family:'open_sansbold'">{{ 'Fistname'|trans|upper}}</span> : {{  person.firstName|upper }}
             </div>
+            <div class="grid-3">
+                <i class="fa  fa-{% spaceless %}
+                    {% if person.gender == "woman" %}
+                       female
+                    {%  else %}
+                        male
+                    {% endif %}
+                {% endspaceless %}"></i>
+                <i class="fa  fa-{% spaceless %}
+                    {% if person.isOpen %}
+                        eye
+                    {% else %}
+                       eye-slash
+                    {% endif %}
+                {% endspaceless %}"></i>
+            </div> 
         </div>
     </div>
     <div class="grid-12 parent" id="header-person-details" >
         <div class="grid-10 push-1 parent">
-            <div class="grid-4">
-                {{ 'Birthdate :'|trans|upper  }}
+            <div class="grid-3">
+                <span style="font-family:'open_sansbold'">{{ 'Birthdate'|trans|upper  }}</span> :
                 {% if person.birthdate == null %}
                     {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~ 
                         person.gender)|trans }}
@@ -43,31 +55,24 @@
                     {{ person.birthdate|localizeddate('long', 'none') }}
                 {% endif %}
             </div>
-            <div class="grid-4">
-                 {{ 'Nationality:'|trans|upper}} 
-                 {% if person.nationality is not null %}
--                   {{ person.nationality.name|localize_translatable_string }}
+            <div class="grid-3">
+                <span style="font-family:'open_sansbold'">{{ 'Nationality'|trans|upper}}</span> :
+                {% if person.nationality is not null %}
+                    {{ person.nationality.name|localize_translatable_string }}
                 {% else %}
                     {% trans %}Without nationality{% endtrans %}
-                {% endif %} 
+                {% endif %}
             </div>
-            <div class="grid-4">
-                {{ 'Gender:'|trans|upper}} 
-                {{ person.gender }}
-            </div> 
-            <!-- 
-            <div class="grid-4">
+            <div class="grid-3">
+                <span style="font-family:'open_sansbold'">{{ 'Spoken languages'|trans|upper}}</span> : 
                 {% if person.spokenLanguages|length == 0 %}
-                    {{ 'Spoken languages:'|trans|upper}} 
                     {{ 'Unknown spoken languages'|trans }}
                 {% else %}
                     {% for lang in person.spokenLanguages %}
                         {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
                     {% endfor %}
                 {% endif %}
-                </p>
             </div> 
-            -->
         </div>
     </div>
 

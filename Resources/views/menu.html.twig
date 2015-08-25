@@ -14,16 +14,14 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
-<div class="grid-4">
-    <ul class="tab-nav">
-        {% for route in routes %}
-            <li class="{% spaceless  %}
-                        {% if route.key == activeRouteKey %}
-                            active
-                        {% endif %}
-                   {% endspaceless %} ">
-                <a href="{{ path(route.key, args ) }}" >{{ route.label|trans }}</a>
-            </li>
-        {% endfor %}
-    </ul>
-</div>
+<ul class="tab-nav">
+    {% for route in routes %}
+        <li class="{% spaceless  %}
+                    {% if route.key == activeRouteKey %}
+                        active
+                    {% endif %}
+               {% endspaceless %} ">
+            <a href="{{ path(route.key, args ) }}" >{{ route.label|trans }}</a>
+        </li>
+    {% endfor %}
+</ul>

@@ -35,134 +35,144 @@ This view should receive those arguments:
 
 {% block personcontent %}
 
-{% if is_granted('CHILL_PERSON_UPDATE', person) %}
-{{ include(edit_tmp_name, edit_tmp_args) }}
-{% endif %}
-
-<figure class="person-details">
-    <h2 class="chill-red">{{ 'General information'|trans|upper }}</h2>
-    
-    <dl>
-        <dt>{{ 'First name'|trans }}</dt>
-        <dd>{{ person.firstName }}</dd>
-        
-        <dt>{{ 'Last name'|trans }}</dt>
-        <dd>{{ person.lastName }}</dd>
-        
-        <dt>{{ 'Gender'|trans }}</dt>
-        <dd>{{ ( person.gender|default('Not given'))|trans }}</dd>
-    </dl>
-</figure>
-
-<figure class="person-details">
-    <h2 class="chill-green">{{ 'Birth information'|trans|upper }}</h2>
-
-    <dl>
-            <dt>{{ 'Date of birth'|trans }}</dt>
-            <dd>
-                {%- if person.birthdate is not null -%}
-                {{ person.birthdate|localizeddate('long', 'none') }}
-                {%- else -%}
-                {{ 'Unknown date of birth'|trans }}
-                {%- endif -%}
-            </dd>
-
+<div class="grid-10 push-1 parent">
+    <div class="grid-6">
+        <figure class="person-details">
+            <h2 class="chill-red">{{ 'General information'|trans|upper }}</h2>
             
-            <dt>{{ 'Place of birth'|trans }}</dt>
-            <dd>{{ person.placeOfBirth }}</dd>
-            <dd>{% spaceless %}  
+            <dl>
+                <dt>{{ 'First name'|trans }}</dt>
+                <dd>{{ person.firstName }}</dd>
                 
-                {% if person.countryOfBirth is not null %}
-                    {{ person.countryOfBirth.name|localize_translatable_string }}
-                {% else %}
-                    {{ 'Unknown country of birth'|trans }}
-                {% endif %}
+                <dt>{{ 'Last name'|trans }}</dt>
+                <dd>{{ person.lastName }}</dd>
+                
+                <dt>{{ 'Gender'|trans }}</dt>
+                <dd>{{ ( person.gender|default('Not given'))|trans }}</dd>
+            </dl>
 
-{% endspaceless %}</dd>
-            
-        
-    </dl>
-</figure>
 
-{% if is_granted('CHILL_PERSON_UPDATE', person) %}
-{{ include(edit_tmp_name, edit_tmp_args) }}
-{% endif %}
-
-<figure class="person-details">
-    <h2 class="chill-orange">{{ 'Administrative information'|trans|upper }}</h2>
-
-    <dl>
-      <dt>{{ 'Nationality'|trans }}</dt>
-        <dd>
-            {% if person.nationality is not null %}
-                {{ person.nationality.name|localize_translatable_string }}
-            {% else %}
-                {{ 'Without nationality'|trans }}
+            {% if is_granted('CHILL_PERSON_UPDATE', person) %}
+                {{ include(edit_tmp_name, edit_tmp_args) }}
             {% endif %}
-        </dd> 
-    </dl>
-    <dl>
-        <dt>{{'Spoken languages'|trans}}</dt>
-        <dd>
-            {% if person.spokenLanguages|length == 0 %}
-                {{ 'Unknown spoken languages'|trans }}
-            {% else %}
-                {% for lang in person.spokenLanguages %}
-                    {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
-                {% endfor %}
+        </figure>
+    </div>
+
+    <div class="grid-6">
+        <figure class="person-details">
+            <h2 class="chill-green"><i class="fa fa-birthday-cake"></i>&nbsp;{{ 'Birth information'|trans|upper }}</h2>
+
+            <dl>
+                <dt>{{ 'Date of birth'|trans }}</dt>
+                <dd>
+                    {%- if person.birthdate is not null -%}
+                    {{ person.birthdate|localizeddate('long', 'none') }}
+                    {%- else -%}
+                    {{ 'Unknown date of birth'|trans }}
+                    {%- endif -%}
+                </dd>
+                
+                <dt>{{ 'Place of birth'|trans }}</dt>
+                <dd>{{ person.placeOfBirth }}</dd>
+                <dd>{% spaceless %}  
+                    {% if person.countryOfBirth is not null %}
+                        {{ person.countryOfBirth.name|localize_translatable_string }}
+                    {% else %}
+                        {{ 'Unknown country of birth'|trans }}
+                    {% endif %}
+                {% endspaceless %}</dd>
+            </dl>
+
+            {% if is_granted('CHILL_PERSON_UPDATE', person) %}
+                {{ include(edit_tmp_name, edit_tmp_args) }}
             {% endif %}
-        </dd>
-    </dl>
-    <dl>
-        <dt>{{'Marital status'|trans}}</dt>
-        <dd>
-            {% if person.maritalStatus is not null %}
-                {{ person.maritalStatus.name|localize_translatable_string }}
-            {% else %}
-                {{ 'no data given'|trans }}
+        </figure>
+    </div>
+</div>
+
+<div class="grid-10 push-1 parent">
+    <div class="grid-6">
+        <figure class="person-details">
+            <h2 class="chill-orange">{{ 'Administrative information'|trans|upper }}</h2>
+
+            <dl>
+              <dt>{{ 'Nationality'|trans }}</dt>
+                <dd>
+                    {% if person.nationality is not null %}
+                        {{ person.nationality.name|localize_translatable_string }}
+                    {% else %}
+                        {{ 'Without nationality'|trans }}
+                    {% endif %}
+                </dd> 
+            </dl>
+            <dl>
+                <dt>{{'Spoken languages'|trans}}</dt>
+                <dd>
+                    {% if person.spokenLanguages|length == 0 %}
+                        {{ 'Unknown spoken languages'|trans }}
+                    {% else %}
+                        {% for lang in person.spokenLanguages %}
+                            {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
+                        {% endfor %}
+                    {% endif %}
+                </dd>
+            </dl>
+            <dl>
+                <dt>{{'Marital status'|trans}}</dt>
+                <dd>
+                    {% if person.maritalStatus is not null %}
+                        {{ person.maritalStatus.name|localize_translatable_string }}
+                    {% else %}
+                        {{ 'no data given'|trans }}
+                    {% endif %}
+                </dd>
+            </dl>
+
+            {% if is_granted('CHILL_PERSON_UPDATE', person) %}
+                {{ include(edit_tmp_name, edit_tmp_args) }}
             {% endif %}
-        </dd>
-    </dl>
-</figure>
+        </figure>
+    </div>
+    <div class="grid-6">
+        <figure class="person-details">
+            <h2 class="chill-blue"><i class="fa fa-envelope-o"></i>&nbsp;{{ 'Contact information'|trans|upper }}</h2>
 
-{% if is_granted('CHILL_PERSON_UPDATE', person) %}
-{{ include(edit_tmp_name, edit_tmp_args) }}
-{% endif %}
+            <dl>
+                <dt>{{ 'Email'|trans }}</dt>
+                <dd><pre>{{ person.email}}&nbsp;</pre></dd>
+            </dl>
+            <dl>
+                <dt>{{ 'Phonenumber'|trans }}</dt>
+                <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
+            </dl>
 
-<figure class="person-details">
-    <h2 class="chill-blue">{{ 'Contact information'|trans|upper }}</h2>
 
-    <dl>
-        <dt>{{ 'Email'|trans }}</dt>
-        <dd><pre>{{ person.email}}&nbsp;</pre></dd>
-    </dl>
-    <dl>
-        <dt>{{ 'Phonenumber'|trans }}</dt>
-        <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
-    </dl>
-
-</figure>
-
-{% if is_granted('CHILL_PERSON_UPDATE', person) %}
-{{ include(edit_tmp_name, edit_tmp_args) }}
-{% endif %}
+            {% if is_granted('CHILL_PERSON_UPDATE', person) %}
+                {{ include(edit_tmp_name, edit_tmp_args) }}
+            {% endif %}
+        </figure>
+    </div>
+</div>
 
 {% if cFGroup  %}
-    <figure class="person-details">
-        {% for customField in cFGroup.customFields %}
-            {% if customField.type == 'title' %}
-                {{ chill_custom_field_widget(person.cFData , customField) }}
-            {% else %}
-                <dt>{{ chill_custom_field_label(customField) }}</dt>
-                <dd>{{ chill_custom_field_widget(person.cFData , customField) }}</dd> 
-            {% endif %}
-        {% endfor %}
-    </figure>
+    <div class="grid-10 push-1 parent">
+        <div class="grid-6">
+            <figure class="person-details">
+                {% for customField in cFGroup.customFields %}
+                    {% if customField.type == 'title' %}
+                        {{ chill_custom_field_widget(person.cFData , customField) }}
+                    {% else %}
+                        <dt>{{ chill_custom_field_label(customField) }}</dt>
+                        <dd>{{ chill_custom_field_widget(person.cFData , customField) }}</dd> 
+                    {% endif %}
+                {% endfor %}
 
-{% if is_granted('CHILL_PERSON_UPDATE', person) %}
-{{ include(edit_tmp_name, edit_tmp_args) }}
-{% endif %}
-    
+                {% if is_granted('CHILL_PERSON_UPDATE', person) %}
+                    {{ include(edit_tmp_name, edit_tmp_args) }}
+                {% endif %}
+            </figure>    
+        </div>
+    </div>
 {% endif %}
 
 {% endblock %}

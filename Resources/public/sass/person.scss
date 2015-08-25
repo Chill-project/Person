@@ -17,7 +17,7 @@ div#header-person-details {
 
 figure.person-details {
 	h2 {
-		font-family: 'open_sansbold';
+		font-family: 'open_sanssemibold';
 		margin-bottom: 0.3em;
 	}
 
@@ -26,10 +26,16 @@ figure.person-details {
 	}
 
 	dt {
-		font-family: 'open_sansbold';
+		font-family: 'open_sanssemibold';
 	}
 
 	dd {
 		margin-left: 0;
+	}
+
+	a.sc-button {
+		background-color: $black;
+		padding-top: 0.2em;
+		padding-bottom: 0.2em;
 	}
 }

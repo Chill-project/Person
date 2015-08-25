@@ -1,0 +1,16 @@
+
+@import '../../../../main/Resources/public/sass/config/colors';
+
+div#header-person-name {
+    background: none repeat scroll 0 0 $chill-green-dark;
+    color: #FFF;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+div#header-person-details {
+    background: none repeat scroll 0 0 $chill-green;
+    color: #FFF;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}

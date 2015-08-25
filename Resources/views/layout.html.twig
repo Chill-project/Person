@@ -16,15 +16,24 @@
 #}
 {% extends "ChillMainBundle::layout.html.twig" %}
 
+
+{% block css %}
+    {% stylesheets  output="css/person.css" filter="cssrewrite"
+        "bundles/chillperson/css/person.css"
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}"/>
+    {% endstylesheets %}
+{% endblock %}
+
 {% block layout_content %}
 
     <div class="grid-12 parent" id="header-person-name" >
         <div class="grid-10 push-1 parent">
             <div class="grid-3">
-                <span style="font-family:'open_sansbold'">{{ 'Lastname'|trans|upper  }}</span> : {{ person.lastName|upper }}
+                <span class="open_sansbold">{{ 'Lastname'|trans|upper  }}</span> : {{ person.lastName|upper }}
             </div>
             <div class="grid-3">
-                <span style="font-family:'open_sansbold'">{{ 'Fistname'|trans|upper}}</span> : {{  person.firstName|upper }}
+                <span class="open_sansbold">{{ 'Fistname'|trans|upper}}</span> : {{  person.firstName|upper }}
             </div>
             <div class="grid-3">
                 <i class="fa  fa-{% spaceless %}
@@ -47,7 +56,7 @@
     <div class="grid-12 parent" id="header-person-details" >
         <div class="grid-10 push-1 parent">
             <div class="grid-3">
-                <span style="font-family:'open_sansbold'">{{ 'Birthdate'|trans|upper  }}</span> :
+                <span class="open_sansbold">{{ 'Birthdate'|trans|upper  }}</span> :
                 {% if person.birthdate == null %}
                     {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~ 
                         person.gender)|trans }}
@@ -56,7 +65,7 @@
                 {% endif %}
             </div>
             <div class="grid-3">
-                <span style="font-family:'open_sansbold'">{{ 'Nationality'|trans|upper}}</span> :
+                <span class="open_sansbold">{{ 'Nationality'|trans|upper}}</span> :
                 {% if person.nationality is not null %}
                     {{ person.nationality.name|localize_translatable_string }}
                 {% else %}
@@ -64,7 +73,7 @@
                 {% endif %}
             </div>
             <div class="grid-3">
-                <span style="font-family:'open_sansbold'">{{ 'Spoken languages'|trans|upper}}</span> : 
+                <span class="open_sansbold">{{ 'Spoken languages'|trans|upper}}</span> : 
                 {% if person.spokenLanguages|length == 0 %}
                     {{ 'Unknown spoken languages'|trans }}
                 {% else %}
@@ -78,13 +87,6 @@
 
     <div id="person_details" class="content parent">
         <section class="container"> 
-            {# Note: activeRouteKey should be defined in Controller or child layout #}       
-            {{ chill_menu('person', {
-                 'layout': 'ChillPersonBundle::menu.html.twig',
-                 'args' : {'person_id': person.id },
-                 'activeRouteKey': activeRouteKey
-            }) }}
-                          
             <div class="grid-8">
                 {# Flash messages ! #}
                 <div class="container">
@@ -115,6 +117,13 @@
 
                 {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
             </div>
+
+            {# Note: activeRouteKey should be defined in Controller or child layout #}  
+            {{ chill_menu('person', {
+                'layout': 'ChillPersonBundle::menu.html.twig',
+                'args' : {'person_id': person.id },
+                'activeRouteKey': activeRouteKey
+            }) }}
         </section>
     </div>
 </div>

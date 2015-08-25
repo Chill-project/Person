@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": ";AAGA,sBAAuB;EACnB,UAAU,EAAE,8BAAwC;EACpD,KAAK,EAAE,IAAI;EACX,WAAW,EAAE,GAAG;EAChB,cAAc,EAAE,GAAG;;;AAGvB,yBAA0B;EACtB,UAAU,EAAE,8BAAmC;EAC/C,KAAK,EAAE,IAAI;EACX,WAAW,EAAE,GAAG;EAChB,cAAc,EAAE,GAAG",
+"sources": ["../sass/person.scss"],
+"names": [],
+"file": "person.css"
+}

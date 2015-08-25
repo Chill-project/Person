@@ -2,3 +2,6 @@ composer.lock
 vendor/*
 parameters.yml
 *~
+*.DS_Store
+*.sass-cache
+Resources/node_modules/

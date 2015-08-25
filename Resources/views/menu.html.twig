@@ -21,7 +21,7 @@
                         active
                     {% endif %}
                {% endspaceless %} ">
-            <a href="{{ path(route.key, args ) }}" >{{ route.label|trans }}</a>
+            <a href="{{ path(route.key, args ) }}" >{{ route.label|trans|upper }}</a>
         </li>
     {% endfor %}
 </ul>

@@ -14,3 +14,22 @@ div#header-person-details {
     padding-top: 1em;
     padding-bottom: 1em;
 }
+
+figure.person-details {
+	h2 {
+		font-family: 'open_sansbold';
+		margin-bottom: 0.3em;
+	}
+
+	dl {
+		margin-top: 0.3em;
+	}
+
+	dt {
+		font-family: 'open_sansbold';
+	}
+
+	dl {
+		margin-left: 0;
+	}
+}

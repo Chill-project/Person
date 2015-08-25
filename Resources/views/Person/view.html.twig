@@ -39,26 +39,26 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 {% endif %}
 
-<figure>
-    <h2>{{ 'General information'|trans }}</h2>
+<figure class="person-details">
+    <h2 class="chill-red">{{ 'General information'|trans|upper }}</h2>
     
     <dl>
-        <dt class="inline">{{ 'First name'|trans }}</dt>
+        <dt>{{ 'First name'|trans }}</dt>
         <dd>{{ person.firstName }}</dd>
         
-        <dt class="inline">{{ 'Last name'|trans }}</dt>
+        <dt>{{ 'Last name'|trans }}</dt>
         <dd>{{ person.lastName }}</dd>
         
-        <dt class="inline">{{ 'Gender'|trans }}</dt>
+        <dt>{{ 'Gender'|trans }}</dt>
         <dd>{{ ( person.gender|default('Not given'))|trans }}</dd>
     </dl>
 </figure>
 
-<figure>
-    <h2>{{ 'Birth information'|trans }}</h2>
+<figure class="person-details">
+    <h2 class="chill-green">{{ 'Birth information'|trans|upper }}</h2>
 
     <dl>
-            <dt class="inline">{{ 'Date of birth'|trans }}</dt>
+            <dt>{{ 'Date of birth'|trans }}</dt>
             <dd>
                 {%- if person.birthdate is not null -%}
                 {{ person.birthdate|localizeddate('long', 'none') }}
@@ -68,7 +68,7 @@ This view should receive those arguments:
             </dd>
 
             
-            <dt class="inline">{{ 'Place of birth'|trans }}</dt>
+            <dt>{{ 'Place of birth'|trans }}</dt>
             <dd>{{ person.placeOfBirth }}</dd>
             <dd>{% spaceless %}  
                 
@@ -88,11 +88,11 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 {% endif %}
 
-<figure>
-    <h2>{{ 'Administrative information'|trans }}</h2>
+<figure class="person-details">
+    <h2 class="chill-orange">{{ 'Administrative information'|trans|upper }}</h2>
 
     <dl>
-      <dt class="inline">{{ 'Nationality'|trans }}</dt>
+      <dt>{{ 'Nationality'|trans }}</dt>
         <dd>
             {% if person.nationality is not null %}
                 {{ person.nationality.name|localize_translatable_string }}
@@ -102,7 +102,7 @@ This view should receive those arguments:
         </dd> 
     </dl>
     <dl>
-        <dt class="inline">{{'Spoken languages'|trans}}</dt>
+        <dt>{{'Spoken languages'|trans}}</dt>
         <dd>
             {% if person.spokenLanguages|length == 0 %}
                 {{ 'Unknown spoken languages'|trans }}
@@ -114,7 +114,7 @@ This view should receive those arguments:
         </dd>
     </dl>
     <dl>
-        <dt class="inline">{{'Marital status'|trans}}</dt>
+        <dt>{{'Marital status'|trans}}</dt>
         <dd>
             {% if person.maritalStatus is not null %}
                 {{ person.maritalStatus.name|localize_translatable_string }}
@@ -129,15 +129,15 @@ This view should receive those arguments:
 {{ include(edit_tmp_name, edit_tmp_args) }}
 {% endif %}
 
-<figure>
-    <h2>{{ 'Contact information'|trans }}</h2>
+<figure class="person-details">
+    <h2 class="chill-blue">{{ 'Contact information'|trans|upper }}</h2>
 
     <dl>
-        <dt class="inline">{{ 'Email'|trans }}</dt>
+        <dt>{{ 'Email'|trans }}</dt>
         <dd><pre>{{ person.email}}&nbsp;</pre></dd>
     </dl>
     <dl>
-        <dt class="inline">{{ 'Phonenumber'|trans }}</dt>
+        <dt>{{ 'Phonenumber'|trans }}</dt>
         <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
     </dl>
 
@@ -148,7 +148,7 @@ This view should receive those arguments:
 {% endif %}
 
 {% if cFGroup  %}
-    <figure>
+    <figure class="person-details">
         {% for customField in cFGroup.customFields %}
             {% if customField.type == 'title' %}
                 {{ chill_custom_field_widget(person.cFData , customField) }}

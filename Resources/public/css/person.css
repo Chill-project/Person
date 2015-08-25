@@ -67,7 +67,7 @@ figure.person-details dl {
 figure.person-details dt {
   font-family: 'open_sansbold'; }
 @media -sass-debug-info{filename{font-family:file\:\/\/\/Users\/marcu\/Projects\/Chill\/vendor\/chill-project\/person\/Resources\/public\/sass\/person\.scss}line{font-family:\0000332}}
-figure.person-details dl {
+figure.person-details dd {
   margin-left: 0; }
 
 /*# sourceMappingURL=person.css.map */

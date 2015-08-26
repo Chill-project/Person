@@ -87,7 +87,7 @@
 
     <div id="person_details" class="content parent">
         <section class="container"> 
-            <div class="grid-9">
+            <div id="person_details_container" class="grid-8 push-1">
                 {# Flash messages ! #}
                 <div class="container">
                     {% for flashMessage in app.session.flashbag.get('success') %}
@@ -118,7 +118,7 @@
                 {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
             </div>
 
-            <div class="grid-3">
+            <div class="grid-3 float-right">
                 {# Note: activeRouteKey should be defined in Controller or child layout #}  
                 {{ chill_menu('person', {
                     'layout': 'ChillPersonBundle::menu.html.twig',

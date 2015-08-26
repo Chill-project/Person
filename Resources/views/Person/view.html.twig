@@ -41,13 +41,13 @@ This view should receive those arguments:
             <h2 class="chill-red">{{ 'General information'|trans|upper }}</h2>
             
             <dl>
-                <dt>{{ 'First name'|trans }}</dt>
+                <dt>{{ 'First name'|trans }} :</dt>
                 <dd>{{ person.firstName }}</dd>
                 
-                <dt>{{ 'Last name'|trans }}</dt>
+                <dt>{{ 'Last name'|trans }} :</dt>
                 <dd>{{ person.lastName }}</dd>
                 
-                <dt>{{ 'Gender'|trans }}</dt>
+                <dt>{{ 'Gender'|trans }} :</dt>
                 <dd>{{ ( person.gender|default('Not given'))|trans }}</dd>
             </dl>
 
@@ -63,7 +63,7 @@ This view should receive those arguments:
             <h2 class="chill-green"><i class="fa fa-birthday-cake"></i>&nbsp;{{ 'Birth information'|trans|upper }}</h2>
 
             <dl>
-                <dt>{{ 'Date of birth'|trans }}</dt>
+                <dt>{{ 'Date of birth'|trans }} :</dt>
                 <dd>
                     {%- if person.birthdate is not null -%}
                     {{ person.birthdate|localizeddate('long', 'none') }}
@@ -72,7 +72,7 @@ This view should receive those arguments:
                     {%- endif -%}
                 </dd>
                 
-                <dt>{{ 'Place of birth'|trans }}</dt>
+                <dt>{{ 'Place of birth'|trans }} :</dt>
                 <dd>{{ person.placeOfBirth }}</dd>
                 <dd>{% spaceless %}  
                     {% if person.countryOfBirth is not null %}
@@ -96,7 +96,7 @@ This view should receive those arguments:
             <h2 class="chill-orange">{{ 'Administrative information'|trans|upper }}</h2>
 
             <dl>
-              <dt>{{ 'Nationality'|trans }}</dt>
+              <dt>{{ 'Nationality'|trans }} :</dt>
                 <dd>
                     {% if person.nationality is not null %}
                         {{ person.nationality.name|localize_translatable_string }}
@@ -106,7 +106,7 @@ This view should receive those arguments:
                 </dd> 
             </dl>
             <dl>
-                <dt>{{'Spoken languages'|trans}}</dt>
+                <dt>{{'Spoken languages'|trans}} :</dt>
                 <dd>
                     {% if person.spokenLanguages|length == 0 %}
                         {{ 'Unknown spoken languages'|trans }}
@@ -118,7 +118,7 @@ This view should receive those arguments:
                 </dd>
             </dl>
             <dl>
-                <dt>{{'Marital status'|trans}}</dt>
+                <dt>{{'Marital status'|trans}} :</dt>
                 <dd>
                     {% if person.maritalStatus is not null %}
                         {{ person.maritalStatus.name|localize_translatable_string }}
@@ -138,11 +138,11 @@ This view should receive those arguments:
             <h2 class="chill-blue"><i class="fa fa-envelope-o"></i>&nbsp;{{ 'Contact information'|trans|upper }}</h2>
 
             <dl>
-                <dt>{{ 'Email'|trans }}</dt>
+                <dt>{{ 'Email'|trans }} :</dt>
                 <dd><pre>{{ person.email}}&nbsp;</pre></dd>
             </dl>
             <dl>
-                <dt>{{ 'Phonenumber'|trans }}</dt>
+                <dt>{{ 'Phonenumber'|trans }} :</dt>
                 <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
             </dl>
 
@@ -162,7 +162,7 @@ This view should receive those arguments:
                     {% if customField.type == 'title' %}
                         {{ chill_custom_field_widget(person.cFData , customField) }}
                     {% else %}
-                        <dt>{{ chill_custom_field_label(customField) }}</dt>
+                        <dt>{{ chill_custom_field_label(customField) }} :</dt>
                         <dd>{{ chill_custom_field_widget(person.cFData , customField) }}</dd> 
                     {% endif %}
                 {% endfor %}

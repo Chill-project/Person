@@ -50,6 +50,7 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
     public function prepend(ContainerBuilder $container) 
     {
         $this->prependRoleHierarchy($container);
+        $this->declareRoles($container);
                 
         $bundles = $container->getParameter('kernel.bundles');
         //add ChillMain to assetic-enabled bundles
@@ -80,6 +81,15 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
            'role_hierarchy' => array(
               'CHILL_PERSON_UPDATE' => array('CHILL_PERSON_SEE'),
               'CHILL_PERSON_CREATE' => array('CHILL_PERSON_SEE')
+           )
+        ));
+    }
+    
+    protected function declareRoles(ContainerBuilder $container)
+    {
+        $container->prependExtensionConfig('chill_main', array(
+           'available_roles' => array(
+              'CHILL_PERSON_UPDATE', 'CHILL_PERSON_SEE', 'CHILL_PERSON_CREATE'
            )
         ));
     }

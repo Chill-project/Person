@@ -22,7 +22,7 @@
     <div class="grid-12 parent" >
         <div class="grid-10 push-1 parent">
             {% if alternatePersons is not empty %}
-                <table class="rounded stripped" style="width=100%">
+                <table>
                     <thead>
                         <tr>
                             <th class="chill-red">{{ 'Name'|trans }}</th>
@@ -55,7 +55,6 @@
             <div id="person_details">
                 {{ form_start(form) }}
                     <h2>{{ 'You will create this person'|trans }}</h2>
-                
                     <dl>
                         <dt>{{ 'First name'|trans }}</dt>
                         <dd>{{ firstName }}</dd>
@@ -75,7 +74,6 @@
         
                     {{ form_rest(form) }}
                     <button class="sc-button green" type="submit"><i class="fa fa-check"></i> {{ 'Confirm the creation'|trans }}</button>
-        
                 {{ form_end(form) }}
             </div>
         </div>

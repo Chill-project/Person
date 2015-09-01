@@ -19,63 +19,65 @@
 {% block title %}{{ 'Alreay existing person'|trans }}{% endblock title %}
     
 {% block content %}
-    <div id="person_wrapper" class="container">
-        {% if alternatePersons is not empty %}
-        <table class="rounded stripped" style="width=100%">
-            <thead>
-                <tr>
-                    <th>{{ 'Name'|trans }}</th>
-                    <th>{{ 'Date of birth'|trans }}</th>
-                    <th>{{ 'Nationality'|trans }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for person in alternatePersons %}
-                <tr>
-                    <td>
-                        <a href="{{ path('chill_person_view', {'person_id': person.id } ) }}">
-                            {{ person }}{% spaceless %}{% if person.isOpen == false %}<i class="icon-lock"></i>{% endif %}
-{% endspaceless %}
-                        </a>
-                    </td>
-                    <td>{{ person.birthdate|localizeddate('long', 'none', app.request.locale) }}</td>
-                    <td>{% if person.nationality is not null %}{{ person.nationality.name|localize_translatable_string }}{%  else  %}{{ 'Without nationality'|trans }}{% endif %}
-                </tr>
-                
-                {% endfor %}
-                
-            </tbody>
-        </table>
-        {% endif %}
+    <div class="grid-12 parent" >
+        <div class="grid-10 push-1 parent">
+            {% if alternatePersons is not empty %}
+                <table class="rounded stripped" style="width=100%">
+                    <thead>
+                        <tr>
+                            <th class="chill-red">{{ 'Name'|trans }}</th>
+                            <th class="chill-green">{{ 'Date of birth'|trans }}</th>
+                            <th class="chill-orange">{{ 'Nationality'|trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for person in alternatePersons %}
+                            <tr>
+                                <td>
+                                    <a href="{{ path('chill_person_view', {'person_id': person.id } ) }}">
+                                        {{ person }}{% spaceless %}
+                                            {% if person.isOpen == false %}
+                                                <i class="icon-lock"></i>
+                                            {% endif %}
+                                        {% endspaceless %}
+                                    </a>
+                                </td>
+                                <td>{{ person.birthdate|localizeddate('long', 'none', app.request.locale) }}</td>
+                                <td>
+                                    {% if person.nationality is not null %}{{ person.nationality.name|localize_translatable_string }}{%  else  %}{{ 'Without nationality'|trans }}{% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% endif %}
         
+            <div id="person_details">
+                {{ form_start(form) }}
+                    <h2>{{ 'You will create this person'|trans }}</h2>
+                
+                    <dl>
+                        <dt>{{ 'First name'|trans }}</dt>
+                        <dd>{{ firstName }}</dd>
+                        
+                        <dt>{{ 'Last name'|trans }}</dt>
+                        <dd>{{ lastName }}</dd>
+                        
+                        <dt>{{ 'Date of birth'|trans }}</dt>
+                        <dd>{{ birthdate|localizeddate('long', 'none', app.request.locale)|default( 'Unknown date of birth'|trans ) }}</dd>
+                        
+                        <dt>{{ 'Gender'|trans }}</dt>
+                        <dd>{{ gender|trans }}</dd>
+                        
+                        <dt>{{ 'Creation date'|trans }}</dt>
+                        <dd>{{ creation_date|localizeddate('long', 'none', app.request.locale) }}</dd>
+                    </dl>
         
-        <div id="person_details">
-{{ form_start(form) }}
-            <h2>{{ 'You will create this person'|trans }}</h2>
-            
-            <dl>
-                <dt>{{ 'First name'|trans }}</dt>
-                <dd>{{ firstName }}</dd>
-                
-                <dt>{{ 'Last name'|trans }}</dt>
-                <dd>{{ lastName }}</dd>
-                
-                <dt>{{ 'Date of birth'|trans }}</dt>
-                <dd>{{ birthdate|localizeddate('long', 'none', app.request.locale)|default( 'Unknown date of birth'|trans ) }}</dd>
-                
-                <dt>{{ 'Gender'|trans }}</dt>
-                <dd>{{ gender|trans }}</dd>
-                
-                <dt>{{ 'Creation date'|trans }}</dt>
-                <dd>{{ creation_date|localizeddate('long', 'none', app.request.locale) }}</dd>
-            </dl>
-    
-{{ form_rest(form) }}
-
-            <button class="sc-button green" type="submit"><i class="fa fa-check"></i> {{ 'Confirm the creation'|trans }}</button>
-    
-{{ form_end(form) }}
+                    {{ form_rest(form) }}
+                    <button class="sc-button green" type="submit"><i class="fa fa-check"></i> {{ 'Confirm the creation'|trans }}</button>
+        
+                {{ form_end(form) }}
+            </div>
         </div>
-        
     </div>
 {% endblock content %}

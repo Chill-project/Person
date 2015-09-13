@@ -22,13 +22,14 @@ namespace Chill\PersonBundle\Security\Authorization;
 use Chill\MainBundle\Security\Authorization\AbstractChillVoter;
 use Chill\MainBundle\Entity\User;
 use Chill\MainBundle\Security\Authorization\AuthorizationHelper;
+use Chill\MainBundle\Security\ProvideRoleInterface;
 
 /**
  * 
  *
  * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
-class PersonVoter extends AbstractChillVoter
+class PersonVoter extends AbstractChillVoter implements ProvideRoleInterface
 {
     const CREATE = 'CHILL_PERSON_CREATE';
     const UPDATE = 'CHILL_PERSON_UPDATE';
@@ -64,4 +65,15 @@ class PersonVoter extends AbstractChillVoter
         return $this->helper->userHasAccess($user, $person, $attribute);
         
     }
+
+    public function getRoles()
+    {
+        return $this->getSupportedAttributes();
+    }
+
+    public function getRolesWithoutScope()
+    {
+        return $this->getSupportedAttributes();
+    }
+
 }

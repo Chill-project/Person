@@ -43,7 +43,6 @@ class LoadPersonACL extends AbstractFixture implements OrderedFixtureInterface
     {
         foreach (LoadPermissionsGroup::$refs as $permissionsGroupRef) {
             $permissionsGroup = $this->getReference($permissionsGroupRef);
-            $scope = $this->getReference('scope_all');
             
             //create permission group
             switch ($permissionsGroup->getName()) {
@@ -52,11 +51,11 @@ class LoadPersonACL extends AbstractFixture implements OrderedFixtureInterface
                     printf("Adding CHILL_PERSON_UPDATE & CHILL_PERSON_CREATE to %s permission group \n", $permissionsGroup->getName());
                     $roleScopeUpdate = (new RoleScope())
                                 ->setRole('CHILL_PERSON_UPDATE')
-                                ->setScope($scope);
+                                ->setScope(null);
                     $permissionsGroup->addRoleScope($roleScopeUpdate);
                     $roleScopeCreate = (new RoleScope())
                                 ->setRole('CHILL_PERSON_CREATE')
-                                ->setScope($scope);
+                                ->setScope(null);
                     $permissionsGroup->addRoleScope($roleScopeCreate);
                     $manager->persist($roleScopeUpdate);
                     $manager->persist($roleScopeCreate);
@@ -65,7 +64,7 @@ class LoadPersonACL extends AbstractFixture implements OrderedFixtureInterface
                     printf("Adding CHILL_PERSON_SEE to %s permission group \n", $permissionsGroup->getName());
                     $roleScopeSee = (new RoleScope())
                                 ->setRole('CHILL_PERSON_SEE')
-                                ->setScope($scope);
+                                ->setScope(null);
                     $permissionsGroup->addRoleScope($roleScopeSee);
                     $manager->persist($roleScopeSee);
                     break;

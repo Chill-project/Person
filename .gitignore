@@ -5,3 +5,5 @@ parameters.yml
 *.DS_Store
 *.sass-cache
 Resources/node_modules/
+Tests/Fixtures/App/app/config/parameters.yml
+

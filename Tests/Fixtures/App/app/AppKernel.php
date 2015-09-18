@@ -17,7 +17,8 @@ class AppKernel extends Kernel
             new Chill\PersonBundle\ChillPersonBundle(),
             new Chill\MainBundle\ChillMainBundle(),
             new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
-            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle()
+            new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new Symfony\Bundle\MonologBundle\MonologBundle(),
             #add here all the required bundle (some bundle are not required)
         );
     }

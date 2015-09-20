@@ -47,3 +47,4 @@ services:
             - "@chill.main.security.authorization.helper"
         tags:
             - { name: security.voter }
+            - { name: chill.role }

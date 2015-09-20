@@ -70,16 +70,6 @@ chill_person_accompanying_period_open:
     path: /{_locale}/person/{person_id}/accompanying-period/open
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:open }
 
-chill_person_admin:
-    path: /{_locale}/admin/person
-    defaults: { _controller: ChillPersonBundle:Admin:index }
-    options: 
-        menus:
-            admin:
-                order: 100
-                label: menu.person.admin.index
-                helper: menu.person.admin.helper
-
 chill_person_export:
     path: /{_locale}/person/export/
     defaults: { _controller: ChillPersonBundle:Person:export }

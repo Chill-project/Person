@@ -72,3 +72,8 @@ Reset: 'Remise à zéro'
 #timeline
 'An accompanying period is opened for %person% on %date%': Une période d'accompagnement a été ouverte le %date% pour %person%
 'An accompanying period is closed for %person% on %date%': Une période d'accompagnement a été fermée le %date% pour %person%
+
+#roles
+CHILL_PERSON_SEE: Voir les personnes
+CHILL_PERSON_UPDATE: Modifier les personnes
+CHILL_PERSON_CREATE: Ajouter des personnes

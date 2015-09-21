@@ -65,9 +65,10 @@ Reset: 'Remise à zéro'
 'Still open': 'Toujours en cours'
 'Close accompanying period': 'Clôre le dossier'
 'Open accompanying period': 'Ouvrir le dossier'
-'Create accompanying period': 'Nouvel ouverture-fermeture à une autre date'
+'Create accompanying period': 'Nouvelle ouverture-fermeture à une autre date'
 'Closing motive': 'Motif de clôture'
 'Person details': 'Détails de la personne'
+Accompanying period list: Périodes d'accompagnement
 
 #timeline
 'An accompanying period is opened for %person% on %date%': Une période d'accompagnement a été ouverte le %date% pour %person%

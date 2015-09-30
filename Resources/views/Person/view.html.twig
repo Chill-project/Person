@@ -159,14 +159,6 @@ This view should receive those arguments:
         <div class="grid-6">
             <figure class="person-details">
                 {{ chill_custom_fields_group_widget(person.cFData, cFGroup) }}
-                {% for customField in cFGroup.customFields %}
-                    {% if customField.type == 'title' %}
-                        {{ chill_custom_field_widget(person.cFData , customField) }}
-                    {% else %}
-                        <dt>{{ chill_custom_field_label(customField) }} :</dt>
-                        <dd>{{ chill_custom_field_widget(person.cFData , customField) }}</dd> 
-                    {% endif %}
-                {% endfor %}
 
                 {% if is_granted('CHILL_PERSON_UPDATE', person) %}
                     {{ include(edit_tmp_name, edit_tmp_args) }}

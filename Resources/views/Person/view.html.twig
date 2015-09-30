@@ -158,6 +158,7 @@ This view should receive those arguments:
     <div class="grid-10 push-1 parent">
         <div class="grid-6">
             <figure class="person-details">
+                {{ chill_custom_fields_group_widget(person.cFData, cFGroup) }}
                 {% for customField in cFGroup.customFields %}
                     {% if customField.type == 'title' %}
                         {{ chill_custom_field_widget(person.cFData , customField) }}

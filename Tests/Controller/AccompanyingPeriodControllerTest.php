@@ -22,12 +22,10 @@
 
 namespace Chill\PersonBundle\Tests\Controller;
 
-ini_set('memory_limit', '-1');
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Chill\PersonBundle\Entity\AccompanyingPeriod;
 use Chill\PersonBundle\Entity\Person;
-use Chill\PersonBundle\Entity\AccompanyingPeriod\ClosingMotive;
 
 /**
  * Test the creation or deletion of accompanying periods

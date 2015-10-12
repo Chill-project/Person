@@ -52,7 +52,7 @@ class PersonController extends Controller
         $person = $this->_getPerson($person_id);
         
         if ($person === null) {
-            return $this->createNotFoundException("Person with id $person_id not"
+            throw $this->createNotFoundException("Person with id $person_id not"
                     . " found on this server");
         }
         

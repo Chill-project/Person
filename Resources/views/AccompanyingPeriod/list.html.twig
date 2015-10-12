@@ -21,7 +21,7 @@
             <td>{{ accompanying_period.openingDate|localizeddate('long', 'none', app.request.locale) }}</td>
             <td>{% spaceless %}
                 {% if accompanying_period.isOpen %}
-                    {{ 'Still open'|trans }}
+                    {{ 'Period opened'|trans }}
                 {% else %}
                     {{ accompanying_period.closingDate|localizeddate('long', 'none', app.request.locale) }}
                 {% endif %}
@@ -31,7 +31,7 @@
             </td>
             <td>
                 <div class="small warning btn icon-right entypo icon-pencil">
-                    <a  href="{{ path('chill_person_accompanying_period_update', {'person_id' : person.id, 'period_id' : accompanying_period.id } ) }}">{{ 'Edit'|trans }}</a>
+                    <a  href="{{ path('chill_person_accompanying_period_update', {'person_id' : person.id, 'period_id' : accompanying_period.id } ) }}" class="sc-button bt-update">{{ 'Edit'|trans }}</a>
                 </div>
             </td>
         </tr>
@@ -40,32 +40,21 @@
 </table>
 
 <div class="form_control">
-    <div class="btn small warning icon-right entypo icon-plus">
-        <a href="{{ path ('chill_person_accompanying_period_create', {'person_id' : person.id } ) }}">
+    <p>
+        <a href="{{ path ('chill_person_accompanying_period_create', {'person_id' : person.id } ) }}" class="sc-button bt-create">
             {{ 'Create accompanying period'|trans }}
         </a>
-    </div>
-    
-    <div class="controls">
-        <div class="btn medium danger icon-right entypo {% spaceless %}
-             {% if person.isOpen == true %}
-                 icon-lock
-             {% else %}
-                 icon-lock-open
-             {% endif %}{% endspaceless %}">
-            {% spaceless %}
-                {% if person.isOpen == true %}
-                    <a href="{{ path('chill_person_accompanying_period_close', {'person_id' : person.id}) }}">
-                        {{'Close accompanying period'|trans }}
-                    </a>
-                {% else %}
-                    <a href="{{ path('chill_person_accompanying_period_open', {'person_id' : person.id} ) }}">
-                        {{'Open accompanying period'|trans }}
-                    </a>
-                {% endif %}
-            {% endspaceless %}   
-        </div>
-    </div>
+
+        {% if person.isOpen == true %}
+            <a href="{{ path('chill_person_accompanying_period_close', {'person_id' : person.id}) }}" class="sc-button bt-update">
+                {{'Close accompanying period'|trans }}
+            </a>
+        {% else %}
+            <a href="{{ path('chill_person_accompanying_period_open', {'person_id' : person.id} ) }}" class="sc-button bt-create">
+                {{'Open accompanying period'|trans }}
+            </a>
+        {% endif %}
+    </p>   
 </div>
 
 {% endblock personcontent %}

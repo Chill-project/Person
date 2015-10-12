@@ -200,7 +200,7 @@ class AccompanyingPeriod
         
         if (! $this->isClosingAfterOpening()) {
             $context->addViolationAt('dateClosing', 
-                'validation.AccompanyingPeriod.constraint.dateOfClosing_before_dateOfOpening',
+                'The date of closing is before the date of opening',
                 array(), null);
         }
     }

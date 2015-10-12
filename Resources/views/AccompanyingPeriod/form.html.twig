@@ -24,8 +24,9 @@
 
 {{ form_rest(form) }}
 
-<div class="medium btn danger icon-right entypo icon-lock">
-    <button type="submit">{{ 'Submit'|trans }}</button>
+<div class="">
+    <button type="submit" class="sc-button bt-update">{{ 'Submit'|trans }}</button>
+    <a href="{{ path('chill_person_accompanying_period_list', { 'person_id' : person.id } ) }}" class="sc-button bt-reset">{{ 'Back to the list'|trans }}</a>
 </div>
 
 {{ form_end(form) }}

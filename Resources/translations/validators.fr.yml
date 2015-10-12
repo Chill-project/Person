@@ -10,3 +10,4 @@
 'Opening date can not be null': 'La date d''ouverure ne peut être nulle'
 'Closing date is not valid': 'La date de fermeture n''est pas valide'
 'Closing date can not be null': 'La date de fermeture ne peut être nulle'
+The date of closing is before the date of opening: La période de fermeture est après la période d'ouverture

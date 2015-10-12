@@ -62,7 +62,7 @@ Reset: 'Remise à zéro'
 'Person accompanying period - %name%': 'Historique du dossier - %name%'
 'Opening date': 'Date d''ouverture'
 'Closing date': 'Date de fermeture'
-'Still open': 'Toujours en cours'
+'Period opened': 'Période ouverte'
 'Close accompanying period': 'Clôre le dossier'
 'Open accompanying period': 'Ouvrir le dossier'
 'Create accompanying period': 'Nouvelle ouverture-fermeture à une autre date'
@@ -78,3 +78,7 @@ Accompanying period list: Périodes d'accompagnement
 CHILL_PERSON_SEE: Voir les personnes
 CHILL_PERSON_UPDATE: Modifier les personnes
 CHILL_PERSON_CREATE: Ajouter des personnes
+
+#period
+Period closed!: Période clôturée!
+Pediod closing form is not valide: Le formulaire de fermeture n'est pas valide

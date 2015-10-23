@@ -56,6 +56,6 @@ class Version20150820113409 extends AbstractMigration
 
         $this->addSql('ALTER TABLE accompanying_period RENAME COLUMN openingdate TO date_opening;');
         $this->addSql('ALTER TABLE accompanying_period RENAME COLUMN closingdate TO date_closing;');
-        $this->addSql('ALTER TABLE accompanying_perod RENAME COLUMN remark TO memo;');
+        $this->addSql('ALTER TABLE accompanying_period RENAME COLUMN remark TO memo;');
     }
 }

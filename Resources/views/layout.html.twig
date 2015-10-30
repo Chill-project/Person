@@ -100,62 +100,12 @@
 {% endblock %}
 
 {% block vertical_menu_content %}
-    <!-- <div class="grid-3 float-right"> -->
-                {# Note: activeRouteKey should be defined in Controller or child layout #}  
-                {{ chill_menu('person', {
-                    'layout': 'ChillPersonBundle::menu.html.twig',
-                    'args' : {'person_id': person.id },
-                    'activeRouteKey': activeRouteKey
-                }) }}
-    <!-- </div> -->
+    {{ chill_menu('person', {
+        'layout': 'ChillPersonBundle::menu.html.twig',
+        'args' : {'person_id': person.id },
+        'activeRouteKey': activeRouteKey
+    }) }}
 {% endblock %}
 
 {% block layout_content %}
-
-    {#
-    <div id="person_details" class="content parent">
-        <section class="container"> 
-            <div id="person_details_container" class="grid-8 push-1">
-                {# Flash messages ! # }
-                <div class="container">
-                    {% for flashMessage in app.session.flashbag.get('success') %}
-                        <div class="grid-8 centered success">
-                            <span>
-                                {{ flashMessage|raw }}
-                            </span>
-                        </div>
-                    {% endfor %}
-                        
-                    {% for flashMessage in app.session.flashbag.get('danger') %}
-                        <div class="grid-8 centered error">
-                            <span>
-                                {{ flashMessage|raw }}
-                            </span>
-                        </div>
-                    {% endfor %}
-                        
-                    {% for flashMessage in app.session.flashbag.get('info') %}
-                        <div class="grid-8 centered notice">
-                            <span>
-                                {{ flashMessage|raw }}
-                            </span>
-                        </div>
-                    {% endfor %}    
-                </div>
-
-                {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
-            </div>
-
-            <div class="grid-3 float-right">
-                {# Note: activeRouteKey should be defined in Controller or child layout # }
-                {{ chill_menu('person', {
-                    'layout': 'ChillPersonBundle::menu.html.twig',
-                    'args' : {'person_id': person.id },
-                    'activeRouteKey': activeRouteKey
-                }) }}
-            </div>
-        </section>
-    </div>
-    #}
-</div>
 {% endblock %}

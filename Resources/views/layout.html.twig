@@ -1,5 +1,6 @@
 {#
- * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ * Copyright (C) 2014-2015, Champs Libres Cooperative SCRLFS, 
+ <info@champs-libres.coop> / <http://www.champs-libres.coop>
  *
  * This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU Affero General Public License as
@@ -14,7 +15,13 @@
  * You should have received a copy of the GNU Affero General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #}
-{% extends "ChillMainBundle::layout.html.twig" %}
+
+{#
+    The layout of the admin section. All the page / template of the admin section must use this
+    layout.
+#}
+
+{% extends "ChillMainBundle::layoutWithVerticalMenu.html.twig" %}
 
 
 {% block css %}
@@ -25,8 +32,7 @@
     {% endstylesheets %}
 {% endblock %}
 
-{% block layout_content %}
-
+{% block top_banner %}
     <div class="grid-12 parent" id="header-person-name" >
         <div class="grid-10 push-1 parent">
             <div class="grid-3">
@@ -53,6 +59,7 @@
             </div> 
         </div>
     </div>
+
     <div class="grid-12 parent" id="header-person-details" >
         <div class="grid-10 push-1 parent">
             <div class="grid-3">
@@ -84,11 +91,32 @@
             </div> 
         </div>
     </div>
+{% endblock %}
 
+{% block layout_wvm_content %}
+    <div class="container content"> 
+        {% block personcontent %}<!-- block personcontent empty -->{%endblock%}
+    </div>
+{% endblock %}
+
+{% block vertical_menu_content %}
+    <!-- <div class="grid-3 float-right"> -->
+                {# Note: activeRouteKey should be defined in Controller or child layout #}  
+                {{ chill_menu('person', {
+                    'layout': 'ChillPersonBundle::menu.html.twig',
+                    'args' : {'person_id': person.id },
+                    'activeRouteKey': activeRouteKey
+                }) }}
+    <!-- </div> -->
+{% endblock %}
+
+{% block layout_content %}
+
+    {#
     <div id="person_details" class="content parent">
         <section class="container"> 
             <div id="person_details_container" class="grid-8 push-1">
-                {# Flash messages ! #}
+                {# Flash messages ! # }
                 <div class="container">
                     {% for flashMessage in app.session.flashbag.get('success') %}
                         <div class="grid-8 centered success">
@@ -119,7 +147,7 @@
             </div>
 
             <div class="grid-3 float-right">
-                {# Note: activeRouteKey should be defined in Controller or child layout #}  
+                {# Note: activeRouteKey should be defined in Controller or child layout # }
                 {{ chill_menu('person', {
                     'layout': 'ChillPersonBundle::menu.html.twig',
                     'args' : {'person_id': person.id },
@@ -128,5 +156,6 @@
             </div>
         </section>
     </div>
+    #}
 </div>
 {% endblock %}

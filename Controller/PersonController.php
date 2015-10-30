@@ -106,7 +106,7 @@ class PersonController extends Controller
 
             if ( ! $form->isValid() ) {                
                 $this->get('session')
-                        ->getFlashBag()->add('danger', 'Thp person data provided'
+                        ->getFlashBag()->add('error', 'Thp person data provided'
                               . ' are not valid');
                 
                 return $this->render('ChillPersonBundle:Person:edit.html.twig', 
@@ -263,7 +263,7 @@ class PersonController extends Controller
             $flashBag = $this->get('session')->getFlashBag();
             $translator = $this->get('translator');
             
-            $flashBag->add('danger', $translator->trans('The person data are not valid'));
+            $flashBag->add('error', $translator->trans('The person data are not valid'));
             
             foreach($errors as $error) {
                 $flashBag->add('info', $error->getMessage());

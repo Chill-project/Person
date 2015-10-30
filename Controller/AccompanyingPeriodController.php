@@ -70,7 +70,7 @@ class AccompanyingPeriodController extends Controller
                 return $this->redirect($this->generateUrl('chill_person_accompanying_period_list',
                         array('person_id' => $person->getId())));
             } else {
-                $flashBag->add('danger', $this->get('translator')
+                $flashBag->add('error', $this->get('translator')
                         ->trans('Error! Period not created!'));
                 
                 foreach($errors as $error) {
@@ -120,7 +120,7 @@ class AccompanyingPeriodController extends Controller
                 return $this->redirect($this->generateUrl('chill_person_accompanying_period_list',
                         array('person_id' => $person->getId())));
             } else {
-                $flashBag->add('danger', $this->get('translator')
+                $flashBag->add('error', $this->get('translator')
                         ->trans('Error when updating the period'));
                 
                 foreach($errors as $error) {
@@ -142,7 +142,7 @@ class AccompanyingPeriodController extends Controller
         
         if ($person->isOpen() === false) {
             $this->get('session')->getFlashBag()
-                ->add('danger', $this->get('translator')
+                ->add('error', $this->get('translator')
                     ->trans('Beware period is closed', 
                         array('%name%' => $person->__toString())));
             
@@ -181,7 +181,7 @@ class AccompanyingPeriodController extends Controller
                             );
                 } else {
                     $this->get('session')->getFlashBag()
-                            ->add('danger', $this->get('translator')
+                            ->add('error', $this->get('translator')
                                     ->trans('Error! Period not closed!'));
                     
                     foreach ($errors as $error) {
@@ -191,7 +191,7 @@ class AccompanyingPeriodController extends Controller
                 }
             } else { //if form is not valid
                 $this->get('session')->getFlashBag()
-                    ->add('danger',
+                    ->add('error',
                         $this->get('translator')
                             ->trans('Pediod closing form is not valide')
                     );
@@ -238,7 +238,7 @@ class AccompanyingPeriodController extends Controller
         //in case the person is already open
         if ($person->isOpen()) {
             $this->get('session')->getFlashBag()
-                ->add('danger', $this->get('translator')
+                ->add('error', $this->get('translator')
                     ->trans('Error! Period %name% is not closed ; it can be open',
                         array('%name%' => $person->__toString())));
             
@@ -275,7 +275,7 @@ class AccompanyingPeriodController extends Controller
                         )));
                 } else {
                     $this->get('session')->getFlashBag()
-                        ->add('danger', $this->get('translator')
+                        ->add('error', $this->get('translator')
                             ->trans('Period not opened'));
                     
                     foreach ($errors as $error) {
@@ -285,7 +285,7 @@ class AccompanyingPeriodController extends Controller
                 }
             } else { // if errors in forms
                 $this->get('session')->getFlashBag()
-                            ->add('danger', $this->get('translator')
+                            ->add('error', $this->get('translator')
                                     ->trans('Period not opened : form is invalid'));
             }
         }

@@ -35,19 +35,19 @@ This view should receive those arguments:
 
 {% block personcontent %}
 
-<div class="grid-10 push-1 parent">
+<div class="grid-10 push-1 grid-mobile-12 grid-tablet-12 push-mobile-0 push-tablet-0 parent">
     <div class="grid-6">
         <figure class="person-details">
             <h2 class="chill-red">{{ 'General information'|trans|upper }}</h2>
             
             <dl>
-                <dt>{{ 'First name'|trans }} :</dt>
+                <dt>{{ 'First name'|trans }}&nbsp;:</dt>
                 <dd>{{ person.firstName }}</dd>
                 
-                <dt>{{ 'Last name'|trans }} :</dt>
+                <dt>{{ 'Last name'|trans }}&nbsp;:</dt>
                 <dd>{{ person.lastName }}</dd>
                 
-                <dt>{{ 'Gender'|trans }} :</dt>
+                <dt>{{ 'Gender'|trans }}&nbsp;:</dt>
                 <dd>{{ ( person.gender|default('Not given'))|trans }}</dd>
             </dl>
 
@@ -63,7 +63,7 @@ This view should receive those arguments:
             <h2 class="chill-green"><i class="fa fa-birthday-cake"></i>&nbsp;{{ 'Birth information'|trans|upper }}</h2>
 
             <dl>
-                <dt>{{ 'Date of birth'|trans }} :</dt>
+                <dt>{{ 'Date of birth'|trans }}&nbsp;:</dt>
                 <dd>
                     {%- if person.birthdate is not null -%}
                     {{ person.birthdate|localizeddate('long', 'none') }}
@@ -72,7 +72,7 @@ This view should receive those arguments:
                     {%- endif -%}
                 </dd>
                 
-                <dt>{{ 'Place of birth'|trans }} :</dt>
+                <dt>{{ 'Place of birth'|trans }}&nbsp;:</dt>
                 <dd>{{ person.placeOfBirth }}</dd>
                 <dd>{% spaceless %}  
                     {% if person.countryOfBirth is not null %}
@@ -90,13 +90,13 @@ This view should receive those arguments:
     </div>
 </div>
 
-<div class="grid-10 push-1 parent">
+<div class="grid-10 push-1 grid-mobile-12 grid-tablet-12 push-mobile-0 push-tablet-0 parent">
     <div class="grid-6">
         <figure class="person-details">
             <h2 class="chill-orange">{{ 'Administrative information'|trans|upper }}</h2>
 
             <dl>
-              <dt>{{ 'Nationality'|trans }} :</dt>
+              <dt>{{ 'Nationality'|trans }}&nbsp;:</dt>
                 <dd>
                     {% if person.nationality is not null %}
                         {{ person.nationality.name|localize_translatable_string }}
@@ -106,7 +106,7 @@ This view should receive those arguments:
                 </dd> 
             </dl>
             <dl>
-                <dt>{{'Spoken languages'|trans}} :</dt>
+                <dt>{{'Spoken languages'|trans}}&nbsp;:</dt>
                 <dd>
                     {% if person.spokenLanguages|length == 0 %}
                         {{ 'Unknown spoken languages'|trans }}
@@ -118,7 +118,7 @@ This view should receive those arguments:
                 </dd>
             </dl>
             <dl>
-                <dt>{{'Marital status'|trans}} :</dt>
+                <dt>{{'Marital status'|trans}}&nbsp;:</dt>
                 <dd>
                     {% if person.maritalStatus is not null %}
                         {{ person.maritalStatus.name|localize_translatable_string }}
@@ -138,11 +138,11 @@ This view should receive those arguments:
             <h2 class="chill-blue"><i class="fa fa-envelope-o"></i>&nbsp;{{ 'Contact information'|trans|upper }}</h2>
 
             <dl>
-                <dt>{{ 'Email'|trans }} :</dt>
+                <dt>{{ 'Email'|trans }}&nbsp;:</dt>
                 <dd><pre>{{ person.email}}&nbsp;</pre></dd>
             </dl>
             <dl>
-                <dt>{{ 'Phonenumber'|trans }} :</dt>
+                <dt>{{ 'Phonenumber'|trans }}&nbsp;:</dt>
                 <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
             </dl>
 
@@ -155,7 +155,7 @@ This view should receive those arguments:
 </div>
 
 {% if cFGroup  %}
-    <div class="grid-10 push-1 parent">
+    <div class="grid-10 push-1 grid-mobile-12 grid-tablet-12 push-mobile-0 push-tablet-0 parent">
         <div class="grid-6">
             <figure class="person-details">
                 {{ chill_custom_fields_group_widget(person.cFData, cFGroup) }}

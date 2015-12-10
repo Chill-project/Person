@@ -48,3 +48,11 @@ services:
         tags:
             - { name: security.voter }
             - { name: chill.role }
+            
+    chill.person.birthdate_validation:
+        class: Chill\PersonBundle\Validator\Constraints\BirthdateValidator
+        arguments:
+            - "%chill_person.validation.birtdate_not_before%"
+        tags:
+            - { name: validator.constraint_validator, alias: birthdate_not_before }
+            

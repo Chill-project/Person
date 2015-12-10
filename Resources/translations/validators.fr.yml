@@ -11,3 +11,4 @@
 'Closing date is not valid': 'La date de fermeture n''est pas valide'
 'Closing date can not be null': 'La date de fermeture ne peut être nulle'
 The date of closing is before the date of opening: La période de fermeture est après la période d'ouverture
+The birthdate must be before %date%: La date de naissance doit être avant le %date%

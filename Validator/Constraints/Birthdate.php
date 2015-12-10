@@ -34,4 +34,9 @@ use Symfony\Component\Validator\Constraint;
 class Birthdate extends Constraint
 {
     public $message = "The birthdate must be before %date%";
+    
+    public function validatedBy()
+    {
+        return 'birthdate_not_before';
+    }
 }

@@ -24,8 +24,13 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
         
+        // set configuration for double metaphone
         $container->setParameter('cl_chill_person.search.use_double_metaphone', 
                 $config['search']['use_double_metaphone']);
+        
+        // set configuration for validation
+        $container->setParameter('chill_person.validation.birtdate_not_before',
+                $config['validation']['birthdate_not_after']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

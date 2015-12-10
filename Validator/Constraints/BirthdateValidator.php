@@ -38,6 +38,11 @@ class BirthdateValidator extends ConstraintValidator
     
     public function validate($value, Constraint $constraint)
     {
+        if ($value === NULL) {
+            
+            return;
+        }
+        
         if (!$value instanceof \DateTime) {
             throw new \LogicException('The input should a be a \DateTime interface,'
                     . (is_object($value) ? get_class($value) : gettype($value)));
@@ -47,7 +52,7 @@ class BirthdateValidator extends ConstraintValidator
         
         if ($limitDate < $value) {
             $this->context->buildViolation($constraint->message)
-                ->setParameter('%date%', $value->format(\DateTime::ATOM))
+                ->setParameter('%date%', $limitDate->format('d-m-Y'))
                 ->addViolation();
         }
         

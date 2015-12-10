@@ -170,12 +170,12 @@ class PersonController extends Controller
                         ->getGroupCenters()[0]
                         ->getCenter();
         
-        $person = (new Person())
+        $person = (new Person(new \DateTime('now')))
                 ->setCenter($defaultCenter);
         
         $form = $this->createForm(
                 new CreationPersonType(CreationPersonType::FORM_NOT_REVIEWED), 
-                array('creation_date' => new \DateTime(), 'center' => $defaultCenter),
+                $person,
                 array('action' => $this->generateUrl('chill_person_review'))
                 );
         
@@ -197,18 +197,22 @@ class PersonController extends Controller
      */
     private function _bindCreationForm($form)
     {
-        $date = new \DateTime();
-        $person = new Person($form['creation_date']->getData());
+        /**
+         * @var Person
+         */
+        $person = $form->getData();
         
-        
-        $date_of_birth = new \DateTime();
-                
-        $person->setFirstName($form['firstName']->getData())
-                ->setLastName($form['lastName']->getData())
-                ->setGender($form['gender']->getData())
-                ->setBirthdate($form['birthdate']->getData())
-                ->setCenter($form['center']->getData())
-                ;
+        $periods = $person->getAccompanyingPeriodsOrdered();
+        $period = $periods[0];
+        $period->setOpeningDate($form['creation_date']->getData());
+//        $person = new Person($form['creation_date']->getData());
+//        
+//        $person->setFirstName($form['firstName']->getData())
+//                ->setLastName($form['lastName']->getData())
+//                ->setGender($form['gender']->getData())
+//                ->setBirthdate($form['birthdate']->getData())
+//                ->setCenter($form['center']->getData())
+//                ;
         
         return $person;
     }
@@ -251,15 +255,18 @@ class PersonController extends Controller
         
         $form = $this->createForm(
                 new CreationPersonType(CreationPersonType::FORM_BEING_REVIEWED),
-                null, array('action' => $this->generateUrl('chill_person_create')));
+                new Person(), 
+                array('action' => $this->generateUrl('chill_person_create')));
         
         $form->handleRequest($request);
         
         $person = $this->_bindCreationForm($form);
-        
+        var_dump($person);
         $errors = $this->_validatePersonAndAccompanyingPeriod($person);   
-   
-        if ( count($errors) > 0) {
+        $this->get('logger')->info(sprintf('Person created with %d errors ', count($errors)));
+
+        if ($errors->count() > 0) {
+            $this->get('logger')->info('The created person has errors');
             $flashBag = $this->get('session')->getFlashBag();
             $translator = $this->get('translator');
             
@@ -271,11 +278,14 @@ class PersonController extends Controller
             
             $form = $this->createForm(
                 new CreationPersonType(CreationPersonType::FORM_NOT_REVIEWED),
-                array('action' => $this->generateUrl('chill_person_create')));
+                new Person(),
+                array('action' => $this->generateUrl('chill_person_review')));
         
             $form->handleRequest($request);
             
             return $this->_renderNewForm($form);
+        } else {
+            $this->get('logger')->info('Person created without errors');
         }
         
         $em = $this->getDoctrine()->getManager();
@@ -331,7 +341,7 @@ class PersonController extends Controller
         $form = $this->createForm(new CreationPersonType());
         
         $form->handleRequest($request);
-        
+        var_dump($form->getData());
         $person = $this->_bindCreationForm($form);
         
         $errors = $this->_validatePersonAndAccompanyingPeriod($person);
@@ -349,7 +359,11 @@ class PersonController extends Controller
             return $this->redirect($this->generateUrl('chill_person_general_edit', 
                     array('person_id' => $person->getId())));
         } else {
-            $r = new Response('this should not happen if you reviewed your submission');
+            $text = "this should not happen if you reviewed your submission\n";
+            foreach ($errors as $error) {
+                $text .= $error->getMessage()."\n";
+            }
+            $r = new Response($text);
             $r->setStatusCode(400);
             return $r;
         }

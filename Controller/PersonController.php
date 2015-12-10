@@ -261,7 +261,7 @@ class PersonController extends Controller
         $form->handleRequest($request);
         
         $person = $this->_bindCreationForm($form);
-        var_dump($person);
+        
         $errors = $this->_validatePersonAndAccompanyingPeriod($person);   
         $this->get('logger')->info(sprintf('Person created with %d errors ', count($errors)));
 

@@ -154,7 +154,7 @@ This view should receive those arguments:
     </div>
 </div>
 
-{% if cFGroup  %}
+{% if cFGroup and (cFGroup.getActiveCustomFields|length > 0) %}
     <div class="grid-10 push-1 grid-mobile-12 grid-tablet-12 push-mobile-0 push-tablet-0 parent">
         <div class="grid-6">
             <figure class="person-details">

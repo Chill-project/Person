@@ -12,6 +12,10 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    
+    private $validationBirthdateNotAfterInfos = "The period before today during which"
+            . " any birthdate is not allowed. The birthdate is expressed as ISO8601 : "
+            . "https://en.wikipedia.org/wiki/ISO_8601#Durations";
     /**
      * {@inheritDoc}
      */
@@ -29,12 +33,33 @@ class Configuration implements ConfigurationInterface
                         ->booleanNode('use_double_metaphone')
                             ->defaultFalse()
                             ->end()
-                        ->booleanNode('use_trigrams')->defaultFalse()->end();
+                        ->booleanNode('use_trigrams')
+                            ->defaultFalse()
+                            ->end()
+                    ->end()
+                ->end()
+                ->arrayNode('validation')
+                    ->canBeDisabled()
+                    ->children()
+                        ->scalarNode('birthdate_not_after')
+                        ->info($this->validationBirthdateNotAfterInfos)
+                        ->defaultValue('P1D')
+                        ->validate()
+                            ->ifTrue(function($period) {
+                                try {
+                                    $interval = new \DateInterval($period);
+                                } catch (\Exception $ex) {
+                                    return true;
+                                }   
+                                return false;
+                            })
+                            ->thenInvalid('Invalid period for birthdate validation : "%s" '
+                                    . 'The parameter should match duration as defined by ISO8601 : '
+                                    . 'https://en.wikipedia.org/wiki/ISO_8601#Durations')
+                        ->end()
+                    ->end()
+                ->end();
                 
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
 
         return $treeBuilder;
     }

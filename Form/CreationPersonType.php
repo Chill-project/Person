@@ -24,9 +24,7 @@ namespace Chill\PersonBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use Chill\PersonBundle\Form\Type\CivilType;
 use Chill\PersonBundle\Form\Type\GenderType;
-use CL\BelgianNationalNumberBundle\Form\BelgianNationalNumberType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
 
 class CreationPersonType extends AbstractType
@@ -53,20 +51,26 @@ class CreationPersonType extends AbstractType
         if ($this->form_status === self::FORM_BEING_REVIEWED) {
             
             $dateToStringTransformer = new DateTimeToStringTransformer(
-                    null, null, 'dd-MM-yyyy', true);
+                    null, null, 'd-m-Y', false);
             
             $builder->add('firstName', 'hidden')
                     ->add('lastName', 'hidden')
-                    ->add( $builder->create('birthdate', 'hidden')
-                            ->addModelTransformer($dateToStringTransformer)
-                          )
+                    ->add('birthdate', 'hidden', array(
+                        'property_path' => 'birthdate'
+                    ))
                     ->add('gender', 'hidden')
-                    ->add( $builder->create('creation_date', 'hidden')
-                            ->addModelTransformer($dateToStringTransformer)
-                           )
-                    ->add('form_status', 'hidden')
+                    ->add('creation_date', 'hidden', array(
+                        'mapped' => false
+                    ))
+                    ->add('form_status', 'hidden', array(
+                        'mapped' => false
+                    ))
                     ->add('center', 'center')
                     ;
+            $builder->get('birthdate')
+                    ->addModelTransformer($dateToStringTransformer);
+            $builder->get('creation_date', 'hidden')
+                    ->addModelTransformer($dateToStringTransformer);
         } else {
             $builder
                 ->add('firstName')
@@ -76,10 +80,16 @@ class CreationPersonType extends AbstractType
                 ->add('gender', new GenderType(), array(
                     'required' => true, 'empty_value' => null
                 ))
-                ->add('creation_date', 'date', array('required' => true, 
-                    'widget' => 'single_text', 'format' => 'dd-MM-yyyy',
+                ->add('creation_date', 'date', array(
+                    'required' => true, 
+                    'widget' => 'single_text', 
+                    'format' => 'dd-MM-yyyy',
+                    'mapped' => false,
                     'data' => new \DateTime()))
-                ->add('form_status', 'hidden', array('data' => $this->form_status))
+                ->add('form_status', 'hidden', array(
+                    'data' => $this->form_status,
+                    'mapped' => false
+                    ))
                 ->add('center', 'center')
             ;
         }
@@ -94,9 +104,9 @@ class CreationPersonType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
-//        $resolver->setDefaults(array(
-//            'data_class' => 'Chill\PersonBundle\Entity\Person'
-//        ));
+        $resolver->setDefaults(array(
+            'data_class' => 'Chill\PersonBundle\Entity\Person'
+        ));
     }
 
     /**

@@ -22,6 +22,8 @@ Chill\PersonBundle\Entity\Person:
               - Date: 
                   message: 'Birthdate not valid'
                   groups: [general, creation]
+              - Chill\PersonBundle\Validator\Constraints\Birthdate: 
+                  groups: [general, creation]
         gender:
                - NotNull:
                   groups: [general, creation]

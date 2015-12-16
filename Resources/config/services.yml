@@ -56,3 +56,10 @@ services:
         tags:
             - { name: validator.constraint_validator, alias: birthdate_not_before }
             
+    chill.main.form.person_creation:
+        class: Chill\PersonBundle\Form\CreationPersonType
+        arguments:
+            - "@chill.main.form.data_transformer.center_transformer"
+        tags:
+            - { name: form.type, alias: chill_personbundle_person_creation }
+            

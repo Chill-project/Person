@@ -23,14 +23,13 @@ namespace Chill\PersonBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use Chill\PersonBundle\Form\Type\GenderType;
 use Symfony\Component\Form\Extension\Core\DataTransformer\DateTimeToStringTransformer;
+use Chill\MainBundle\Form\Type\DataTransformer\CenterTransformer;
 
 class CreationPersonType extends AbstractType
 {
-    
-    private $form_status;
     
     const NAME = 'chill_personbundle_person_creation';
     
@@ -38,8 +37,14 @@ class CreationPersonType extends AbstractType
     const FORM_REVIEWED = 'reviewed' ;
     const FORM_BEING_REVIEWED = 'being_reviewed';
     
-    public function __construct($form_status = self::FORM_NOT_REVIEWED) {
-        $this->setStatus($form_status);
+    /**
+     *
+     * @var CenterTransformer
+     */
+    private $centerTransformer;
+    
+    public function __construct(CenterTransformer $centerTransformer) {
+        $this->centerTransformer = $centerTransformer;
     }
     
     /**
@@ -48,7 +53,7 @@ class CreationPersonType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if ($this->form_status === self::FORM_BEING_REVIEWED) {
+        if ($options['form_status'] === self::FORM_BEING_REVIEWED) {
             
             $dateToStringTransformer = new DateTimeToStringTransformer(
                     null, null, 'd-m-Y', false);
@@ -63,14 +68,17 @@ class CreationPersonType extends AbstractType
                         'mapped' => false
                     ))
                     ->add('form_status', 'hidden', array(
-                        'mapped' => false
+                        'mapped' => false,
+                        'data' => $options['form_status']
                     ))
-                    ->add('center', 'center')
+                    ->add('center', 'hidden')
                     ;
             $builder->get('birthdate')
                     ->addModelTransformer($dateToStringTransformer);
-            $builder->get('creation_date', 'hidden')
+            $builder->get('creation_date')
                     ->addModelTransformer($dateToStringTransformer);
+            $builder->get('center')
+                    ->addModelTransformer($this->centerTransformer);
         } else {
             $builder
                 ->add('firstName')
@@ -87,26 +95,29 @@ class CreationPersonType extends AbstractType
                     'mapped' => false,
                     'data' => new \DateTime()))
                 ->add('form_status', 'hidden', array(
-                    'data' => $this->form_status,
+                    'data' => $options['form_status'],
                     'mapped' => false
                     ))
                 ->add('center', 'center')
             ;
         }
     }
-    
-    private function setStatus($status) {
-        $this->form_status = $status;
-    }
       
     /**
-     * @param OptionsResolverInterface $resolver
+     * @param OptionsResolver $resolver
      */
-    public function setDefaultOptions(OptionsResolverInterface $resolver)
+    public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
             'data_class' => 'Chill\PersonBundle\Entity\Person'
         ));
+        
+        $resolver->setRequired('form_status')
+              ->setAllowedValues('form_status', array(
+                 self::FORM_BEING_REVIEWED,
+                 self::FORM_NOT_REVIEWED,
+                 self::FORM_REVIEWED
+              ));
     }
 
     /**

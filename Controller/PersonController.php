@@ -174,10 +174,12 @@ class PersonController extends Controller
                 ->setCenter($defaultCenter);
         
         $form = $this->createForm(
-                new CreationPersonType(CreationPersonType::FORM_NOT_REVIEWED), 
+                CreationPersonType::NAME, 
                 $person,
-                array('action' => $this->generateUrl('chill_person_review'))
-                );
+                array(
+                   'action' => $this->generateUrl('chill_person_review'),
+                   'form_status' => CreationPersonType::FORM_NOT_REVIEWED
+                      ));
         
         return $this->_renderNewForm($form);   
     }
@@ -254,9 +256,12 @@ class PersonController extends Controller
         }
         
         $form = $this->createForm(
-                new CreationPersonType(CreationPersonType::FORM_BEING_REVIEWED),
+                CreationPersonType::NAME,
                 new Person(), 
-                array('action' => $this->generateUrl('chill_person_create')));
+                array(
+                   'action' => $this->generateUrl('chill_person_create'),
+                   'form_status' => CreationPersonType::FORM_BEING_REVIEWED
+                      ));
         
         $form->handleRequest($request);
         
@@ -277,9 +282,12 @@ class PersonController extends Controller
             }
             
             $form = $this->createForm(
-                new CreationPersonType(CreationPersonType::FORM_NOT_REVIEWED),
+                CreationPersonType::NAME,
                 new Person(),
-                array('action' => $this->generateUrl('chill_person_review')));
+                array(
+                   'action' => $this->generateUrl('chill_person_review'), 
+                   'form_status' => CreationPersonType::FORM_NOT_REVIEWED
+                      ));
         
             $form->handleRequest($request);
             
@@ -338,10 +346,12 @@ class PersonController extends Controller
             return $r;
         }
         
-        $form = $this->createForm(new CreationPersonType());
+        $form = $this->createForm(CreationPersonType::NAME, null, array(
+           'form_status' => CreationPersonType::FORM_REVIEWED
+        ));
         
         $form->handleRequest($request);
-        var_dump($form->getData());
+        
         $person = $this->_bindCreationForm($form);
         
         $errors = $this->_validatePersonAndAccompanyingPeriod($person);

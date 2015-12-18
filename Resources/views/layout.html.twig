@@ -65,8 +65,7 @@
             <div class="grid-3">
                 <span class="open_sansbold">{{ 'Birthdate'|trans|upper  }}&nbsp;:</span>
                 {% if person.birthdate == null %}
-                    {{ 'Unknown date of birth'|trans }}, {{ ('person.gender.' ~ 
-                        person.gender)|trans }}
+                    {{ 'Unknown date of birth'|trans }}
                 {% else %}
                     {{ person.birthdate|localizeddate('long', 'none') }}
                 {% endif %}

@@ -122,6 +122,11 @@ class PersonSearch extends AbstractSearch implements ContainerAwareInterface
               ->setMaxResults($limit)
               ->setFirstResult($start);
         
+        //order by firstname, lastname
+        
+        $qb->orderBy('p.firstName')
+                ->addOrderBy('p.lastName');
+        
         return $qb->getQuery()->getResult();
     }
     
@@ -147,7 +152,7 @@ class PersonSearch extends AbstractSearch implements ContainerAwareInterface
         //get from cache
         $cacheKey = md5(serialize($terms));
         if (array_key_exists($cacheKey, $this->_cacheQuery)) {
-            return $this->_cacheQuery[$cacheKey];
+            return clone $this->_cacheQuery[$cacheKey];
         }
         
         $qb = $this->em->createQueryBuilder();
@@ -220,10 +225,10 @@ class PersonSearch extends AbstractSearch implements ContainerAwareInterface
                 ->in('p.center', ':centers'))
                 ->setParameter('centers', $reachableCenters)
                 ;
-              
+        
         $this->_cacheQuery[$cacheKey] = $qb;
         
-        return $qb;
+        return clone $qb;
     }
 
 }

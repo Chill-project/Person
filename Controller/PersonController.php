@@ -302,7 +302,9 @@ class PersonController extends Controller
                 
         $dql = 'SELECT p from ChillPersonBundle:Person p WHERE '
                 . 'LOWER(p.firstName) LIKE LOWER(:firstName)'
-                . ' OR LOWER(p.lastName) LIKE LOWER(:lastName)';
+                . ' OR LOWER(p.lastName) LIKE LOWER(:lastName)'
+                . ' OR LOWER(p.firstName) LIKE LOWER(:lastName)'
+                . ' OR LOWER(p.lastName) LIKE LOWER(:firstName)';
 
         $query->setParameter('firstName', $form['firstName']->getData())
                 ->setParameter('lastName', $form['lastName']->getData());

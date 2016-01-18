@@ -240,6 +240,31 @@ class PersonControllerCreateTest extends WebTestCase
              
     }
     
+    public function testReviewExistingDetectionInversedLastNameWithFirstName()
+    {
+        $client = $this->getAuthenticatedClient();
+        
+        $crawler = $client->request('GET', '/fr/person/new');
+        
+        //test the page is loaded before continuing
+        $this->assertTrue($client->getResponse()->isSuccessful());
+        
+        $form = $crawler->selectButton("Ajouter la personne")->form();
+        $form = $this->fillAValidCreationForm($form, 'Charline', 'dd');
+        $client->submit($form);
+        
+        $this->assertContains('Depardieu', $client->getCrawler()->text(), 
+                "check that the page has detected the lastname of a person existing in database");
+        
+        //inversion
+        $form = $crawler->selectButton("Ajouter la personne")->form();
+        $form = $this->fillAValidCreationForm($form, 'dd', 'Charline');
+        $client->submit($form);
+        
+        $this->assertContains('Depardieu', $client->getCrawler()->text(), 
+                "check that the page has detected the lastname of a person existing in database");
+    }
+    
     public static function tearDownAfterClass()
     {
         static::bootKernel();

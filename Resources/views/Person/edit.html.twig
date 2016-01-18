@@ -18,13 +18,20 @@
 
 {% set activeRouteKey = '' %}
 
-{% block title %}ChillPersonBundle:Person:see{% endblock %}
+{% block title %}{{ 'Update details for %name%'|trans({ '%name%': person.firstName|capitalize ~ ' ' ~ person.lastName } )|capitalize }}{% endblock %}
 
 {% block personcontent %}
+    
+    <h1>{{ 'Update details for %name%'|trans({ '%name%': person.firstName|capitalize ~ ' ' ~ person.lastName|capitalize } ) }}</h1>
 
 {% form_theme form 'ChillMainBundle:Form:fields.html.twig' %}
 
 {{ form_start(form) }}
+
+<fieldset>
+    <legend><h2>{{ 'Memo'|trans }}</h2></legend>
+{{ form_row(form.memo, {'label' : 'Memo'} ) }}
+</fieldset>
 
 <fieldset>
     <legend><h2>{{ 'General information'|trans }}</h2></legend>
@@ -54,7 +61,6 @@
     
 </fieldset>
 
-{{ form_row(form.memo, {'label' : 'Memo'} ) }}
 
 {{ form_rest(form) }}
 

@@ -23,7 +23,8 @@ This view should receive those arguments:
 - person
 #}
 
-{% block title %}ChillPersonBundle:Person:see{% endblock %}
+{% block title %}{{ 'Person details'|trans|capitalize ~ ' ' ~ person.firstName|capitalize ~
+ ' ' ~ person.lastName }}{% endblock %}
 {#
     we define variables to include an edit form repeated multiple time across
     the page
@@ -34,8 +35,21 @@ This view should receive those arguments:
 
 
 {% block personcontent %}
+    
+    
 
 <div class="grid-10 push-1 grid-mobile-12 grid-tablet-12 push-mobile-0 push-tablet-0 parent">
+    {% if person.memo is not empty %}
+    <div class="grid-12">
+        <figure class="person-details">
+            <h2 class="chill-red">{{ 'Memo'|trans|upper }}</h2>
+            
+            <p>
+            <blockquote>{{ person.memo|nl2br }}</blockquote>
+            </p>
+        </figure>
+    </div>
+    {% endif %}
     <div class="grid-6">
         <figure class="person-details">
             <h2 class="chill-red">{{ 'General information'|trans|upper }}</h2>
@@ -74,6 +88,7 @@ This view should receive those arguments:
                 
                 <dt>{{ 'Place of birth'|trans }}&nbsp;:</dt>
                 <dd>{{ person.placeOfBirth }}</dd>
+                <dt>{{ 'Country of birth'|trans }}&nbsp;:</dt>
                 <dd>{% spaceless %}  
                     {% if person.countryOfBirth is not null %}
                         {{ person.countryOfBirth.name|localize_translatable_string }}

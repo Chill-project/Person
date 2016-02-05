@@ -86,8 +86,11 @@ This view should receive those arguments:
                     {%- endif -%}
                 </dd>
                 
+                {%- if chill_person.fields.place_of_birth == 'visible' -%}
                 <dt>{{ 'Place of birth'|trans }}&nbsp;:</dt>
                 <dd>{{ person.placeOfBirth }}</dd>
+                {%- endif -%}
+                {%- if chill_person.fields.country_of_birth == 'visible' -%}
                 <dt>{{ 'Country of birth'|trans }}&nbsp;:</dt>
                 <dd>{% spaceless %}  
                     {% if person.countryOfBirth is not null %}
@@ -96,6 +99,7 @@ This view should receive those arguments:
                         {{ 'Unknown country of birth'|trans }}
                     {% endif %}
                 {% endspaceless %}</dd>
+                {%- endif -%}
             </dl>
 
             {% if is_granted('CHILL_PERSON_UPDATE', person) %}
@@ -106,10 +110,12 @@ This view should receive those arguments:
 </div>
 
 <div class="grid-10 push-1 grid-mobile-12 grid-tablet-12 push-mobile-0 push-tablet-0 parent">
+    {%- if chill_person.fields.nationality == 'visible' or chill_person.fields.spoken_languages == 'visible'-%}
     <div class="grid-6">
         <figure class="person-details">
             <h2 class="chill-orange">{{ 'Administrative information'|trans|upper }}</h2>
 
+            {%- if chill_person.fields.nationality == 'visible' -%}
             <dl>
               <dt>{{ 'Nationality'|trans }}&nbsp;:</dt>
                 <dd>
@@ -120,6 +126,8 @@ This view should receive those arguments:
                     {% endif %}
                 </dd> 
             </dl>
+            {%- endif -%}
+            {%- if chill_person.fields.spoken_languages == 'visible' -%}
             <dl>
                 <dt>{{'Spoken languages'|trans}}&nbsp;:</dt>
                 <dd>
@@ -132,6 +140,8 @@ This view should receive those arguments:
                     {% endif %}
                 </dd>
             </dl>
+            {%- endif -%}
+            {%- if chill_person.fields.marital_status == 'visible' -%}
             <dl>
                 <dt>{{'Marital status'|trans}}&nbsp;:</dt>
                 <dd>
@@ -142,24 +152,31 @@ This view should receive those arguments:
                     {% endif %}
                 </dd>
             </dl>
+            {%- endif -%}
 
             {% if is_granted('CHILL_PERSON_UPDATE', person) %}
                 {{ include(edit_tmp_name, edit_tmp_args) }}
             {% endif %}
         </figure>
     </div>
+    {%- endif -%}
+    {%- if chill_person.fields.email == 'visible' or chill_person.fields.phonenumber == 'visible' -%}
     <div class="grid-6">
         <figure class="person-details">
             <h2 class="chill-blue"><i class="fa fa-envelope-o"></i>&nbsp;{{ 'Contact information'|trans|upper }}</h2>
 
+            {%- if chill_person.fields.email == 'visible' -%}
             <dl>
                 <dt>{{ 'Email'|trans }}&nbsp;:</dt>
                 <dd><pre>{{ person.email}}&nbsp;</pre></dd>
             </dl>
+            {%- endif -%}
+            {%- if chill_person.fields.phonenumber == 'visible' -%}
             <dl>
                 <dt>{{ 'Phonenumber'|trans }}&nbsp;:</dt>
                 <dd><pre>{{ person.phonenumber}}&nbsp;</pre></dd>
             </dl>
+            {% endif %}
 
 
             {% if is_granted('CHILL_PERSON_UPDATE', person) %}
@@ -167,6 +184,7 @@ This view should receive those arguments:
             {% endif %}
         </figure>
     </div>
+    {%- endif -%}
 </div>
 
 {% if cFGroup and (cFGroup.getActiveCustomFields|length > 0) %}

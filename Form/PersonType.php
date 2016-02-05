@@ -29,6 +29,25 @@ use Chill\PersonBundle\Form\Type\GenderType;
 class PersonType extends AbstractType
 {
     /**
+     * array of configuration for person_fields.
+     * 
+     * Contains whether we should add fields some optional fields (optional per 
+     * instance)
+     *
+     * @var string[]
+     */
+    protected $config = array();
+    
+    /**
+     * 
+     * @param string[] $personFieldsConfiguration configuration of visibility of some fields
+     */
+    public function __construct(array $personFieldsConfiguration)
+    {
+        $this->config = $personFieldsConfiguration;
+    }
+    
+    /**
      * @param FormBuilderInterface $builder
      * @param array $options
      */
@@ -38,27 +57,48 @@ class PersonType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('birthdate', 'date', array('required' => false, 'widget' => 'single_text', 'format' => 'dd-MM-yyyy'))
-            ->add('placeOfBirth', 'text', array('required' => false))
             ->add('gender', new GenderType(), array(
                 'required' => true
             ))
             ->add('memo', 'textarea', array('required' => false))
-            ->add('phonenumber', 'textarea', array('required' => false))
-            ->add('email', 'textarea', array('required' => false))
-            ->add('countryOfBirth', 'select2_chill_country', array(
+            ;
+        
+        if ($this->config['place_of_birth'] === 'visible') {
+            $builder->add('placeOfBirth', 'text', array('required' => false));
+        }
+        
+        if ($this->config['phonenumber'] === 'visible') {
+            $builder->add('phonenumber', 'textarea', array('required' => false));
+        }
+        
+        if ($this->config['email'] === 'visible') {
+            $builder->add('email', 'textarea', array('required' => false));
+        }
+            
+        if ($this->config['country_of_birth'] === 'visible') {
+            $builder->add('countryOfBirth', 'select2_chill_country', array(
                 'required' => false
-                ))
-            ->add('nationality', 'select2_chill_country', array(
+                ));
+        }
+            
+        if ($this->config['nationality'] === 'visible') {
+            $builder->add('nationality', 'select2_chill_country', array(
                 'required' => false
-                ))
-            ->add('spokenLanguages', 'select2_chill_language', array(
+                ));
+        }
+        
+        if ($this->config['spoken_languages'] === 'visible') {
+            $builder->add('spokenLanguages', 'select2_chill_language', array(
                 'required' => false,
                 'multiple' => true
-                ))
-            ->add('maritalStatus', 'select2_chill_marital_status', array(
+                ));
+        }
+            
+        if ($this->config['marital_status'] === 'visible'){
+            $builder->add('maritalStatus', 'select2_chill_marital_status', array(
                 'required' => false
-                ))
-        ;
+                ));
+        }
 
         if($options['cFGroup']) {
             $builder

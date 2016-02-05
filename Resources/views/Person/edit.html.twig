@@ -43,23 +43,40 @@
 <fieldset>
     <legend><h2>{{ 'Birth information'|trans }}</h2></legend>
     {{ form_row(form.birthdate, {'label': 'Date of birth'} ) }}
+    {%- if form.placeOfBirth is defined -%}
     {{ form_row(form.placeOfBirth, { 'label' : 'Place of birth'} ) }}
+    {%- endif -%}
+    {%- if form.countryOfBirht is defined -%}
     {{ form_row(form.countryOfBirth, { 'label' : 'Country of birth' } ) }}
+    {%- endif -%}
 </fieldset>
 
+{%- if form.nationality is defined or form.spokenLanguages is defined or form.maritalStatus is defined -%}
 <fieldset>
     <legend><h2>{{ 'Administrative information'|trans }}</h2></legend>
+    {%- if form.nationality is defined -%}
     {{ form_row(form.nationality, { 'label' : 'Nationality'|trans} ) }}
+    {%- endif -%}
+    {%- if form.spokenLanguages is defined -%}
     {{ form_row(form.spokenLanguages, {'label' : 'Spoken languages'}) }}
+    {%- endif -%}
+    {%- if form.maritalStatus is defined -%}
     {{ form_row(form.maritalStatus, { 'label' : 'Marital status'} ) }}
+    {%- endif -%}
 </fieldset>
+{%- endif -%}
 
+{%- if form.email is defined or form.phonenumber is defined -%}
 <fieldset>
     <legend><h2>{{ 'Contact information'|trans }}</h2></legend>
+    {%- if form.email is defined -%}
     {{ form_row(form.email, {'label': 'Email'}) }}
+    {%- endif -%}
+    {%- if form.phonenumber is defined -%}
     {{ form_row(form.phonenumber, {'label': 'Phonenumber'}) }}
-    
+    {%- endif -%}
 </fieldset>
+{%- endif -%}
 
 
 {{ form_rest(form) }}

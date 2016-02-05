@@ -70,6 +70,7 @@
                     {{ person.birthdate|localizeddate('long', 'none') }}
                 {% endif %}
             </div>
+            {%- if chill_person.fields.nationality == 'visible' -%}
             <div class="grid-3">
                 <span class="open_sansbold">{{ 'Nationality'|trans|upper}}&nbsp;:</span>
                 {% if person.nationality is not null %}
@@ -78,6 +79,8 @@
                     {% trans %}Without nationality{% endtrans %}
                 {% endif %}
             </div>
+            {%- endif -%}
+            {%- if chill_person.fields.spoken_languages == 'visible' -%}
             <div class="grid-3">
                 <span class="open_sansbold">{{ 'Spoken languages'|trans|upper}}&nbsp;:</span>
                 {% if person.spokenLanguages|length == 0 %}
@@ -87,7 +90,8 @@
                         {{ lang.name|localize_translatable_string }}{% if not loop.last %},{% endif %}
                     {% endfor %}
                 {% endif %}
-            </div> 
+            </div>
+            {%- endif -%}
         </div>
     </div>
 {% endblock %}

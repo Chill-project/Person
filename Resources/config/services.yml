@@ -1,7 +1,14 @@
 parameters:
 #    cl_chill_person.example.class: Chill\PersonBundle\Example
 
-services:         
+services:   
+    chill.person.form.person_creation:
+        class: Chill\PersonBundle\Form\PersonType
+        arguments:
+            - %chill_person.person_fields%
+        tags:
+            - { name: form.type }
+    
     chill.person.accompanying_period_closing_motive:
         class: Chill\PersonBundle\Form\Type\ClosingMotiveType
         scope: request

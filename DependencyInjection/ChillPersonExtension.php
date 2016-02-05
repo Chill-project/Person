@@ -31,9 +31,24 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
         // set configuration for validation
         $container->setParameter('chill_person.validation.birtdate_not_before',
                 $config['validation']['birthdate_not_after']);
+        
+        $this->handlePersonFieldsParameters($container, $config['person_fields']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
+    }
+    
+    private function handlePersonFieldsParameters(ContainerBuilder $container, $config)
+    {
+        if (array_key_exists('enabled', $config)) {
+            unset($config['enabled']);
+        }
+        
+        $container->setParameter('chill_person.person_fields', $config);
+        
+        foreach ($config as $key => $value) {
+            $container->setParameter('chill_person.person_fields.'.$key, $value);
+        }
     }
 
     private function declarePersonAsCustomizable (ContainerBuilder $container)
@@ -66,6 +81,18 @@ class ChillPersonExtension extends Extension implements PrependExtensionInterfac
         $asseticConfig['bundles'][] = 'ChillPersonBundle';
         $container->prependExtensionConfig('assetic', 
                 array('bundles' => array('ChillPersonBundle')));
+        
+        //add person_fields parameter as global
+        $chillPersonConfig = $container->getExtensionConfig($this->getAlias());
+        $config = $this->processConfiguration(new Configuration(), $chillPersonConfig);
+        $twigConfig = array(
+            'globals' => array(
+                'chill_person' => array(
+                    'fields' => $config['person_fields']
+                )
+            )
+        );
+        $container->prependExtensionConfig('twig', $twigConfig);
 
         $this-> declarePersonAsCustomizable($container);
         

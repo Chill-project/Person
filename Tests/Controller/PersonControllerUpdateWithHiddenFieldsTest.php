@@ -32,7 +32,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
  *
  * @author Julien Fastré <julien.fastre@champs-libres.coop>
  */
-class PersonControllerUpdateTest extends WebTestCase
+class PersonControllerUpdateWithHiddenFieldsTest extends WebTestCase
 {
     /** @var \Doctrine\ORM\EntityManagerInterface The entity manager */
     private $em;
@@ -51,7 +51,7 @@ class PersonControllerUpdateTest extends WebTestCase
      */
     public function setUp()
     {
-        static::bootKernel();
+        static::bootKernel(array('environment' => 'test_with_hidden_fields'));
         
         $this->em = static::$kernel->getContainer()
             ->get('doctrine.orm.entity_manager');
@@ -71,10 +71,15 @@ class PersonControllerUpdateTest extends WebTestCase
         $this->editUrl = '/en/person/'.$this->person->getId().'/general/edit';
         $this->viewUrl  = '/en/person/'.$this->person->getId().'/general';
         
-        $this->client = static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center a_social',
-           'PHP_AUTH_PW'   => 'password',
-        ));
+        $this->client = static::createClient(
+                array(
+                    'environment' => 'test_with_hidden_fields'
+                ), 
+                array(
+                    'PHP_AUTH_USER' => 'center a_social',
+                    'PHP_AUTH_PW'   => 'password',
+                )
+            );
     }
     
     /**
@@ -97,11 +102,11 @@ class PersonControllerUpdateTest extends WebTestCase
     }
     
     /**
-     * Test the configurable fields are present
+     * Test the configurable fields are absent
      * 
      * @group configurable_fields
      */
-    public function testHiddenFielsArePresent()
+    public function testHiddenFielsAreAbsent()
     {
         $crawler = $this->client->request('GET', $this->editUrl);
         
@@ -110,39 +115,8 @@ class PersonControllerUpdateTest extends WebTestCase
         $form = $crawler->selectButton('Submit')->form(); //;
         
         foreach($configurables as $key) {
-            $this->assertTrue($form->has('chill_personbundle_person['.$key.']'));
+            $this->assertFalse($form->has('chill_personbundle_person['.$key.']'));
         }
-    }
-    
-    /**
-     * Test if the edit page of a given person is not accessible for a user
-     * of another center of the person
-     */
-    public function testEditPageDeniedForUnauthorized_OutsideCenter()
-    {
-        $client = static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center b_social',
-           'PHP_AUTH_PW'   => 'password',
-        ));
-        
-        $client->request('GET', $this->editUrl);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode(),
-            "The edit page of a person of a center A must not be accessible for user of center B");
-    }
-    
-    /**
-     * Test the edit page of a given person are not accessible for an
-     * administrative user
-     */
-    public function testEditPageDeniedForUnauthorized_InsideCenter()
-    {
-        $client = static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center a_administrative',
-           'PHP_AUTH_PW'   => 'password',
-        ));
-        
-        $client->request('GET', $this->editUrl);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode());
     }
     
     /**
@@ -203,54 +177,6 @@ class PersonControllerUpdateTest extends WebTestCase
         }
     }
     
-    public function testEditLanguages()
-    {
-        $crawler = $this->client->request('GET', $this->editUrl);
-        $selectedLanguages = array('en', 'an', 'bbj');
-        
-        $form = $crawler->selectButton('Submit')
-            ->form();
-        $form->get('chill_personbundle_person[spokenLanguages]')
-            ->setValue($selectedLanguages);
-        
-        $this->client->submit($form);
-        $this->refreshPerson();
-        
-        $this->assertTrue($this->client->getResponse()->isRedirect($this->viewUrl),
-            'the page is redirected to /general view');
-        //retrieve languages codes present in person
-        foreach($this->person->getSpokenLanguages() as $lang){
-            $languagesCodesPresents[] = $lang->getId();
-        }
-        $this->assertEquals(asort($selectedLanguages), asort($languagesCodesPresents),
-            'the person speaks the expected languages');
-    }
-    
-    
-    /**
-     * Test tbe detection of invalid data during the update procedure 
-     *
-     * @dataProvider providesInvalidFieldsValues
-     * @param string $field
-     * @param string $value
-     */
-    public function testInvalidFields($field, $value)
-    {
-        $crawler = $this->client->request('GET', $this->editUrl);
-        
-        $form = $crawler->selectButton('Submit')
-            ->form();
-        $form->get('chill_personbundle_person['.$field.']')
-            ->setValue($value);
-        
-        $crawler = $this->client->submit($form);
-        
-        $this->assertFalse($this->client->getResponse()->isRedirect(),
-            'the page is not redirected to /general');
-        $this->assertGreaterThan(0, $crawler->filter('.error')->count(),
-            'a element .error is shown');
-    }
-    
     /**
      * provide valid values to test, with field name and 
      * a function to find the value back from person entity
@@ -262,31 +188,10 @@ class PersonControllerUpdateTest extends WebTestCase
         return array(
             ['firstName', 'random Value', function(Person $person) { return $person->getFirstName(); } ],
             ['lastName' , 'random Value', function(Person $person) { return $person->getLastName(); }  ],
-            ['placeOfBirth', 'none place', function(Person $person) { return $person->getPlaceOfBirth(); }],
             ['birthdate', '15-12-1980', function(Person $person) { return $person->getBirthdate()->format('d-m-Y'); }],
-            ['phonenumber', '0123456789', function(Person $person) { return $person->getPhonenumber(); }],
             ['memo', 'jfkdlmq jkfldmsq jkmfdsq', function(Person $person) { return $person->getMemo(); }],
-            ['countryOfBirth', 'BE', function(Person $person) { return $person->getCountryOfBirth()->getCountryCode(); }],
-            ['nationality', 'FR', function(Person $person) { return $person->getNationality()->getCountryCode(); }],
-            ['placeOfBirth', '', function(Person $person) { return $person->getPlaceOfBirth(); }],
             ['birthdate', '', function(Person $person) { return $person->getBirthdate(); }],
-            ['phonenumber', '', function(Person $person) { return $person->getPhonenumber(); }],
-            ['memo', '', function(Person $person) { return $person->getMemo(); }],
-            ['countryOfBirth', NULL, function(Person $person) { return $person->getCountryOfBirth(); }],
-            ['nationality', NULL, function(Person $person) { return $person->getNationality(); }],
             ['gender', Person::FEMALE_GENDER, function(Person $person) { return $person->getGender(); }],
-            ['maritalStatus', NULL, function(Person $person) {return $person->getMaritalStatus(); }]
-        );
-    }
-    
-    public function providesInvalidFieldsValues()
-    {
-        return array(
-            ['firstName', $this->getVeryLongText()],
-            ['lastName', $this->getVeryLongText()],
-            ['firstName', ''],
-            ['lastName', ''],
-            ['birthdate', 'false date']
         );
     }
     

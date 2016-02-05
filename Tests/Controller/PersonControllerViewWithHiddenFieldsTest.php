@@ -26,7 +26,7 @@ use Chill\PersonBundle\Entity\Person;
  * @author Julien Fastré <julien.fastre@champs-libres.coop>
  * @author Marc Ducobu <marc.ducobu@champs-libres.coop>
  */
-class PersonControllerViewTest extends WebTestCase
+class PersonControllerViewTestWithHiddenFields extends WebTestCase
 {
     /** @var \Doctrine\ORM\EntityManagerInterface The entity manager */
     private $em;
@@ -39,7 +39,7 @@ class PersonControllerViewTest extends WebTestCase
     
     public function setUp()
     {
-        static::bootKernel();
+        static::bootKernel(array('environment' => 'test_with_hidden_fields'));
         
         $this->em = static::$kernel->getContainer()
             ->get('doctrine.orm.entity_manager');
@@ -66,38 +66,26 @@ class PersonControllerViewTest extends WebTestCase
      */
     public function testViewPerson()
     {
-        $client = static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center a_social',
-           'PHP_AUTH_PW'   => 'password',
-        ));
+        $client = static::createClient(
+                array('environment' => 'test_with_hidden_fields'), 
+                array(
+                    'PHP_AUTH_USER' => 'center a_social',
+                    'PHP_AUTH_PW'   => 'password',
+                    'HTTP_ACCEPT_LANGUAGE' => 'fr'
+                )
+            );
         
         $crawler = $client->request('GET', $this->viewUrl);
         $response = $client->getResponse();
-
+        
         $this->assertTrue($response->isSuccessful());
 
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Tested Person")')->count());
         $this->assertGreaterThan(0, $crawler->filter('html:contains("Réginald")')->count());
-        $this->assertContains('Email addresses', $crawler->text());
-        $this->assertContains('Phonenumber', $crawler->text());
-        $this->assertContains('Langues parlées', $crawler->text());
-        $this->assertContains(/* Etat */ 'civil', $crawler->text());
-    }
-    
-    /**
-     * Test if the view page of a given person is not accessible for a user
-     * of another center of the person
-     */
-    public function testViewPersonAccessDeniedForUnauthorized()
-    {
-        $client = static::createClient(array(), array(
-           'PHP_AUTH_USER' => 'center b_social',
-           'PHP_AUTH_PW'   => 'password',
-        ));
-        
-        $client->request('GET', $this->viewUrl);
-        $this->assertEquals(403, $client->getResponse()->getStatusCode(),
-            "The view page of a person of a center A must not be accessible for user of center B");
+        $this->assertNotContains('Email addresses', $crawler->text());
+        $this->assertNotContains('Phonenumber', $crawler->text());
+        $this->assertNotContains('Langues parlées', $crawler->text());
+        $this->assertNotContains(/* Etat */ 'civil', $crawler->text());
     }
     
     /**

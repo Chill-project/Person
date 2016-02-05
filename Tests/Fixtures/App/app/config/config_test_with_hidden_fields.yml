@@ -1,0 +1,18 @@
+# config/config_test.yml
+imports:
+    - { resource: config.yml } #here we import a config.yml file, this is not required
+
+framework:
+    test: ~
+    session:
+        storage_id: session.storage.filesystem
+
+chill_person:
+    person_fields:
+        nationality: hidden
+        email: hidden
+        place_of_birth: hidden
+        phonenumber: hidden
+        country_of_birth: hidden
+        marital_status: hidden
+        spoken_languages: hidden

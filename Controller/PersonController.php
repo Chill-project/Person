@@ -75,7 +75,7 @@ class PersonController extends Controller
         $this->denyAccessUnlessGranted('CHILL_PERSON_UPDATE', $person, 
                 'You are not allowed to edit this person');
         
-        $form = $this->createForm(new PersonType(), $person,
+        $form = $this->createForm(PersonType::class, $person,
             array(
                 "action" => $this->generateUrl('chill_person_general_update',
                     array("person_id" => $person_id)),
@@ -98,7 +98,7 @@ class PersonController extends Controller
         $this->denyAccessUnlessGranted('CHILL_PERSON_UPDATE', $person, 
                 'You are not allowed to edit this person');
         
-        $form = $this->createForm(new PersonType(), $person,
+        $form = $this->createForm(PersonType::class, $person,
             array("cFGroup" => $this->getCFGroup()));
         
         if ($request->getMethod() === 'POST') {

@@ -1,0 +1,1 @@
+{% macro render(p, withLink=false) %}<span class="entity entity-person person-person"><a href="{{ path('chill_person_view', { 'person_id' : p.id } ) }}">{{ p.firstName }}&nbsp;{{ p.lastName }}</a></span>{% endmacro %}

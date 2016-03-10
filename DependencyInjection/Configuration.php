@@ -71,6 +71,7 @@ class Configuration implements ConfigurationInterface
                                 ->append($this->addFieldNode('country_of_birth'))
                                 ->append($this->addFieldNode('marital_status'))
                                 ->append($this->addFieldNode('spoken_languages'))
+                                ->append($this->addFieldNode('address'))
                         ->end() //children for 'person_fields', parent = array 'person_fields'
                     ->end() // person_fields, parent = children of root
                 ->end() // children of 'root', parent = root

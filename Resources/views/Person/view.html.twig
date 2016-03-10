@@ -16,6 +16,8 @@
 #}
 {% extends "ChillPersonBundle::layout.html.twig"  %}
 
+{% import 'ChillMainBundle:Address:macro.html.twig' as address %}
+
 {% set activeRouteKey = 'chill_person_view' %}
 
 {#
@@ -165,6 +167,19 @@ This view should receive those arguments:
         <figure class="person-details">
             <h2 class="chill-blue"><i class="fa fa-envelope-o"></i>&nbsp;{{ 'Contact information'|trans|upper }}</h2>
 
+            {%- if chill_person.fields.address == 'visible' -%}
+            <dl>
+                <dt>{{ 'Address'|trans }}</dt>
+                <dd>
+                    {%- if person.lastAddress is not empty -%}
+                    {{ address._render(person.lastAddress) }}
+                    {%- else -%}
+                    <span class=".chill-no-data-statement">{{ 'No address given'|trans }}</span>
+                    {%- endif -%}
+                </dd>
+            </dl>
+            {%- endif -%}
+            
             {%- if chill_person.fields.email == 'visible' -%}
             <dl>
                 <dt>{{ 'Email'|trans }}&nbsp;:</dt>

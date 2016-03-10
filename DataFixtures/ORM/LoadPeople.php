@@ -26,6 +26,8 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Chill\PersonBundle\Entity\Person;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Chill\MainBundle\DataFixtures\ORM\LoadPostalCodes;
+use Chill\MainBundle\Entity\Address;
 
 /**
  * Load people into database
@@ -37,6 +39,13 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
 {    
     
     use \Symfony\Component\DependencyInjection\ContainerAwareTrait;
+    
+    protected $faker;
+    
+    public function __construct()
+    {
+        $this->faker = \Faker\Factory::create('fr_FR');
+    }
     
     public function prepare()
     {
@@ -114,12 +123,27 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                 $firstName = $this->firstNamesFemale[array_rand($this->firstNamesFemale)];
             }
             
+            // add an address on 80% of the created people
+            if (rand(0,100) < 80) {
+                $address = $this->getRandomAddress();
+                // on 30% of those person, add multiple addresses
+                if (rand(0,10) < 4) {
+                    $address = array(
+                       $address,
+                       $this->getRandomAddress()
+                    );
+                }
+            } else {
+                $address = null;
+            }
+            
             $person = array(
                 'FirstName' => $firstName,
                 'LastName' => $lastName,
                 'Gender' => $sex,
                 'Nationality' => (rand(0,100) > 50) ? NULL: 'BE',
                 'center' => (rand(0,1) == 0) ? 'centerA': 'centerB',
+                'Address' => $address,
                 'maritalStatus' => $this->maritalStatusRef[array_rand($this->maritalStatusRef)]
             );
             
@@ -142,10 +166,18 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                 'Email' => "Email d'un ami: roger@tt.com",
                 'CountryOfBirth' => 'BE',
                 'Nationality' => 'BE',
-                'CFData' => array()
+                'CFData' => array(),
+                'Address' => null
             ), $specific);
     }
     
+    /**
+     * create a new person from array data
+     * 
+     * @param array $person
+     * @param ObjectManager $manager
+     * @throws \Exception
+     */
     private function addAPerson(array $person, ObjectManager $manager)
     {
         $p = new Person();
@@ -164,11 +196,49 @@ class LoadPeople extends AbstractFixture implements OrderedFixtureInterface, Con
                     $value = $this->getReference($value);
                     break;
             }
-            call_user_func(array($p, 'set'.$key), $value);
+            
+            //try to add the data using the setSomething function,
+            // if not possible, fallback to addSomething function
+            if (method_exists($p, 'set'.$key)) {
+                call_user_func(array($p, 'set'.$key), $value);
+            } elseif (method_exists($p, 'add'.$key)) {
+                // if we have a "addSomething", we may have multiple items to add
+                // so, we set the value in an array if it is not an array, and 
+                // will call the function addSomething multiple times
+                if (!is_array($value)) {
+                    $value = array($value);
+                }
+                
+                foreach($value as $v) {
+                    if ($v !== NULL) {
+                        call_user_func(array($p, 'add'.$key), $v);
+                    }
+                }
+                
+            } 
         }
 
         $manager->persist($p);
         echo "add person'".$p->__toString()."'\n";
+    }
+    
+    /**
+     * Creata a random address
+     * 
+     * @return Address
+     */
+    private function getRandomAddress()
+    {
+        return (new Address())
+                      ->setStreetAddress1($this->faker->streetAddress)
+                      ->setStreetAddress2(
+                            rand(0,9) > 5 ? $this->faker->streetAddress : ''
+                            )
+                      ->setPostcode($this->getReference(
+                                LoadPostalCodes::$refs[array_rand(LoadPostalCodes::$refs)]
+                            ))
+                      ->setValidFrom($this->faker->dateTimeBetween('-5 years'))
+              ;
     }
     
     private function getCountry($countryCode)

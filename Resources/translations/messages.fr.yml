@@ -70,6 +70,8 @@ Reset: 'Remise à zéro'
 'Person details': 'Détails de la personne'
 'Update details for %name%': 'Modifier détails de %name%'
 Accompanying period list: Périodes d'accompagnement
+Since %date%: Depuis le %date%
+No address given: Pas d'adresse renseignée
 
 #timeline
 'An accompanying period is opened for %person% on %date%': Une période d'accompagnement a été ouverte le %date% pour %person%

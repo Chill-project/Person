@@ -173,6 +173,9 @@ This view should receive those arguments:
                 <dd>
                     {%- if person.lastAddress is not empty -%}
                     {{ address._render(person.lastAddress) }}
+                    <a href="{{ path('chill_person_address_edit', { 'person_id': person.id, 'address_id' : person.lastAddress.id } ) }}">
+                        {{ 'Edit'|trans }}
+                    </a>
                     {%- else -%}
                     <span class=".chill-no-data-statement">{{ 'No address given'|trans }}</span>
                     {%- endif -%}

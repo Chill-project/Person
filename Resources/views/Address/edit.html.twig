@@ -1,0 +1,36 @@
+{#
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends "ChillPersonBundle::layout.html.twig"  %}
+
+{% set activeRouteKey = '' %}
+
+{% block title %}{{ 'Update address for %name%'|trans({ '%name%': person.firstName|capitalize ~ ' ' ~ person.lastName } )|capitalize }}{% endblock %}
+
+{% block personcontent %}
+    
+    {{ form_start(form) }}
+    
+    {{ form_row(form.streetAddress1) }}
+    {{ form_row(form.streetAddress2) }}
+    {{ form_row(form.postCode) }}
+    {{ form_row(form.validFrom) }}
+    
+    {{ form_row(form.submit, { 'attr' : { 'class': 'sc-button bt-edit' } } ) }}
+    
+    {{ form_end(form) }}
+    
+{% endblock personcontent %}

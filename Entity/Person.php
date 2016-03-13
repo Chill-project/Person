@@ -27,6 +27,8 @@ use Chill\MainBundle\Entity\Country;
 use Chill\PersonBundle\Entity\MaritalStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Chill\MainBundle\Entity\HasCenterInterface;
+use Chill\MainBundle\Entity\Address;
+use Doctrine\Common\Collections\Criteria;
 
 /**
  * Person
@@ -100,9 +102,16 @@ class Person implements HasCenterInterface {
     /** @var array Array where customfield's data are stored */
     private $cFData;
     
+    /**
+     *
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $addresses;
+    
     public function __construct(\DateTime $opening = null) {
         $this->accompanyingPeriods = new ArrayCollection();
         $this->spokenLanguages = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
         
         if ($opening === null) {
             $opening = new \DateTime();
@@ -595,6 +604,50 @@ class Person implements HasCenterInterface {
     public function getSpokenLanguages()
     {
         return $this->spokenLanguages;
+    }
+    
+    public function addAddress(Address $address)
+    {
+        $this->addresses[] = $address;
+        
+        return $this;
+    }
+    
+    public function removeAddress(Address $address)
+    {
+        $this->addresses->removeElement($address);
+    }
+    
+    /**
+     * 
+     * @return \Chill\MainBundle\Entity\Address[]@return Address[]
+     */
+    public function getAddresses()
+    {
+        return $this->addresses;
+    }
+    
+    public function getLastAddress(\DateTime $date = null)
+    {
+        if ($date === null) {
+            $date = new \DateTime('now');
+        }
+        
+        $lastAddress = null;
+        
+        foreach ($this->getAddresses() as $address) {
+            if ($address->getValidFrom() < $date) {
+                if ($lastAddress === NULL) {
+                    $lastAddress = $address;
+                } else {
+                    if ($lastAddress->getValidFrom() < $address->getValidFrom()) {
+                        $lastAddress = $address;
+                    }
+                }
+            }
+        }
+        
+        return $lastAddress;
     }
     
     /**

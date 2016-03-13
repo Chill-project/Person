@@ -71,6 +71,12 @@ Reset: 'Remise à zéro'
 'Update details for %name%': 'Modifier détails de %name%'
 Accompanying period list: Périodes d'accompagnement
 
+#address
+Since %date%: Depuis le %date%
+No address given: Pas d'adresse renseignée
+The address has been successfully updated: L'adresse a été mise à jour avec succès
+Update address for %name%: Mettre à jour une adresse pour %name%
+
 #timeline
 'An accompanying period is opened for %person% on %date%': Une période d'accompagnement a été ouverte le %date% pour %person%
 'An accompanying period is closed for %person% on %date%': Une période d'accompagnement a été fermée le %date% pour %person%

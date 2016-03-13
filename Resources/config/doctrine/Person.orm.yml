@@ -72,4 +72,9 @@ Chill\PersonBundle\Entity\Person:
                 inverseJoinColumns:
                     language_id:
                         referencedColumnName: id
+        addresses:
+            targetEntity: Chill\MainBundle\Entity\Address
+            joinTable:
+                name: chill_person_persons_to_addresses
+            cascade: [persist, remove, merge, detach]
     lifecycleCallbacks: {  }

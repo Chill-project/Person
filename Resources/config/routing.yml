@@ -69,6 +69,14 @@ chill_person_accompanying_period_close:
 chill_person_accompanying_period_open:
     path: /{_locale}/person/{person_id}/accompanying-period/open
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:open }
+    
+chill_person_address_edit:
+    path: /{_locale}/person/{person_id}/address/{address_id}/edit
+    defaults: { _controller: ChillPersonBundle:PersonAddress:edit }
+    
+chill_person_address_update:
+    path: /{_locale}/person/{person_id}/address/{address_id}/update
+    defaults: { _controller: ChillPersonBundle:PersonAddress:update }
 
 chill_person_export:
     path: /{_locale}/person/export/

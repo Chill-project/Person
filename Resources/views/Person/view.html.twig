@@ -175,9 +175,15 @@ This view should receive those arguments:
                     {{ address._render(person.lastAddress) }}
                     <a href="{{ path('chill_person_address_edit', { 'person_id': person.id, 'address_id' : person.lastAddress.id } ) }}">
                         {{ 'Edit'|trans }}
+                    </a><br/>
+                    <a href="{{ path('chill_person_address_list', { 'person_id': person.id } ) }}">
+                        {{ 'Addresses\'history'|trans }}
                     </a>
                     {%- else -%}
-                    <span class="chill-no-data-statement">{{ 'No address given'|trans }}</span>
+                    <span class="chill-no-data-statement">{{ 'No address given'|trans }}</span> 
+                    <a href="{{ path('chill_person_address_new', { 'person_id' : person.id } ) }}" class="">
+                        {{ 'Add an address'|trans }}
+                    </a>
                     {%- endif -%}
                 </dd>
             </dl>

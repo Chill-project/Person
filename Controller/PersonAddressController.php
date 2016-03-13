@@ -37,6 +37,92 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PersonAddressController extends Controller
 {
+    
+    public function listAction($person_id)
+    {
+        $person = $this->getDoctrine()->getManager()
+              ->getRepository('ChillPersonBundle:Person')
+              ->find($person_id);
+        
+        if ($person === NULL) {
+            throw $this->createNotFoundException("Person with id $person_id not"
+                    . " found ");
+        }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_SEE', $person,
+                "You are not allowed to edit this person.");
+        
+        return $this->render('ChillPersonBundle:Address:list.html.twig', array(
+            'person' => $person
+        ));
+    }
+    
+    public function newAction($person_id)
+    {
+        $person = $this->getDoctrine()->getManager()
+              ->getRepository('ChillPersonBundle:Person')
+              ->find($person_id);
+        
+        if ($person === NULL) {
+            throw $this->createNotFoundException("Person with id $person_id not"
+                    . " found ");
+        }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_UPDATE', $person,
+                "You are not allowed to edit this person.");
+        
+        $address = new Address();
+        
+        $form = $this->createCreateForm($person, $address);
+        
+        return $this->render('ChillPersonBundle:Address:new.html.twig', array(
+            'person' => $person,
+            'form' => $form->createView()
+        ));
+    }
+    
+    public function createAction($person_id, Request $request)
+    {
+        $person = $this->getDoctrine()->getManager()
+              ->getRepository('ChillPersonBundle:Person')
+              ->find($person_id);
+        
+        if ($person === NULL) {
+            throw $this->createNotFoundException("Person with id $person_id not"
+                    . " found ");
+        }
+        
+        $this->denyAccessUnlessGranted('CHILL_PERSON_UPDATE', $person,
+                "You are not allowed to edit this person.");
+        
+        $address = new Address();
+        
+        $form = $this->createCreateForm($person, $address);
+        
+        $form->handleRequest($request);
+        
+        if ($form->isSubmitted() && $form->isValid()) {
+            $address = $form->getData();
+            $person->addAddress($address);
+            
+            $em = $this->getDoctrine()->getManager();
+            $em->flush();
+            
+            $this->addFlash('success', 
+                    $this->get('translator')->trans('The new address was created successfully')
+                    );
+            
+            return $this->redirectToRoute('chill_person_address_list', array(
+                'person_id' => $person->getId()
+            ));
+        }
+        
+        return $this->render('ChillPersonBundle:Address:new.html.twig', array(
+            'person' => $person,
+            'form' => $form->createView()
+        ));
+    }
+    
     public function editAction($person_id, $address_id)
     {
         $person = $this->getDoctrine()->getManager()
@@ -91,7 +177,7 @@ class PersonAddressController extends Controller
             $this->addFlash('success', $this->get('translator')->trans(
                   "The address has been successfully updated"));
             
-            return $this->redirectToRoute('chill_person_view', array(
+            return $this->redirectToRoute('chill_person_address_list', array(
                'person_id' => $person->getId()
             ));
         }
@@ -116,6 +202,28 @@ class PersonAddressController extends Controller
            'action' => $this->generateUrl('chill_person_address_update', array(
               'person_id' => $person->getId(),
               'address_id' => $address->getId()
+           ))
+        ));
+        
+        $form->add('submit', 'submit', array(
+           'label' => 'Submit'
+        ));
+        
+        return $form;
+    }
+    
+    /**
+     * 
+     * @param Person $person
+     * @param Address $address
+     * @return \Symfony\Component\Form\Form
+     */
+    protected function createCreateForm(Person $person, Address $address)
+    {
+        $form = $this->createForm(AddressType::class, $address, array(
+           'method' => 'POST',
+           'action' => $this->generateUrl('chill_person_address_create', array(
+              'person_id' => $person->getId()
            ))
         ));
         

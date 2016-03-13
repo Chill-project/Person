@@ -70,6 +70,19 @@ chill_person_accompanying_period_open:
     path: /{_locale}/person/{person_id}/accompanying-period/open
     defaults: { _controller: ChillPersonBundle:AccompanyingPeriod:open }
     
+chill_person_address_list:
+    path: /{_locale}/person/{person_id}/address/list
+    defaults: { _controller: ChillPersonBundle:PersonAddress:list }
+
+chill_person_address_create:
+    path: /{_locale}/person/{person_id}/address/create
+    defaults: { _controller: ChillPersonBundle:PersonAddress:create }
+    methods: [POST]
+    
+chill_person_address_new:
+    path: /{_locale}/person/{person_id}/address/new
+    defaults: { _controller: ChillPersonBundle:PersonAddress:new }
+    
 chill_person_address_edit:
     path: /{_locale}/person/{person_id}/address/{address_id}/edit
     defaults: { _controller: ChillPersonBundle:PersonAddress:edit }

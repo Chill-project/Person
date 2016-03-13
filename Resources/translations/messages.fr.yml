@@ -76,6 +76,12 @@ Since %date%: Depuis le %date%
 No address given: Pas d'adresse renseignée
 The address has been successfully updated: L'adresse a été mise à jour avec succès
 Update address for %name%: Mettre à jour une adresse pour %name%
+Addresses'history for %name%: Historique des adresses de %name%
+Addresses'history: Historique des adresses
+New address for %name% : Nouvelle adresse pour %name%
+The new address was created successfully: La nouvelle adresse a été créée
+Add an address: Ajouter une adresse
+Back to the person details: Retour aux détails de la personne
 
 #timeline
 'An accompanying period is opened for %person% on %date%': Une période d'accompagnement a été ouverte le %date% pour %person%

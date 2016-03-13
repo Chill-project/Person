@@ -18,11 +18,11 @@
 
 {% set activeRouteKey = '' %}
 
-{% block title 'Update address for %name%'|trans({ '%name%': person.firstName ~ ' ' ~ person.lastName } ) %}
+{% block title %}{{ 'New address for %name%'|trans({ '%name%': person.firstName|capitalize ~ ' ' ~ person.lastName } )|capitalize }}{% endblock %}
 
 {% block personcontent %}
     
-    <h1>{{ 'Update address for %name%'|trans({ '%name%': person.firstName ~ ' ' ~ person.lastName } ) }}</h1>
+    <h1>{{ 'New address for %name%'|trans({ '%name%': person.firstName ~ ' ' ~ person.lastName } ) }}</h1>
     
     {{ form_start(form) }}
     
@@ -38,7 +38,7 @@
                 </a>
         </li>
         <li>
-            {{ form_row(form.submit, { 'attr' : { 'class': 'sc-button bt-edit' } } ) }}
+            {{ form_row(form.submit, { 'attr' : { 'class': 'sc-button bt-create' } } ) }}
         </li>
     </ul>
     

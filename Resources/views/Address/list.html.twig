@@ -1,0 +1,84 @@
+{#
+ * Copyright (C) 2014, Champs Libres Cooperative SCRLFS, <http://www.champs-libres.coop>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ *  License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#}
+{% extends "ChillPersonBundle::layout.html.twig"  %}
+
+{% import 'ChillMainBundle:Address:macro.html.twig' as address_macros %}
+
+{% set activeRouteKey = '' %}
+
+{% block title %}{{ 'Addresses\'history for %name%'|trans({ '%name%': person.firstName ~ ' ' ~ person.lastName } ) }}{% endblock %}
+
+{% block personcontent %}
+    
+    <h1>{{ 'Addresses\'history for %name%'|trans({ '%name%': person.firstName ~ ' ' ~ person.lastName } ) }}</h1>
+    
+    <table class="records_list">
+        <thead>
+            <tr>
+                <th>{{ 'Valid from'|trans }}</th>
+                <th>{{ 'Address'|trans }}</th>
+                <th>&nbsp;</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if person.addresses|length == 0 %}
+            <tr>
+                <td colspan="3">
+                    <span class="chill-no-data-statement">{{ 'No address given'|trans }}</span>
+                    <a href="{{ path('chill_person_address_new', { 'person_id' : person.id } ) }}">
+                        {{ 'Add an address'|trans }}
+                    </a>
+                </td>
+            </tr>
+            {% else %}
+            {% for address in person.addresses %}
+            <tr>
+                <td><strong>{{ 'Since %date%'|trans( { '%date%' : address.validFrom|localizeddate('long', 'none') } ) }}</strong></td>
+                
+                <td>
+                {{ address_macros._render(address, { 'with_valid_from' : false } ) }}
+                </td>
+                
+                <td>
+                    <ul class="record_actions">
+                        <li>
+                            <a href="{{ path('chill_person_address_edit', { 'person_id': person.id, 'address_id' : address.id } ) }}" class="sc-button bt-edit">
+                            {{ 'Edit'|trans }}
+                            </a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+        
+        <ul class="record_actions">
+            <li>
+                <a href="{{ path('chill_person_view', { 'person_id' : person.id } ) }}" class="sc-button btn-cancel">
+                        {{ 'Back to the person details'|trans }}
+                    </a>
+            </li>
+            <li>
+                <a href="{{ path('chill_person_address_new', { 'person_id' : person.id } ) }}" class="sc-button btn-create">
+                        {{ 'Add an address'|trans }}
+                    </a>
+            </li>
+        </ul>
+    
+{% endblock personcontent %}

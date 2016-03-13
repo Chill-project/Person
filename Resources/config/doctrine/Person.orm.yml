@@ -74,6 +74,7 @@ Chill\PersonBundle\Entity\Person:
                         referencedColumnName: id
         addresses:
             targetEntity: Chill\MainBundle\Entity\Address
+            orderBy: { 'validFrom': 'DESC' }
             joinTable:
                 name: chill_person_persons_to_addresses
             cascade: [persist, remove, merge, detach]

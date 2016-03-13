@@ -619,8 +619,10 @@ class Person implements HasCenterInterface {
     }
     
     /**
+     * By default, the addresses are ordered by date, descending (the most
+     * recent first)
      * 
-     * @return \Chill\MainBundle\Entity\Address[]@return Address[]
+     * @return \Chill\MainBundle\Entity\Address[]
      */
     public function getAddresses()
     {
@@ -633,21 +635,14 @@ class Person implements HasCenterInterface {
             $date = new \DateTime('now');
         }
         
-        $lastAddress = null;
+        $addresses = $this->getAddresses();
         
-        foreach ($this->getAddresses() as $address) {
-            if ($address->getValidFrom() < $date) {
-                if ($lastAddress === NULL) {
-                    $lastAddress = $address;
-                } else {
-                    if ($lastAddress->getValidFrom() < $address->getValidFrom()) {
-                        $lastAddress = $address;
-                    }
-                }
-            }
+        if ($addresses == null) {
+            
+            return null;
         }
         
-        return $lastAddress;
+        return $addresses->first();
     }
     
     /**

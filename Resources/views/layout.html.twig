@@ -108,4 +108,8 @@
         'args' : {'person_id': person.id },
         'activeRouteKey': activeRouteKey
     }) }}
+    
+    <div class="block-post-menu">
+        {{ chill_delegated_block('person_post_vertical_menu', { 'person': person } ) }}
+    </div>
 {% endblock %}

@@ -162,7 +162,7 @@ class Person implements HasCenterInterface {
      * @param accompanyingPeriod
      * @throws \Exception if two lines of the accompanying period are open.
      */
-    public function close(AccompanyingPeriod $accompanyingPeriod) 
+    public function close(AccompanyingPeriod $accompanyingPeriod = null) 
     {
         $this->proxyAccompanyingPeriodOpenState = false;
     }

@@ -26,6 +26,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Logger\ConsoleLogger;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Console\Question\ChoiceQuestion;
+use Symfony\Component\Console\Helper\Table;
 use Chill\PersonBundle\Entity\Person;
 
 /**
@@ -52,6 +54,18 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
      * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
+    
+    /**
+     *
+     * @var \Chill\MainBundle\Templating\TranslatableStringHelper
+     */
+    protected $helper;
+    
+    /**
+     *
+     * @var \Doctrine\Common\Persistence\ObjectManager
+     */
+    protected $em;
     
     /**
      * the line currently read
@@ -81,6 +95,8 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
         ['birthdate',       'The column header for birthdate', 'birthdate'],
         ['opening_date',    'The column header for opening date', 'opening_date'],
         ['closing_date',    'The column header for closing date', 'closing_date'],
+        ['memo',            'The column header for memo',           'memo'],
+        ['phonenumber',     'The column header for phonenumber',   'phonenumber']
     );
     
     /**
@@ -97,14 +113,24 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
         $this->setName('chill:person:import')
                 ->addArgument('csv_file', InputArgument::REQUIRED, "The CSV file to import")
                 ->setDescription("Import people from a csv file")
-                ->setHelp("Import people from a csv file. The first row must "
-                        . "contains the header column and will determines where "
-                        . "the value will be matched. \n"
-                        . "Date format: the possible date format may be separated"
-                        . "by an |. The possible format will be tryed from the first "
-                        . "to the last. The format should be explained as "
-                        . "http://php.net/manual/en/function.strftime.php")
-                ->addArgument('locale', InputArgument::REQUIRED, "The locale to use in displaying translatable strings from entities")
+                ->setHelp(<<<EOF
+Import people from a csv file. The first row must contains the header column and will determines where the value will be matched. 
+
+Date format: the possible date format may be separatedby an |. The possible format will be tryed from the first to the last. The format should be explained as http://php.net/manual/en/function.strftime.php                     
+                        
+php app/console chill:person:import /tmp/hepc.csv fr_FR.utf8  --firstname="Prénom" --lastname="Nom" --birthdate="D.N." --birthdate_format="%d/%m/%Y" --opening_date_format="%B %Y|%Y" --closing_date="der.contact" --closing_date_format="%Y" --custom-field="3=code" -vvv
+EOF
+            )
+                ->addArgument('locale', InputArgument::REQUIRED, 
+                        "The locale to use in displaying translatable strings from entities")
+                ->addArgument('center', InputARgument::REQUIRED,
+                        "The id of the center")
+                ->addOption(
+                        'force',
+                        null,
+                        InputOption::VALUE_NONE,
+                        "Persist people in the database (default is not to persist people)"
+                        )
                 ->addOption(
                         'delimiter', 
                         'd', 
@@ -132,11 +158,6 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
                         "The length of line to read. 0 means unlimited.",
                         0
                         )
-                ->addOption('locale',
-                        null,
-                        InputOption::VALUE_OPTIONAL,
-                        "The locale, used in interpretation of date. You should enter the option as listed by the command locale -a",
-                        "fr_FR.utf8")
                 ;
         
         // mapping columns
@@ -210,8 +231,8 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
         $cfMappingsOptions = $this->input->getOption('custom-field');
         /* @var $em \Doctrine\Common\Persistence\ObjectManager */
         $em = $this->getContainer()->get('doctrine.orm.entity_manager');
-        /* @var $helper \Chill\MainBundle\Templating\TranslatableStringHelper */
-        $helper = $this->getContainer()->get('chill.main.helper.translatable_string');
+        /* @var $this->helper \Chill\MainBundle\Templating\TranslatableStringHelper */
+        $this->helper = $this->getContainer()->get('chill.main.helper.translatable_string');
         
         foreach($cfMappingsOptions as $cfMappingStringOption) {
             list($rowNumber, $cfSlug) = preg_split('|=|', $cfMappingStringOption);
@@ -245,7 +266,7 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
             } 
             
             $this->logger->notice(sprintf("Matched custom field %s (question : '%s') on column %d (displayed in the file as '%s')",
-                    $customField->getSlug(), $helper->localize($customField->getName()), $rowNumber, $column));
+                    $customField->getSlug(), $this->helper->localize($customField->getName()), $rowNumber, $column));
             
             $this->customFieldMapping[$rowNumber] = $customField;
         }
@@ -257,8 +278,11 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
         $this->input = $input;
         $this->output = $output;
         
-        $this->logger->debug("Setting locale to ".$input->getOption('locale'));
-        setlocale(LC_TIME, $input->getOption('locale'));
+        $this->logger->debug("Setting locale to ".$input->getArgument('locale'));
+        setlocale(LC_TIME, $input->getArgument('locale'));
+        
+        /* @var $em \Doctrine\Common\Persistence\ObjectManager */
+        $this->em = $this->getContainer()->get('doctrine.orm.entity_manager');
         
         // opening csv as resource
         $csv = $this->openCSV();
@@ -281,11 +305,21 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
                 } else {
                     $person = $this->createPerson($row, $headers);
                     $this->processingCustomFields($person, $row);
+                    
+                    if ($this->input->getOption('force') === TRUE) {
+                        $this->em->persist($person);
+                    }
+                    
                     $num ++;
                 }
 
                 $line ++;
                 $this->line++;
+            }
+            
+            if ($this->input->getOption('force') === true) {
+                $this->logger->debug('persisting entitites');
+                $this->em->flush();
             }
         } finally {
             $this->logger->debug('closing csv', array('method' => __METHOD__));
@@ -360,6 +394,14 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
         
         $person = $openingDate instanceof \DateTime ? new Person($openingDate) : new Person();
         
+        // currently, import only men
+        $person->setGender(Person::MALE_GENDER);
+        
+        // add the center
+        $center = $this->em->getRepository('ChillMainBundle:Center')
+                ->find($this->input->getArgument('center'));
+        $person->setCenter($center);
+        
         foreach($headers as $column => $info) {
             
             $value = trim($row[$column]);
@@ -379,6 +421,13 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
                     break;
                 case 'closing_date':
                     $this->processClosingDate($person, $value);
+                    break;
+                case 'memo':
+                    $person->setMemo($value);
+                    break;
+                case 'phonenumber':
+                    $person->setPhonenumber($value); 
+                    break;
             }
         }
         
@@ -417,7 +466,8 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
         $period = $person->getCurrentAccompanyingPeriod();
         
         if ($period->getOpeningDate() > new \DateTime('yesterday')) {
-            $this->logger->debug("skipping a closing date because opening date is after yesterday");
+            $this->logger->debug(sprintf("skipping a closing date because opening date is after yesterday (%s)",
+                    $period->getOpeningDate()->format('Y-m-d')));
             return;
         }
         
@@ -443,12 +493,13 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
                 $value));
     }
     
-    protected function processingCustomFields(Person $person)
+    protected function processingCustomFields(Person $person, $row)
     {
         /* @var $factory \Symfony\Component\Form\FormFactory */
         $factory = $this->getContainer()->get('form.factory');
         /* @var $cfProvider \Chill\CustomFieldsBundle\Service\CustomFieldProvider */
         $cfProvider = $this->getContainer()->get('chill.custom_field.provider');
+        $cfData = array();
         
         /* @var $$customField \Chill\CustomFieldsBundle\Entity\CustomField */
         foreach($this->customFieldMapping as $rowNumber => $customField) {
@@ -456,8 +507,114 @@ class ImportPeopleFromCSVCommand extends ContainerAwareCommand
             $cfProvider->getCustomFieldByType($customField->getType())
                     ->buildForm($builder, $customField);
             $form = $builder->getForm();
-            var_dump($form);
+            
+            // get the type of the form
+            $type = get_class($form->get($customField->getSlug())
+                    ->getConfig()->getType()->getInnerType());
+            $this->logger->debug(sprintf("Processing a form of type %s", 
+                    $type));
+            
+            switch ($type) {
+                case \Symfony\Component\Form\Extension\Core\Type\TextType::class:
+                    $cfData[$customField->getSlug()] = 
+                        $this->processTextType($row[$rowNumber], $form, $customField);
+                    break;
+                case \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class:
+                    $cfData[$customField->getSlug()] =
+                        $this->processChoiceType($row[$rowNumber], $form, $customField);
+            }
+            
         }
+        
+        $person->setCFData($cfData);
+    }
+    
+    /**
+     * Process a text type on a custom field
+     * 
+     * @param type $value
+     * @param \Chill\PersonBundle\Command\Symfony\Component\Form\FormInterface $form
+     */
+    protected function processTextType(
+            $value, 
+            \Symfony\Component\Form\FormInterface $form, 
+            \Chill\CustomFieldsBundle\Entity\CustomField $cf
+            )
+    {
+        $form->submit(array($cf->getSlug() => $value));
+        
+        $value = $form->getData()[$cf->getSlug()];
+        
+        $this->logger->debug(sprintf("Found value : %s for custom field with question "
+                . "'%s'", $value, $this->helper->localize($cf->getName())));
+        
+        return $value;
+    }
+    
+    protected $cacheAnswersMapping = array();
+    
+    
+    protected function processChoiceType(
+            $value,
+            \Symfony\Component\Form\FormInterface $form, 
+            \Chill\CustomFieldsBundle\Entity\CustomField $cf
+            )
+    {
+        // getting the possible answer and their value :
+        $answers = array();
+        $view = $form->get($cf->getSlug())->createView();
+        
+        /* @var $choice \Symfony\Component\Form\ChoiceList\View\ChoiceView */
+        foreach($view->vars['choices'] as $choice) {
+            $answers[$choice->value] = $choice->label;
+        }
+        
+        // the answer does not exists in cache. Asking the user
+        if (!isset($this->cacheAnswersMapping[$cf->getSlug()][$value])) {
+            $this->output->writeln("<info>I do not know the answer to this question : </info>");
+            $this->output->writeln($this->helper->localize($cf->getName()));
+            
+            //printing the possible answer
+            /* @var $table \Symfony\Component\Console\Helper\Table */
+            $table = new Table($this->output);
+            $table->setHeaders(array('#', 'label', 'value'));
+            $matchingTableRowAnswer = array();
+            $i = 0;
+            
+            foreach($answers as $key => $answer) {
+                $table->addRow(array(
+                    $i, $answer, $key
+                ));
+                $matchingTableRowAnswer[$i] = $key;
+                $i++;
+            }
+            $table->render($this->output);
+            
+            $question = new ChoiceQuestion(sprintf('Please pick your choice for the value "%s"', 
+                    $value),
+            array_keys($matchingTableRowAnswer));
+            $question->setErrorMessage("This choice is not possible");
+            $selected = $this->getHelper('question')->ask($this->input, $this->output, $question);
+            
+            $this->output->writeln(sprintf('You have selected "%s"', 
+                    $answers[$matchingTableRowAnswer[$selected]]));
+            
+            // recording value in cache
+            $this->cacheAnswersMapping[$cf->getSlug()][$value] = $matchingTableRowAnswer[$selected];
+            $this->logger->debug(sprintf("Setting the value '%s' in cache for customfield '%s' and answer '%s'",
+                    $this->cacheAnswersMapping[$cf->getSlug()][$value],
+                    $cf->getSlug(),
+                    $value));
+        }
+        
+        $form->submit(array($cf->getSlug() => $this->cacheAnswersMapping[$cf->getSlug()][$value]));
+        
+        $value = $form->getData()[$cf->getSlug()];
+        
+        $this->logger->debug(sprintf("Found value : %s for custom field with question "
+                . "'%s'", $value, $this->helper->localize($cf->getName())));
+        
+        return $value;
     }
     
     

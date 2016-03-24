@@ -71,6 +71,9 @@ Reset: 'Remise à zéro'
 'Update details for %name%': 'Modifier détails de %name%'
 Accompanying period list: Périodes d'accompagnement
 
+# pickAPersonType
+Pick a person: Choisir une personne
+
 #address
 Since %date%: Depuis le %date%
 No address given: Pas d'adresse renseignée

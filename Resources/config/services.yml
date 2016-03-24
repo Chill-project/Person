@@ -70,3 +70,17 @@ services:
         tags:
             - { name: form.type, alias: chill_personbundle_person_creation }
             
+    chill.person.form.type.pick_person:
+        class: Chill\PersonBundle\Form\Type\PickPersonType
+        arguments:
+            - "@chill.person.repository.person"
+            - "@security.token_storage"
+            - "@chill.main.security.authorization.helper"
+        tags:
+            - { name: form.type }
+            
+    chill.person.repository.person:
+        class: Chill\PersonBundle\Entity\PersonRepository
+        factory: ['@doctrine.orm.entity_manager', getRepository]
+        arguments:
+            - 'Chill\PersonBundle\Entity\Person'

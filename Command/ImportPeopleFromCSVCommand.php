@@ -123,7 +123,7 @@ EOF
             )
                 ->addArgument('locale', InputArgument::REQUIRED, 
                         "The locale to use in displaying translatable strings from entities")
-                ->addArgument('center', InputARgument::REQUIRED,
+                ->addArgument('center', InputArgument::REQUIRED,
                         "The id of the center")
                 ->addOption(
                         'force',
@@ -157,6 +157,18 @@ EOF
                         InputOption::VALUE_OPTIONAL,
                         "The length of line to read. 0 means unlimited.",
                         0
+                        )
+                ->addOption(
+                        'dump-choice-matching',
+                        null,
+                        InputOption::VALUE_OPTIONAL,
+                        "The path of the file to dump the matching between label in CSV and answers"
+                        )
+                ->addOption(
+                        'load-choice-matching',
+                        null,
+                        InputOption::VALUE_OPTIONAL,
+                        "The path of the file to load the matching between label in CSV and answers"
                         )
                 ;
         
@@ -223,6 +235,9 @@ EOF
                 fclose($csv);
             }
         }
+        
+        // load the matching between csv and label
+        $this->loadAnswerMatching();
     }
     
     protected function matchColumnToCustomField($row)
@@ -247,16 +262,26 @@ EOF
             }
             
             // check a custom field exists
-            $customField = $em->createQuery("SELECT cf "
-                    . "FROM ChillCustomFieldsBundle:CustomField cf "
-                    . "JOIN cf.customFieldGroup g "
-                    . "WHERE cf.slug = :slug "
-                    . "AND g.entity = :entity")
-                    ->setParameters(array(
-                        'slug' => $cfSlug,
-                        'entity' => Person::class
-                    ))
-                    ->getSingleResult();
+            try {
+                $customField = $em->createQuery("SELECT cf "
+                        . "FROM ChillCustomFieldsBundle:CustomField cf "
+                        . "JOIN cf.customFieldGroup g "
+                        . "WHERE cf.slug = :slug "
+                        . "AND g.entity = :entity")
+                        ->setParameters(array(
+                            'slug' => $cfSlug,
+                            'entity' => Person::class
+                        ))
+                        ->getSingleResult();
+            } catch (\Doctrine\ORM\NoResultException $e) {
+                $message = sprintf(
+                        "The customfield with slug '%s' does not exists. It was associated with column number %d",
+                        $cfSlug,
+                        $rowNumber
+                        );
+                $this->logger->error($message);
+                throw new \RuntimeException($message);
+            }
             // skip if custom field does not exists
             if ($customField === NULL) {
                 $this->logger->error("The custom field with slug $cfSlug could not be found. "
@@ -269,6 +294,37 @@ EOF
                     $customField->getSlug(), $this->helper->localize($customField->getName()), $rowNumber, $column));
             
             $this->customFieldMapping[$rowNumber] = $customField;
+        }
+    }
+    
+    /**
+     * Load the mapping between answer in CSV and value in choices from a json file
+     */
+    protected function loadAnswerMatching()
+    {
+        if ($this->input->hasOption('load-choice-matching')) {
+            $fs = new Filesystem();
+            $filename = $this->input->getOption('load-choice-matching');
+
+            if (!$fs->exists($filename)) {
+                $this->logger->warning("The file $filename is not found. Choice matching not loaded");
+            } else {
+                $this->logger->debug("Loading $filename as choice matching");
+                $this->cacheAnswersMapping = \json_decode(\file_get_contents($filename), true);
+            }
+        }
+    }
+    
+    protected function dumpAnswerMatching()
+    {
+        if ($this->input->hasOption('dump-choice-matching')) {
+            $this->logger->debug("Dump the matching between answer and choices");
+            $str = json_encode($this->cacheAnswersMapping, JSON_PRETTY_PRINT);
+            
+            $fs = new Filesystem();
+            $filename = $this->input->getOption('dump-choice-matching');
+            
+            $fs->dumpFile($filename, $str);
         }
     }
     
@@ -324,6 +380,8 @@ EOF
         } finally {
             $this->logger->debug('closing csv', array('method' => __METHOD__));
             fclose($csv);
+            // dump the matching between answer and choices
+            $this->dumpAnswerMatching();
         }
     }
     
@@ -513,13 +571,14 @@ EOF
                     ->getConfig()->getType()->getInnerType());
             $this->logger->debug(sprintf("Processing a form of type %s", 
                     $type));
-            
+
             switch ($type) {
                 case \Symfony\Component\Form\Extension\Core\Type\TextType::class:
                     $cfData[$customField->getSlug()] = 
                         $this->processTextType($row[$rowNumber], $form, $customField);
                     break;
                 case \Symfony\Component\Form\Extension\Core\Type\ChoiceType::class:
+                case \Chill\MainBundle\Form\Type\Select2ChoiceType::class:
                     $cfData[$customField->getSlug()] =
                         $this->processChoiceType($row[$rowNumber], $form, $customField);
             }
@@ -554,6 +613,17 @@ EOF
     protected $cacheAnswersMapping = array();
     
     
+    /**
+     * Process a custom field choice.
+     * 
+     * The method try to guess if the result exists amongst the text of the possible
+     * choices. If the texts exists, then this is picked. Else, ask the user.
+     * 
+     * @param string $value
+     * @param \Symfony\Component\Form\FormInterface $form
+     * @param \Chill\CustomFieldsBundle\Entity\CustomField $cf
+     * @return string
+     */
     protected function processChoiceType(
             $value,
             \Symfony\Component\Form\FormInterface $form, 
@@ -561,60 +631,138 @@ EOF
             )
     {
         // getting the possible answer and their value :
-        $answers = array();
         $view = $form->get($cf->getSlug())->createView();
+        $answers = $this->collectChoicesAnswers($view->vars['choices']);
         
-        /* @var $choice \Symfony\Component\Form\ChoiceList\View\ChoiceView */
-        foreach($view->vars['choices'] as $choice) {
-            $answers[$choice->value] = $choice->label;
+        // if we do not have any answer on the question, throw an error.
+        if (count($answers) === 0) {
+            $message = sprintf(
+                    "The question '%s' with slug '%s' does not count any answer.",
+                    $this->helper->localize($cf->getName()),
+                    $cf->getSlug()
+                    );
+            
+            $this->logger->error($message, array(
+                'method' => __METHOD__,
+                'slug' => $cf->getSlug(),
+                'question' => $this->helper->localize($cf->getName())
+            ));
+            
+            throw new \RuntimeException($message);
         }
         
-        // the answer does not exists in cache. Asking the user
+        if ($view->vars['required'] === false) {
+            $answers[null] = '** no answer';
+        }
+        
+        // the answer does not exists in cache. Try to find it, or asks the user
         if (!isset($this->cacheAnswersMapping[$cf->getSlug()][$value])) {
-            $this->output->writeln("<info>I do not know the answer to this question : </info>");
-            $this->output->writeln($this->helper->localize($cf->getName()));
             
-            //printing the possible answer
-            /* @var $table \Symfony\Component\Console\Helper\Table */
-            $table = new Table($this->output);
-            $table->setHeaders(array('#', 'label', 'value'));
-            $matchingTableRowAnswer = array();
-            $i = 0;
+            // try to find the answer (with array_keys and a search value
+            $values = array_keys(
+                    array_map(function($label) { return trim(strtolower($label)); }, $answers), 
+                    trim(strtolower($value)),
+                    true
+                    );
             
-            foreach($answers as $key => $answer) {
-                $table->addRow(array(
-                    $i, $answer, $key
-                ));
-                $matchingTableRowAnswer[$i] = $key;
-                $i++;
+            if (count($values) === 1) {
+                // we could guess an answer !
+                $this->logger->info("This question accept multiple answers");
+                $this->cacheAnswersMapping[$cf->getSlug()][$value] = 
+                        $view->vars['multiple'] == false ? $values[0] : array($values[0]);
+                $this->logger->info(sprintf("Guessed that value '%s' match with key '%s' "
+                        . "because the CSV and the label are equals.",
+                        $value, $values[0]));
+            } else {
+                // we could nog guess an answer. Asking the user.
+                $this->output->writeln("<info>I do not know the answer to this question : </info>");
+                $this->output->writeln($this->helper->localize($cf->getName()));
+
+                // printing the possible answers
+                /* @var $table \Symfony\Component\Console\Helper\Table */
+                $table = new Table($this->output);
+                $table->setHeaders(array('#', 'label', 'value'));
+                $i = 0;
+
+                foreach($answers as $key => $answer) {
+                    $table->addRow(array(
+                        $i, $answer, $key
+                    ));
+                    $matchingTableRowAnswer[$i] = $key;
+                    $i++;
+                }
+                $table->render($this->output);
+
+                $question = new ChoiceQuestion(
+                        sprintf('Please pick your choice for the value "%s"', $value),
+                        array_keys($matchingTableRowAnswer)
+                        );
+                $question->setErrorMessage("This choice is not possible");
+                
+                if ($view->vars['multiple']) {
+                    $this->logger->debug("this question is multiple");
+                    $question->setMultiselect(true);
+                }
+        
+                $selected = $this->getHelper('question')->ask($this->input, $this->output, $question);
+
+                $this->output->writeln(sprintf('You have selected "%s"', 
+                    is_array($answers[$matchingTableRowAnswer[$selected]]) ? 
+                        implode(',', $answers[$matchingTableRowAnswer[$selected]]) :
+                        $answers[$matchingTableRowAnswer[$selected]])
+                    );
+                
+                // recording value in cache
+                $this->cacheAnswersMapping[$cf->getSlug()][$value] = $matchingTableRowAnswer[$selected];
+                $this->logger->debug(sprintf("Setting the value '%s' in cache for customfield '%s' and answer '%s'",
+                        is_array($this->cacheAnswersMapping[$cf->getSlug()][$value]) ?
+                            implode(', ', $this->cacheAnswersMapping[$cf->getSlug()][$value]) :
+                            $this->cacheAnswersMapping[$cf->getSlug()][$value],
+                        $cf->getSlug(),
+                        $value));
             }
-            $table->render($this->output);
-            
-            $question = new ChoiceQuestion(sprintf('Please pick your choice for the value "%s"', 
-                    $value),
-            array_keys($matchingTableRowAnswer));
-            $question->setErrorMessage("This choice is not possible");
-            $selected = $this->getHelper('question')->ask($this->input, $this->output, $question);
-            
-            $this->output->writeln(sprintf('You have selected "%s"', 
-                    $answers[$matchingTableRowAnswer[$selected]]));
-            
-            // recording value in cache
-            $this->cacheAnswersMapping[$cf->getSlug()][$value] = $matchingTableRowAnswer[$selected];
-            $this->logger->debug(sprintf("Setting the value '%s' in cache for customfield '%s' and answer '%s'",
-                    $this->cacheAnswersMapping[$cf->getSlug()][$value],
-                    $cf->getSlug(),
-                    $value));
         }
-        
+        var_dump($this->cacheAnswersMapping[$cf->getSlug()][$value]);
         $form->submit(array($cf->getSlug() => $this->cacheAnswersMapping[$cf->getSlug()][$value]));
-        
         $value = $form->getData()[$cf->getSlug()];
         
-        $this->logger->debug(sprintf("Found value : %s for custom field with question "
-                . "'%s'", $value, $this->helper->localize($cf->getName())));
+        $this->logger->debug(sprintf(
+                "Found value : %s for custom field with question '%s'", 
+                is_array($value) ? implode(',', $value) : $value, 
+                $this->helper->localize($cf->getName()))
+                );
         
         return $value;
+    }
+    
+    /**
+     * Recursive method to collect the possibles answer from a ChoiceType (or 
+     * its inherited types).
+     * 
+     * @param \Symfony\Component\Form\FormInterface $form
+     * @return array where 
+     */
+    private function collectChoicesAnswers($choices)
+    {
+        $answers = array();
+        
+        /* @var $choice \Symfony\Component\Form\ChoiceList\View\ChoiceView */
+        foreach($choices as $choice) {
+            if ($choice instanceof \Symfony\Component\Form\ChoiceList\View\ChoiceView) {
+                $answers[$choice->value] = $choice->label;
+            } elseif ($choice instanceof \Symfony\Component\Form\ChoiceList\View\ChoiceGroupView) {
+                $answers = $answers + $this->collectChoicesAnswers($choice->choices);
+            } else {
+                throw new \Exception(sprintf(
+                        "The choice type is not know. Expected '%s' or '%s', get '%s'",
+                        \Symfony\Component\Form\ChoiceList\View\ChoiceView::class,
+                        \Symfony\Component\Form\ChoiceList\View\ChoiceGroupView::class,
+                        get_class($choice)
+                        ));
+            }
+        }
+        
+        return $answers;
     }
     
     
@@ -631,7 +779,7 @@ EOF
                 $string = sprintf("%04d-%02d-%02d %02d:%02d:%02d", 
                         ($dateR['tm_year']+1900),
                         ($dateR['tm_mon']+1),
-                        ($dateR['tm_mday']+1),
+                        ($dateR['tm_mday']),
                         ($dateR['tm_hour']),
                         ($dateR['tm_min']),
                         ($dateR['tm_sec']));
